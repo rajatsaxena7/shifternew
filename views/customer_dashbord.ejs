@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+   
+    <%- include('./partials/head'); -%>
+     <%- include('./partials/frontend_head'); -%>
+</head>
+<body>
+  <%- include('./partials/frontend_header'); -%>
+   <div class="ppc-hero-section2 ppc-hero-section-custome">
+    <div class="container">
+      <div class="ppc-hero-content ppc-hero-content2 ">
+        <div class="d-flex justify-content-center">
+            <h1 class="wow fadeInUpX text-align-left" data-wow-delay="0s"><%=language.Hello%>, <%= customer_data[0].first_name %> <%= customer_data[0].last_name %></h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="wow fadeInUpX text-align-left" data-wow-delay="0.25s"><%=language.What_are_you_Planning_to_move%></p>
+        </div>
+
+        
+        <div class="d-flex justify-content-center wow fadeInUpX mt-3">
+          <ul class="col-sm-6 col-md-6 col-lg-10 col-xl-10 nav nav-tabs border-tab nav-secondary nav-left  d-flex justify-content-around" id="danger-tab" role="tablist">
+            <% if (module_list[0].isactive == '1') { %>
+                <% var Domestic = 'active' %>
+                <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= Domestic %>" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+            <% } %>
+            <% if (module_list[1].isactive == '1') { %>
+                <% if (module_list[0].isactive != '1') { %>
+                    <% var PackersAndMovers = 'active' %>
+                <% } %>
+                <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= PackersAndMovers %>" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+            <% } %>
+            <% if (module_list[2].isactive == '1') { %>
+                <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                    <% var International = 'active' %>
+                <% } %>
+                <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= International %>" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+            <% } %>
+          </ul>
+        </div>
+
+          <div class="ppc-hero-btn-wrap justify-content-center wow fadeInUpX mt-0" data-wow-delay="0.40s">
+          <div class="tab-content" id="danger-tabContent">
+            <!-- Domestic -->
+            <div class="tab-pane fade show <%= Domestic %>" id="danger-home" role="tabpanel" aria-labelledby="danger-home-tab">
+
+                <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                    <div class="searchBoxInnerWrap">
+                        <div class="locationBox address_details">
+                            <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                            <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+                            <input type="hidden" class="hidden_page" id="hidden_pickup_currior" data-id="1" value="0">
+                            <% if (module_list[1].isactive == '1') { %>
+                                <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                            <% } %>
+                        </div>
+                        <div class="locationBox address_details">
+                            <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                            <input class="inputField search_input1" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+                            <input type="hidden" class="hidden_page" id="hidden_delivered_currior" data-id="2" value="0">
+                            <% if (module_list[1].isactive == '1') { %>
+                                <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <% if (module_list[1].isactive == '1') { %>
+                      <input class="inputField search_input d-none" value="<%=module_list[0].prefix%>" type="text" name="profix" >
+                      <input id="zone_id_addresh" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text">
+                      <% } %>
+  
+                    <button type="submit" class="btn submitBtn disabled domestic_btn_error0"><%=language.Check_price%></button>
+                  </form>
+                  
+            </div>
+
+            <!-- Packers And Movers -->
+
+            <div class="tab-pane fade show <%= PackersAndMovers %>" id="danger-profile" role="tabpanel" aria-labelledby="profile-danger-tab">
+                <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                    <div class="searchBoxInnerWrap">
+                        <div class="locationBox address_details">
+                            <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                            <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+                            <input type="hidden" class="hidden_page" id="hidden_pickup_Packers" data-id="1" value="0">
+                            <% if (module_list[1].isactive == '1') { %>
+                              <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                              <% } %>
+                        </div>
+                        <div class="locationBox address_details">
+                            <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                            <input class="inputField search_input1" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+                            <input type="hidden" class="hidden_page" id="hidden_delivered_Packers" data-id="2" value="0">
+                            <% if (module_list[1].isactive == '1') { %>
+                              <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                              <% } %>
+                        </div>
+                    </div>
+                  
+                  <% if (module_list[1].isactive == '1') { %>
+                    <input class="inputField search_input d-none" value="<%=module_list[1].prefix%>" type="text" name="profix" >
+                    <% } %>
+
+                  <button type="submit" class="btn submitBtn disabled domestic_btn_error1"><%=language.Check_price%></button>
+                </form>
+                
+            </div>
+
+            <!-- International -->
+            <div class="tab-pane fade show <%= International %>" id="danger-inter" role="tabpanel" aria-labelledby="inter-danger-tab">
+              <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                <div class="searchBoxInnerWrap p-l-0">
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                        <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Pickup_Country%>" required>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_pickup_international" data-id="1" value="0">
+                        <% if (module_list[2].isactive == '1') { %>
+                          <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[2].id%>" type="text" name="profix_id" >
+                          <% } %>
+                    </div>
+                    <div class="locationbox-select address_details mb-4">
+                        <select class="js-example-basic-single custome_select " id="hidden_delivered_international" data-width="100%" name="delivery_pincode" required>
+                            <option value="0" selected disabled><%=language.Select_delivery_country%></option>
+                            <% zone_data.forEach(function(country){ %>
+                                <option value="<%=country.zone_name%>"><%=country.zone_name%></option>
+                             <% }); %>
+                        </select>
+                    </div>
+                </div>
+
+                <% if (module_list[2].isactive == '1') { %>
+                    <input class="inputField search_input d-none" value="<%=module_list[2].prefix%>" type="text" name="profix" >
+                <% } %>
+
+                <button type="submit" class="btn submitBtn disabled international_btn_error1"><%=language.Ship_Now%></button>
+              </form>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="pickupsearch_input_error"><%=language.Sorry_we_do_not_allowed_pickup_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="deliversearch_input_error"><%=language.Sorry_we_do_not_allowed_delivered_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="country_select_error"><%=language.Please_Select_delivered_Country%></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    <!-- End collection section -->
+  </div>
+  <!-- End hero section --> 
+    <div class="section bg-gray-dashboard ppc-section-padding3 custome_margin">
+        <div class="container">
+            <div class="text-left">
+                <div class="ppc-default-content large">
+                    <h4 class="font-weight-bold"><%=language.Dashboard%></h4>
+                </div>
+            </div>
+            <div class="ppc-iconbox-bg" style="background-image: url('../../frontend/images/all-img/v2/shape-dots.png')">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="ppc-card-wrap rt-mb-24 wow fadeInUpX" data-wow-delay="0s">
+
+                            <div class="ppc-card-data">
+                                <h3><%=language.Orders%></h3>
+                                <div class="ppc-card-footer-data">
+                                    <button class="btn btn-primary mt-3" ><%=total_order%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="ppc-card-wrap rt-mb-24 wow fadeInUpX" data-wow-delay=".10s">
+
+                            <div class="ppc-card-data">
+                                <h3><%=language.Total_Delivered_Order%></h3>
+                                <div class="ppc-card-footer-data">
+                                    <button class="btn btn-success mt-3" ><%=delivered[0].tot_delivered%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="ppc-card-wrap rt-mb-24 wow fadeInUpX" data-wow-delay=".10s">
+
+                            <div class="ppc-card-data">
+                                <h3><%=language.Total_Pending_Order%></h3>
+                                <div class="ppc-card-footer-data">
+                                    <button class="btn btn-secondary mt-3" ><%=pending[0].tot_pending%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                        <div class="ppc-card-wrap rt-mb-24 wow fadeInUpX" data-wow-delay=".30s">
+
+                            <div class="ppc-card-data">
+                                <h3><%=language.Total_Paid_Amount%></h3>
+                                <div class="ppc-card-footer-data">
+                                    <button class="btn btn-info mt-3 invosymbol text-white" ><%=tot_amount%></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="text-left">
+                <div class="ppc-default-content large">
+                    <h4 class="font-weight-bold"><%=language.Recent_Transactions%></h4>
+                </div>
+            </div>
+            <ul class="nav nav-tabs border-tab nav-secondary nav-left  d-flex " id="danger-tab" role="tablist">
+                <% if (module_list[0].isactive == '1') { %>
+                <li class="nav-item"><a class="nav-link <%= Domestic %>" id="domestic-order" data-bs-toggle="tab" href="#domastic-order" role="tab" aria-controls="domastic-order" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                <% } %>
+                <% if (module_list[1].isactive == '1') { %>
+                <li class="nav-item"><a class="nav-link <%= PackersAndMovers %>" id="packerandmovers-order" data-bs-toggle="tab" href="#packerandmover-orders" role="tab" aria-controls="packerandmover-orders" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                <% } %>
+                <% if (module_list[2].isactive == '1') { %>
+                <li class="nav-item"><a class="nav-link <%= International %>" id="international-order" data-bs-toggle="tab" href="#international-orders" role="tab" aria-controls="international-orders" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                <% } %>
+            </ul>
+
+            <div class="tab-content" id="danger-tabContent">
+                <!-- Domestic -->
+                <div class="tab-pane fade show table-order <%= Domestic %>" id="domastic-order" role="tabpanel" aria-labelledby="domestic-order">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> <p><%=language.Description%></p> </th>
+                                    <th> <p><%=language.Date%></p> </th>
+                                    <th> <p><%=language.Delivery_Type%></p> </th>
+                                    <th> <p><%=language.Shipping_Status%></p> </th>
+                                    <th> <p><%=language.Payment_Status%></p> </th>
+                                    <th> <p><%=language.Total_Amount%></p> </th>
+                                    <th> <p><%=language.Approved%> / <br> <%=language.Unapproved%></p> </th>
+                                    <th class="text-center"> <p>Action</p> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order_list1.forEach((data) => { %>
+                                    <tr>
+                                        <td>
+                                            <i class="<%= module_list[0].icon %>"></i>
+                                            <p>#<%= data.order_id %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.date %></p>
+                                        </td>
+                                        <td>
+                                            <% delivery_type_data.forEach((delivery_type) => { %>
+                                                <% if (data.delivery_type == delivery_type.id) { %>
+                                                    <p><%= delivery_type.type %></p>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% shipping_status_data.forEach((shipping_status) => { %>
+                                                <% if (data.shipping_status == shipping_status.id) { %>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <p class="text-warning"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <p class="text-danger"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <p class="text-success"><%= shipping_status.status_name %></p>
+                                                    <% } else { %>
+                                                        <p class="text-primary"><%= shipping_status.status_name %></p>
+                                                    <% } %>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                                <p class="text-warning"><%=language.Unpaid%></p>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Paid%></p>
+                                            <% } %>
+                                        </td>
+                                        <td><p class="invosymbol"><%= data.total_price %></p></td>
+                                        <td>
+                                            <% if (data.carrier_id == "0") { %>
+                                                <p class="text-primary"><%=language.Pending%></p>
+                                            <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                <p class="text-danger mb-0"><%=language.Unapproved%> </p> 
+
+                                                <button class="pb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= data.unapproved_reason %>"><i class="fa fa-info-circle f-16"></i></button>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Approved%></p>
+                                            <% } %>
+                                        </td>
+                                        <td>
+
+                                            <a href="/order/print_shipment/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Print" aria-label="Shipment & Print" class="db-table-action view custom_small_btn_shipment" ><i class="fas fa-print"></i></a>
+
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                            <a href="#/admin/items/show/1"  data-bs-placement="Top" title="" data-bs-original-title="Make Payment" aria-label="Make Payment" class="db-table-action view custom_small_btn_payment"  data-bs-toggle="modal" data-bs-target="#add_paymentmodal" id="add_payment" data-id="<%= data.id %>" data-total_price="<%= data.total_price %>"
+                                                data-paid_amount="<%= data.paid_amount %>"><i class="fas fa-credit-card"></i></a>
+                                            <% } %>
+                                                   
+                                            <% if(data.carrier_id != "0" && data.carrier_id != "Unapproved"){ %>
+                                            <a href="/order/customer_order_traking/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Tracking Info" aria-label="Shipment & Tracking Info" class="db-table-action view custom_small_btn_tracking"><i class="fas fa-truck"></i></a>
+                                            <% }; %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Packers And Movers -->
+                <div class="tab-pane fade show table-order <%= PackersAndMovers %>" id="packerandmover-orders" role="tabpanel" aria-labelledby="packerandmovers-order">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> <p><%=language.Description%></p> </th>
+                                    <th> <p><%=language.Date%></p> </th>
+                                    <th> <p><%=language.Delivery_Type%></p> </th>
+                                    <th> <p><%=language.Shipping_Status%></p> </th>
+                                    <th> <p><%=language.Payment_Status%></p> </th>
+                                    <th> <p><%=language.Total_Amount%></p> </th>
+                                    <th> <p><%=language.Approved%> / <br> <%=language.Unapproved%></p> </th>
+                                    <th class="text-center"> <p>Action</p> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order_list2.forEach((data) => { %>
+                                    <tr>
+                                        <td>
+                                            <i class="<%= module_list[1].icon %>"></i>
+                                            <p>#<%= data.order_id %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.date %></p>
+                                        </td>
+                                        <td>
+                                            <% delivery_type_data.forEach((delivery_type) => { %>
+                                                <% if (data.delivery_type == delivery_type.id) { %>
+                                                    <p><%= delivery_type.type %></p>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% shipping_status_data.forEach((shipping_status) => { %>
+                                                <% if (data.shipping_status == shipping_status.id) { %>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <p class="text-warning"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <p class="text-danger"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <p class="text-success"><%= shipping_status.status_name %></p>
+                                                    <% } else { %>
+                                                        <p class="text-primary"><%= shipping_status.status_name %></p>
+                                                    <% } %>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                                <p class="text-warning"><%=language.Unpaid%></p>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Paid%></p>
+                                            <% } %>
+                                        </td>
+                                        <td><p class="invosymbol"><%= data.total_price %></p></td>
+                                        <td>
+                                            <% if (data.carrier_id == "0") { %>
+                                                <p class="text-primary"><%=language.Pending%></p>
+                                            <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                <p class="text-danger mb-0"><%=language.Unapproved%> </p> 
+                                                <button class="pb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= data.unapproved_reason %>"><i class="fa fa-info-circle f-16"></i></button>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Approved%></p>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <a href="/order/print_shipment/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Print" aria-label="Shipment & Print" class="db-table-action view custom_small_btn_shipment" ><i class="fas fa-print"></i></a>
+
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                            <a href="#/admin/items/show/1"  data-bs-placement="Top" title="" data-bs-original-title="Make Payment" aria-label="Make Payment" class="db-table-action view custom_small_btn_payment"  data-bs-toggle="modal" data-bs-target="#add_paymentmodal" id="add_payment" data-id="<%= data.id %>" data-total_price="<%= data.total_price %>"
+                                                data-paid_amount="<%= data.paid_amount %>"><i class="fas fa-credit-card"></i></a>
+                                            <% } %>
+                                                   
+                                            <% if(data.carrier_id != "0" && data.carrier_id != "Unapproved"){ %>
+                                            <a href="/order/customer_order_traking/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Tracking Info" aria-label="Shipment & Tracking Info" class="db-table-action view custom_small_btn_tracking"><i class="fas fa-truck"></i></a>
+                                            <% }; %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- International -->
+                <div class="tab-pane fade show table-order <%= International %>" id="international-orders" role="tabpanel"
+                    aria-labelledby="international-order">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> <p><%=language.Description%></p> </th>
+                                    <th> <p><%=language.Date%></p> </th>
+                                    <th> <p><%=language.Delivery_Type%></p> </th>
+                                    <th> <p><%=language.Shipping_Status%></p> </th>
+                                    <th> <p><%=language.Payment_Status%></p> </th>
+                                    <th> <p><%=language.Total_Amount%></p> </th>
+                                    <th> <p><%=language.Approved%> / <br> <%=language.Unapproved%></p> </th>
+                                    <th class="text-center"> <p>Action</p> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% order_list3.forEach((data) => { %>
+                                    <tr>
+                                        <td>
+                                            <i class="<%= module_list[2].icon %>"></i>
+                                            <p>#<%= data.order_id %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.date %></p>
+                                        </td>
+                                        <td>
+                                            <% delivery_type_data.forEach((delivery_type) => { %>
+                                                <% if (data.delivery_type == delivery_type.id) { %>
+                                                    <p><%= delivery_type.type %></p>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% shipping_status_data.forEach((shipping_status) => { %>
+                                                <% if (data.shipping_status == shipping_status.id) { %>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <p class="text-warning"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <p class="text-danger"><%= shipping_status.status_name %></p>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <p class="text-success"><%= shipping_status.status_name %></p>
+                                                    <% } else { %>
+                                                        <p class="text-primary"><%= shipping_status.status_name %></p>
+                                                    <% } %>
+                                                <% } %>
+                                            <% }) %>
+                                        </td>
+                                        <td>
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                                <p class="text-warning"><%=language.Unpaid%></p>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Paid%></p>
+                                            <% } %>
+                                        </td>
+                                        <td><p class="invosymbol"><%= data.total_price %></p></td>
+                                        <td>
+                                            <% if (data.carrier_id == "0") { %>
+                                                <p class="text-primary"><%=language.Pending%></p>
+                                            <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                <p class="text-danger mb-0"><%=language.Unapproved%> </p> 
+                                                <button class="pb-1" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= data.unapproved_reason %>"><i class="fa fa-info-circle f-16"></i></button>
+                                            <% } else { %>
+                                                <p class="text-success"><%=language.Approved%></p>
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <a href="/order/print_shipment/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Print" aria-label="Shipment & Print" class="db-table-action view custom_small_btn_shipment" ><i class="fas fa-print"></i></a>
+
+                                            <% if (data.total_price > data.paid_amount) { %>
+                                            <a href="#/admin/items/show/1"  data-bs-placement="Top" title="" data-bs-original-title="Make Payment" aria-label="Make Payment" class="db-table-action view custom_small_btn_payment"  data-bs-toggle="modal" data-bs-target="#add_paymentmodal" id="add_payment" data-id="<%= data.id %>" data-total_price="<%= data.total_price %>"
+                                                data-paid_amount="<%= data.paid_amount %>"><i class="fas fa-credit-card"></i></a>
+                                            <% } %>
+                                                   
+                                            <% if(data.carrier_id != "0" && data.carrier_id != "Unapproved"){ %>
+                                            <a href="/order/customer_order_traking/<%= data.id %>"  data-bs-placement="Top" title="" data-bs-original-title="Shipment & Tracking Info" aria-label="Shipment & Tracking Info" class="db-table-action view custom_small_btn_tracking"><i class="fas fa-truck"></i></a>
+                                            <% }; %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- add_paymentmodal -->
+
+    <div class="modal fade" id="add_paymentmodal" role="dialog" aria-labelledby="add_paymentmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Payment%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-2">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-between">
+                            <span class="f-16"><%=language.Total_Amount%> :</span>
+                            <span class="f-16 invosymbol" id="total_amount">5646</span>
+                        </div>
+                        <div class="col-12 d-flex justify-content-between">
+                            <span class="f-16"><%=language.Paid_Amount%> :</span>
+                            <span class="f-16 invosymbol" id="paid_amount">5646</span>
+                        </div>
+                        <div class="col-12 pb-2 d-flex justify-content-between border-bottom">
+                            <span class="f-16"><%=language.Due_Amount%> :</span>
+                            <span class="f-16 invosymbol" id="due_amount">5646</span>
+                        </div> 
+                        <div class="col-12 pt-3">
+                            <label class="form-label"><%=language.Payment_Method%></label>
+                            <select class="form-select" id="add_payment_method" required>
+                                <option selected disabled value><%=language.select_Payment_Method%></option>
+                                <% transaction_method_list.forEach((data) => { %>
+                                    <% if(data.id != "3"){ %>
+                                    <option value="<%= data.id %>"><%= data.title %></option>
+                                    <% }; %>
+                                <% }) %>
+                                
+                            </select>
+                        </div>
+                        <input type="hidden" id="hidden_orderid">
+                        <input type="hidden" id="hidden_order_tot">
+
+                        <form id="customer_cash_payment" class="needs-validation" novalidate="" action="" method="post">
+                        </form>
+
+                        <form id="customer_paystack" class="needs-validation" novalidate="" action="/packers_and_movers/paystack_payment" method="post">
+                            <input class="hidden" id="customer_tot_paystack" name="paystack_total_amount" type="text" value="" >
+                            <input class="hidden" id="customer_order_paystack" name="paystack_order_id" type="text" value="" >
+                            <input class="hidden" id="customer_pay_paystack" name="paystack_payment_type" type="text" value="" >
+                            <input class="hidden" type="text" name="type" value="0">
+                        </form>
+                        
+                        <form id="customer_paypal" class="needs-validation" novalidate="" action="/packers_and_movers/paypal_payment" method="post">
+                            <input class="hidden" id="customer_tot_paypal" name="hidden_order_tot" type="text" value="" >
+                            <input class="hidden" id="customer_order_paypal" name="paypal_payment_type" type="text" value="" >
+                            <input class="hidden" id="customer_pay_paypal" name="payment_id" type="text" value="" >
+                            <input class="hidden" type="text" name="type" value="0">
+                        </form>
+
+                        <form class="customer_pazorpay" method="post">
+                            <input class="hidden" id="customer_tot_razorpay" name="razorpay_total_amount" type="text" value="" >
+                            <input class="hidden" id="customer_order_razorpay" name="razorpay_order_id" type="text" value="" >
+                            <input class="hidden" id="customer_pay_razorpay" name="razorpay_payment_type" type="text" value="" >
+                            <input class="hidden" id="customer_type" type="text" name="type" value="0">
+                            <a class="d-none" id="customer_pazorpay_btn" ></a>
+                        </form>
+                        
+                        <form id="customer_dashboard_stripe" class="needs-validation" novalidate="" action="/packers_and_movers/stripe_payment" method="post">
+                            <input class="hidden" id="customer_tot_stripe" name="stripe_total_amount" type="text" value="" >
+                            <input class="hidden" id="customer_order_stripe" name="stripe_order_id" type="text" value="" >
+                            <input class="hidden" id="customer_pay_stripe" name="stripe_payment_type" type="text" value="" >
+                            <input class="hidden" type="text" name="type" value="0">
+                        </form>
+
+
+                        <div class="d-none pt-3" id="coustomer_account_payment">
+                            <% transaction_method_list.forEach((data) => { %>
+                                <% if(data.id == "7"){ %>
+                            <div class="d-flex">
+                                <div class="col-6 mb-1 ">
+                                  <h6 class="mb-1 f-16" ><%=language.Bank_Name%> :- </h6>
+                                  <p class="mb-3"><%=data.bank_name%></p>
+                                </div>
+                                <div class="col-6 mb-1 ">
+                                  <h6 class="mb-1 f-16"><%=language.Bank_Account_Holder_Name%> :- </h6>
+                                  <p class="mb-3"><%=data.bank_holder_name%></p>
+                                </div>
+                              </div>
+
+                              <div class="d-flex">
+                                <div class="col-6 mb-1 ">
+                                  <h6 class="mb-1 f-16"><%=language.Bank_Account_No%> :- </h6>
+                                  <p class="mb-3"><%=data.bank_account_No%></p>
+                                </div>
+                                <div class="col-6 mb-1 ">
+                                  <h6 class="mb-1 f-16"><%=language.Bank_IFSC_Code%> :- </h6>
+                                  <p class="mb-3"><%=data.bank_ifsc_code%></p>
+                                </div>
+                              </div>
+                                        
+                              <div class="d-flex">
+                                <div class="col-6 ">
+                                  <h6 class="mb-1 f-16"><%=language.Bank_Swift_Code%> :- </h6>
+                                  <p><%=data.swift_code%></p>
+                                </div>
+                            </div>
+                            <form  class="needs-validation" id="coustomer_payment_image_submit" novalidate="" action="" method="post" enctype="multipart/form-data">
+                                <div class="col-12 pt-3">
+                                    <label class="form-label"><%=language.Upload_Transaction_Image%></label>
+                                    <input class="form-control" id="coustomer_payment_img" type="file" name="payment_image" required>
+                                </div>
+                                <p class="text-danger d-none pt-1" id="customer_payment_ing_error"><%=language.Upload_Transaction_Image%></p>
+                            </form>
+                              <% }; %>
+                              <% }) %>
+
+                        </div>
+
+
+
+                        <button class="btn btn-primary btn-square b-r-5 w-100 mt-4" id="customer_das_payment_btn" type="submit"><%=language.Submit%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <%- include('./partials/frontend_footer'); -%>
+  <%- include('./partials/frontend_script'); -%>
+  <%- include('./partials/script'); -%>
+  </body>
+</html>

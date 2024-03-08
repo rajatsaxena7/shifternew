@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.FAQ_List%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.FAQ_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = permission != "1" ? permission.FAQ.split(",")[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header text-end pb-0">
+                          <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%=language.Add_FAQ%></button>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                              <table class="display" id="basic-1">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th><%=language.Title%></th>
+                                    <th><%=language.Description%></th>
+                                    <% let permissions = permission != "1" ? permission.FAQ.split(",")[2] : "1" %>
+                                    <% if(permissions == "1"){ %>
+                                    <th><%=language.Action%></th>
+                                    <% } %>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% var i = 1 %>
+                                      <% faq_list.forEach(function(faq){ %>
+                                        <tr>
+                                            <td><%= i %></td>
+                                            <td><%=faq.faq_title%></td>
+                                            <td><%=faq.faq_des%></td>
+                                            <% if(permissions == "1"){ %>
+                                            <td> 
+                                                <ul class="action"> 
+                                                    <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_unitmodal" id="edit_faq" data-id="<%=faq.id%>" data-title="<%=faq.faq_title%>"
+                                                      data-des="<%=faq.faq_des%>" data-id="<%= faq.id %>" data-position="<%=faq.faq_position%>"><i class="icon-pencil-alt"></i></a></li>
+
+                                                    <li class="delete"><a href="/settings/delete_faq/<%= faq.id %>"><i class="icon-trash"></i></a></li>
+                                                </ul>
+                                            </td>
+                                            <% } %>
+                                        </tr>
+                                        <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_unitmodal -->
+    
+    <div class="modal fade" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title"><%=language.Add_FAQ%></h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form  class="needs-validation" novalidate="" action="/settings/faq" method="post">
+                  <div class="modal-body">
+                      <div class="row g-3">
+                          <div class="col-12">
+                              <label class="form-label"><%=language.Title%></label>
+                              <input class="form-control" type="text" name="faq_title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                          </div>
+                          <div class="col-12">
+                              <label class="form-label"><%=language.Description%></label>
+                              <textarea class="form-control" type="text" name="faq_des" placeholder="<%=language.Enter%> <%=language.Description%>" required></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                      <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+    <!-- edit_unitmodal -->
+    
+    <div class="modal fade " id="edit_unitmodal" tabindex="-1" role="dialog" aria-labelledby="edit_unitmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_FAQ%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_faqs" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input id="faq_name" class="form-control" type="text" name="faq_title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Description%></label>
+                                <textarea id="faq_des" class="form-control" type="text" name="faq_des" placeholder="<%=language.Enter%> <%=language.Description%>" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

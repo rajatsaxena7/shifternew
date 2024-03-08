@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="loader-box">
+            <div class="loader-19"></div>
+        </div>
+    </div>
+    <!-- Loader ends-->
+    <div class="container-fluid">
+        <div class="row">
+                      
+    <input type="hidden" id="rates_sym" value="<%= general_data.site_currency %>">
+    <input type="hidden" id="rates_pla" value="<%= general_data.currency_placement %>">
+    <input type="hidden" id="thousands_replace" value="<%= general_data.thousands_separator %>">
+
+            <div class="col-xl-12 p-0">    
+                <div class="login-card">
+                    <div class="card" style="width: 100vh;">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.Shift_Express%></h5>
+                        </div>
+                        <div class="card-body" style="background-color: #FAFAFA;">
+                            <% shifter_list.forEach((data) => { %>
+                                <div>
+                                    <a type="button" class="w-100 select_shifter" data-id="<%= data.id %>">
+                                        <div class="card">
+                                            <div class="card-body pb-0 pt-4 row">
+                                                <div class="col-md-2 col-3 text-center">
+                                                    <img class="img-fluid b-r-7" id="file-preview" width="200px" height="200px" src="../uploads/<%= data.image %>" alt="image">
+                                                </div>
+                                                <div class="col-md-10 col-9">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="f-20 f-w-700 font-dark text-capitalize"> <%=language.Shift_Express%> - <%= data.title %></h5>
+                                                        <h5 class="text-dark invosymbol"><%= data.price %></h5>
+                                                    </div>
+                                                    <p class="mb-0 font-dark"> <%= data.description %> </p>
+                                                </div>
+                                                <span class="text-end">
+                                                    <i class="fa fa-arrow-circle-right f-24" style="color: #D8D8D8;"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <form action="/packers_and_movers/add_shifter" method="post" id="shifter_form">
+                            <input type="hidden" name="shifter" id="hidden_shifter">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script'); -%>
+</body>
+
+</html>

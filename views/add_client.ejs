@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3>Add Client</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Client List</li>
+                        <li class="breadcrumb-item">Add Client</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form  class="needs-validation" novalidate="" action="/user/add_client" method="post">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                <h5>Client Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-5">
+                                    <div class="col-md-4 col-sm-12">
+                                        <label class="form-label">Customer</label>
+                                        <select class="js-example-basic-single" name="customer_name" required>
+                                            <option value selected disabled>Select Customer</option>
+                                            <% customer_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"> <%= data.first_name %> <%= data.last_name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">First Name</label>
+                                        <input class="form-control" type="text" name="first_name" placeholder="Enter First Name" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Last Name</label>
+                                        <input class="form-control" type="text" name="last_name" placeholder="Enter Last Name" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Phone Number</label>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="js-example-basic-single" name="country_code" required>
+                                                    <option value selected disabled>Country</option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="form-control" type="number" name="phone_no" placeholder="Enter Phone Number" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Email</label>
+                                        <input class="form-control" type="email" name="email" placeholder="Enter Email" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header pb-0 d-flex justify-content-between align-i">
+                                <h5>Address Details</h5>
+                                <button class="btn btn-square btn-primary b-r-10" type="button" id="add_address_btn">Add Address</button>
+                            </div>
+                            <div class="card-body" id="add_address">
+                                <div class="row g-3 mb-5 address_details" id="address_details">
+                                    <div class="col-12">
+                                        <label class="form-label">Address</label>
+                                        <input class="form-control search_input" type="text" name="google_address" id="search_input" placeholder="Enter Address" required>
+                                        <input type="hidden" name="latitude" id="latitude">
+                                        <input type="hidden" name="longitude" id="longitude">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Flat, Housing No., Apartment, Area</label>
+                                        <input class="form-control" type="text" name="address" placeholder="Enter Flat, Housing No., Apartment, Area" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">City</label>
+                                        <input class="form-control" type="text" name="city" placeholder="Enter City" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">State</label>
+                                        <input class="form-control" type="text" name="state" placeholder="Enter State" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Country</label>
+                                        <input class="form-control" type="text" name="country" placeholder="Enter Country" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label">Pincode</label>
+                                        <input class="form-control" type="text" name="pincode" placeholder="Enter Pincode" required>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <button class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

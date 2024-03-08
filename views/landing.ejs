@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <%- include('./partials/head'); -%>
+  <%- include('./partials/frontend_head'); -%>
+</head>
+
+<body class="light">
+
+
+  <%- include('./partials/frontend_header'); -%>
+  
+  <!--End landex-header-section -->
+
+  <div class="ppc-hero-section2">
+    <div class="container">
+      <div class="ppc-hero-content ppc-hero-content2">
+        <h1 class="wow fadeInUpX" data-wow-delay="0s"><%=language.Stress_free_moving_with_efficient_delivery%> </h1>
+        <p class="wow fadeInUpX" data-wow-delay="0.25s"><%=language.Worlds_First_Easy_Reliable_and_Stress_Free_Solution%></p>
+
+        
+        <div class="d-flex justify-content-center wow fadeInUpX mt-3">
+          <ul class="col-sm-6 col-md-10 col-lg-10 col-xl-10 nav nav-tabs border-tab nav-secondary nav-left  d-flex justify-content-around" id="danger-tab" role="tablist">
+            <% if (module_list[0].isactive == '1') { %>
+              <% var Domestic = 'active' %>
+              <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= Domestic %>" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+
+            <% } %>
+            <% if (module_list[1].isactive == '1') { %>
+              <% if (module_list[0].isactive != '1') { %>
+                <% var PackersAndMovers = 'active' %>
+              <% } %>
+              <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= PackersAndMovers %>" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+
+            <% } %>
+            <% if (module_list[2].isactive == '1') { %>
+              <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                <% var International = 'active' %>
+              <% } %>
+              <li class="col-sm-4 col-md-4 col-lg-4 col-xl-4 nav-item"><a class="nav-link <%= International %>" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+
+            <% } %>
+          </ul>
+        </div>
+
+        <div class="ppc-hero-btn-wrap justify-content-center wow fadeInUpX mt-0" data-wow-delay="0.40s">
+          <div class="tab-content" id="danger-tabContent">
+            <!-- Domestic -->
+            <div class="tab-pane fade show <%= Domestic %>" id="danger-home" role="tabpanel" aria-labelledby="danger-home-tab">
+
+              <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                <div class="searchBoxInnerWrap">
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                        <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_pickup_currior" data-id="1" value="0">
+                        <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                        <% } %>
+                    </div>
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                        <input class="inputField search_input1" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_delivered_currior" data-id="2" value="0">
+                        <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                        <% } %>
+                    </div>
+                </div>
+                
+                <% if (module_list[1].isactive == '1') { %>
+                  <input class="inputField search_input d-none" value="<%=module_list[0].prefix%>" type="text" name="profix" >
+                  <input id="zone_id_addresh" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text">
+                  <% } %>
+
+                <button type="submit" class="btn submitBtn disabled domestic_btn_error0"><%=language.Check_price%></button>
+              </form>
+                
+          </div>
+
+            <!-- Packers And Movers -->
+            <div class="tab-pane fade show <%= PackersAndMovers %>" id="danger-profile" role="tabpanel" aria-labelledby="profile-danger-tab">
+              <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                  <div class="searchBoxInnerWrap">
+                      <div class="locationBox address_details">
+                          <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                          <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                          <input type="hidden" name="latitude" id="latitude">
+                          <input type="hidden" name="longitude" id="longitude">
+                          <input type="hidden" class="hidden_page" id="hidden_pickup_Packers" data-id="1" value="0">
+                          <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                            <% } %>
+                      </div>
+                      <div class="locationBox address_details">
+                          <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                          <input class="inputField search_input1" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Address%>" required>
+                          <input type="hidden" name="latitude" id="latitude">
+                          <input type="hidden" name="longitude" id="longitude">
+                          <input type="hidden" class="hidden_page" id="hidden_delivered_Packers" data-id="2" value="0">
+                          <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                            <% } %>
+                      </div>
+                  </div>
+                
+                <% if (module_list[1].isactive == '1') { %>
+                  <input class="inputField search_input d-none" value="<%=module_list[1].prefix%>" type="text" name="profix" >
+                  <% } %>
+
+                <button type="submit" class="btn submitBtn disabled domestic_btn_error1"><%=language.Check_price%></button>
+              </form>
+              
+          </div>
+
+            <!-- International -->
+            <div class="tab-pane fade show <%= International %>" id="danger-inter" role="tabpanel" aria-labelledby="inter-danger-tab">
+              <form class="searchBox" action="/packers_and_movers/pam" method="post">
+                <div class="searchBoxInnerWrap">
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                        <input class="inputField search_input" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Enter%> <%=language.Pickup_Country%>" required>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_pickup_international" data-id="1" value="0">
+                        <% if (module_list[2].isactive == '1') { %>
+                          <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[2].id%>" type="text" name="profix_id" >
+                          <% } %>
+                    </div>
+                  </div>
+                    <div class="locationbox-select address_details mb-4">
+                    <select class="js-example-basic-single custome_select " id="hidden_delivered_international" data-width="100%" name="delivery_pincode" required>
+                        <option value="0" selected disabled><%=language.Select_delivery_country%></option>
+                        <% zone_data.forEach(function(country){ %>
+                        <option value="<%=country.zone_name%>"><%=country.zone_name%></option>
+                        <% }); %>
+                    </select>
+                    </div>
+
+                    <% if (module_list[2].isactive == '1') { %>
+                        <input class="inputField search_input d-none" value="<%=module_list[2].prefix%>" type="text" name="profix" >
+                    <% } %>
+
+                <button type="submit" class="btn submitBtn disabled international_btn_error1"><%=language.Ship_Now%></button>
+              </form>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="pickupsearch_input_error"><%=language.Sorry_we_do_not_allowed_pickup_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="deliversearch_input_error"><%=language.Sorry_we_do_not_allowed_delivered_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="country_select_error"><%=language.Please_Select_delivered_Country%></span>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+    </div>
+   
+    <!-- End collection section -->
+  </div>
+  <!-- End hero section -->
+
+  
+
+  <div class="section bg-gray-800 ppc-section-padding3 custome_margin">
+    <div class="container">
+      <div class="ppc-section-title">
+        <div class="ppc-default-content large dark">
+          <h2><%=language.Shiftr_single_platform_for_all_freight_needs%></h2>
+        </div>
+      </div>
+      <div class="ppc-iconbox-bg" style="background-image: url('../../frontend/images/all-img/v2/shape-dots.png')">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="ppc-iconbox-wrap wow fadeInUpX" data-wow-delay="0.1s">
+              <div class="ppc-iconbox-icon">
+                <img class="cartoon2" src="../../frontend/images/all-img/v2/n_1.png" alt="">
+              </div>
+              <div class="ppc-iconbox-data">
+                <h4><%=language.Schedule_your_Shift%></h4>
+                <p><%=language.Begin_the_process_online_by_providing_details_about_the_items_you_wish_to_move_and_their_source_store_or_easily_reserve_a_Shift_via_our_convenient_partner_store_kiosks%>.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="ppc-iconbox-wrap custom_margin_b wow fadeInUpX" data-wow-delay="0.2s">
+              <div class="ppc-iconbox-icon">
+                <img class="cartoon2" src="../../frontend/images/all-img/v2/n_2.png" alt="">
+              </div>
+              <div class="ppc-iconbox-data">
+                <h4><%=language.Discover_the_perfect_Shifter%></h4>
+                <p><%=language.Our_advanced_technology_matches_you_with_an_available_driver_who_is_conveniently_heading_towards_your_location_ensuring_prompt_and_reliable_service_within_your_preferred_time_slot%>.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="ppc-iconbox-wrap wow fadeInUpX" data-wow-delay="0.3s">
+              <div class="ppc-iconbox-icon">
+                <img class="cartoon2" src="../../frontend/images/all-img/v2/n_3.png" alt="">
+              </div>
+              <div class="ppc-iconbox-data">
+                <h4><%=language.Sit_back_and_relax_leave_it_to_your_Shifter%>.</h4>
+                <p><%=language.Our_capable_Shifter_will_handle_the_entire_process_from_picking_up_your_items_to_delivering_them_whether_its_a_large_in_store_purchase_or_moving_your_household_belongings_into_storage%>.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="ppc-iconbox-wrap custom_margin_b wow fadeInUpX" data-wow-delay="0.4s">
+              <div class="ppc-iconbox-icon">
+                <img class="cartoon2" src="../../frontend/images/all-img/v2/n_4.png" alt="">
+              </div>
+              <div class="ppc-iconbox-data">
+                <h4><%=language.Share_your_Shift_feedback%>!</h4>
+                <p><%=language.Express_your_appreciation_for_the_efficient_and_hassle_free_service_by_rating_and_tipping_your_dedicated_Shifter%>!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End section -->
+
+  <%- include('./partials/middle_content'); -%>
+  
+
+
+  <div class="ppc-go-top pink">
+    <img src="../../frontend/images/svg/arrow-right-white.svg" alt="">
+  </div>
+
+
+
+  <!-- Footer  -->
+
+  <%- include('./partials/frontend_footer'); -%>
+  <%- include('./partials/frontend_script'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

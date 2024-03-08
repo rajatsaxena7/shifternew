@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); %>
+  </head>
+  <body>
+    <%- include('./partials/header_sidebar'); %> 
+
+    <style type="text/css"></style>
+
+    <div class="page-body">
+        <!-- Container-fluid starts-->
+        <div class="container-fluid ">
+            <div class="row">
+            
+                <!-- Scroll - vertical dynamic Starts-->
+               <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div>
+                                        <h3><span class="font-danger"> <%=language.Tracking_ID%>  </span>#<%= order_list[0].tracking_id %></h3> 
+                                    </div>
+
+                                    <hr>
+
+                                    <h5 class="col-sm-12 col-md-4 col-lg-4 col-xl-4"><%=language.Package_Status%> <span class="badge badge-primary p-2"><%= order_list[0].status_name %></span></h5>
+                                    <h5 class="col-sm-12 col-md-4 col-lg-4 col-xl-4"><%=language.invoice_status%>
+                                        <% if (parseFloat(order_list[0].total_price) > parseFloat(order_list[0].paid_amount)) { %>
+                                            <span class="badge badge-danger p-2"><%=language.Unpaid%></span>
+
+                                        <% } else { %>
+
+                                            <span class="badge badge-success p-2"><%=language.Paid%></span>
+                                        <% } %>
+                                    </h5>
+                                    <h5 class="col-sm-12 col-md-4 col-lg-4 col-xl-4"><%=language.Carrier_Status%>
+                                        <% if (order_list[0].carrier_id == null) { %>
+                                            <span class="badge badge-primary p-2"><%=language.Pending%></span>
+                                        <% } else if (order_list[0].carrier_id == '0') { %>
+                                            <span class="badge badge-danger p-2"><%=language.Unapproved%></span>
+                                        <% } else { %>
+                                            <span class="badge badge-success p-2"><%=language.Approved%></span>
+                                        <% } %>
+                                    </h5>
+
+                                    <hr class="mt-3">
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <div>
+                                            <h5><%=language.Order_Id%></h5>
+                                            <span>#<%= order_list[0].order_id %></span>
+                                        </div>
+                                        <div class="mt-4">
+                                            <h5><%=language.Pickup_Date%></h5>
+                                            <span><%= order_list[0].date %></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <div>
+                                            <h5><%=language.Delivery_Type%></h5>
+                                            <span><%= order_list[0].delivery_type_name %></span>
+                                        </div>
+                                        <% if (order_list[0].module == "2"){ %>
+                                        <div class="mt-4">
+                                            <h5><%=language.Pickup_Time%></h5>
+                                            <span><%= start_time_val %> TO <%= end_time_val %></span>
+                                        </div>
+                                        <% }; %>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <div>
+                                            <h5><%=language.Payment_Method%></h5>
+                                            <span><%= order_list[0].transaction_method %></span>
+                                        </div>
+
+                                        <% if (order_list[0].module == "2"){ %>
+                                        <div class="mt-4">
+                                            <h5><%=language.Shifter%></h5>
+                                            <span><%= shifter_data[0].title %></span>
+                                        </div>
+                                        <% }; %>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tracking History -->
+                        <% if(tracking_list != ""){ %>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h5><%=language.Tracking_History%> </h5>
+                                    <hr>
+                                    <div class="table-responsive theme-scrollbar">
+                                        <table class="table" aria-label="table">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col"> <%=language.Date_updated%> </th>
+                                                    <th scope="col"> <%=language.Time_update%> </th>
+                                                    <th scope="col"> <%=language.New_location%> </th>
+                                                    <th scope="col"> <%=language.Package_Status%> </th>
+                                                    <th scope="col"> <%=language.Remarks%> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% tracking_list.forEach((data) => { %>
+                                                    <tr>
+                                                        <% let date = new Date(data.date_time) %>
+                                                        <% let day = (date.getDate() < 10 ? '0' : '') + date.getDate() %>
+                                                        <% let month = ((date.getMonth()+1) < 10 ? '0' : '') + (date.getMonth()+1) %>
+                                                        <% let year = date.getFullYear() %>
+                                                        <% let hours = date.getHours() %>
+                                                        <% let minutes = date.getMinutes() %>
+
+                                                        <td><%= `${year}-${month}-${day}` %></td>
+                                                        <td><%= `${hours}:${minutes}` %> <%= (hours < '12' ? 'AM' : 'PM' ) %></td>
+                                                        <td><%= data.address %> <%= data.city %> <%= data.state %> <%= data.country %></td>
+                                                        <td><%= data.shipping_status_name %></td>
+                                                        <td><%= data.message %></td>
+                                                    </tr>
+                                                <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }; %>
+
+                        <% if(tracking_list != ""){ %>
+                            <% tracking_list.forEach((data) => { %>
+                                <% if(data.type == "2"){ %>
+                                    <div class="card">
+                                        <div class="card-body pb-3">
+                                            <div class="row">
+                                                <h5><%=language.Proof_of_Delivery_POD%></h5>
+                                                <hr>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                                    <div>
+                                                        <h5><%=language.Employee%> <%=language.Name%></h5>
+                                                        <span><%=data.driver_id%></span>
+                                                    </div>
+                                                    <div class="mt-4">
+                                                        <h5><%=language.Received%> <%=language.Person%> <%=language.Name%></h5>
+                                                        <span><%=data.person_receives%></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                                    <div>
+                                                        <a href="../../uploads/<%= data.image %>"><img src="../../uploads/<%= data.image %>" class="logo-abbr mx-2 b-r-10 p-1" width="130.5px" height="130.5px" alt="image"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }; %>
+                            <% }) %>
+                        <% }; %>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h5> <%=language.Product_Details%> </h5>
+                                    <hr>
+                                    <div class="col-12 mb-3">
+                                        <div class="table-responsive theme-scrollbar">
+
+                                            <% if (order_list[0].module != "2"){ %>
+
+                                                <table class="table">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col"><%=language.Package_Name%></th>
+                                                            <th scope="col"><%=language.Unit_Price%></th>
+                                                            <th scope="col"><%=language.Dead_Weight%></th>
+                                                            <th scope="col"><%=language.Length%></th>
+                                                            <th scope="col"><%=language.Breadth%></th>
+                                                            <th scope="col"><%=language.Height%></th>
+                                                            <th scope="col"><%=language.Volumetric%></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% var a = 1 %>
+                                                        <% for(var i = 0; i < package_name; i++){ %>
+                                                                <tr>
+                                                                    <td><%= a %></td>
+                                                                    <td><%= product_list[0].package_name.split(",")[i] %></td>
+                                                                    <td class="invosymbol"><%= product_list[0].package_Amouunt.split(",")[i] %></td>
+                                                                    <td class="weight_units_sybl"><%= product_list[0].package_weight.split(",")[i] %></td>
+                                                                    <td class="length_units_sybl"><%= product_list[0].package_Length.split(",")[i] %></td>
+                                                                    <td class="length_units_sybl"><%= product_list[0].package_width.split(",")[i] %></td>
+                                                                    <td class="length_units_sybl"><%= product_list[0].package_Height.split(",")[i] %></td>
+                                                                    <td class="weight_units_sybl"><%= product_list[0].package_Weight_vol.split(",")[i] %></td>
+                                                                </tr>
+                                                            <% a++ %>
+                                                        <% }; %>
+                                                    </tbody>
+                                                </table>
+
+                                            <% } else if (order_list[0].module == "2"){ %>
+
+                                                <table class="table">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col"><%=language.Category%></th>
+                                                            <th scope="col"><%=language.Sub_Category%></th>
+                                                            <th scope="col"><%=language.Product%></th>
+                                                            <th scope="col"><%=language.Product_Qty%></th>
+                                                            <th scope="col"><%=language.Product_Price%></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% var i = 1 %>
+                                                        <% product_list.forEach((data) => { %>
+                                                            <% product_s_name.forEach((product_name, x) => { %>
+                                                                <% if (data.id == product_name && product_s_qty[x] != '0') { %>
+                                                                    <tr>
+                                                                        <td><%= i %></td>
+                                                                        <td><%= data.category %></td>
+                                                                        <td><%= data.s_category %></td>
+                                                                        <td><%= data.name %></td>
+                                                                        <td><%= product_s_qty[x] %></td>
+                                                                        <td class="invosymbol"><%= product_s_price[x] %></td>
+                                                                    </tr>
+                                                                    <% i++ %>
+                                                                <% } %>
+                                                            <% }) %>
+                                                        <% }) %>
+                                                    </tbody>
+                                                </table>
+
+                                            <% }; %>
+
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-12">
+                                        <div>
+                                            
+                                            <% if (order_list[0].module == "2"){ %>
+                                                <div class="d-flex justify-content-end my-1">
+                                                    <h5><%=language.Subtotal%> &nbsp; : &nbsp;<span class="invosymbol"><%= product_total_sum %></span></h5>
+                                                </div>
+
+                                                <div class="d-flex justify-content-end my-1">
+                                                    <h5><%=language.Shifter_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= shifter_data[0].price %></span></h5>
+                                                </div>
+                                            <% }; %>
+
+                                            <% if (order_list[0].module == "1" || order_list[0].module == "3"){ %>
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Distance%>-<%=language.Based%> <%=language.Weight%> <%=language.Range%> <%=language.Pricing%> &nbsp; : &nbsp;<span class="invosymbol"><%= order_list[0].diss_weight_price %></span></h5>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Product%> <%=language.Weight%> <%=language.Price%> &nbsp; : &nbsp;<span class="invosymbol"><%= order_list[0].weight_price %></span></h5>
+                                            </div>
+                                            <% }; %>
+
+                                            <% if (order_list[0].module != "3"){ %>
+                                                <div class="d-flex justify-content-end my-1">
+                                                    <h5><%=language.Distance_Amount%> (<%= order_list[0].distance %> KM) &nbsp; : &nbsp;<span class="invosymbol"><%= order_list[0].address_price %></span></h5>
+                                                </div>
+                                            <% }; %>
+
+                                            <% if (coupon_data != '') { %>
+                                                <div class="d-flex justify-content-end my-1">
+                                                    <h5><%=language.Coupon_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= coupon_data[0].discount_amount %></span></h5>
+                                                </div>
+                                            <% } %>
+
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Delivery_Type_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= delivery_type_data[0].price %></span></h5>
+                                            </div>
+
+                                            <% if (order_list[0].module == "2"){ %>
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Time_based_Pricing%> &nbsp; : &nbsp;<span class="invosymbol"><%= parseFloat(order_list[0].date_price) %></span></h5>
+                                            </div>
+                                            <% }; %>
+                                            
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Pickup_Floor_Pricing%> &nbsp; : &nbsp;<span class="invosymbol"><%= pickup_floor_price %></span></h5>
+                                            </div>
+
+
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Insurance_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= parseFloat(order_list[0].insurance_price) %></span></h5>
+                                            </div>
+
+                                            <% if (order_list[0].differences_amount != null || order_list[0].differences_amount != "") { %>
+                                                <div class="d-flex justify-content-end my-1">
+                                                    <h5><%=language.Differences_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= parseFloat(order_list[0].differences_amount) %></span></h5>
+                                                </div>
+                                            <% } %>
+
+                                            <div class="d-flex justify-content-end my-1">
+                                                <h5><%=language.Total_Amount%> &nbsp; : &nbsp;<span class="invosymbol"><%= order_list[0].total_price %></span></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pickup details -->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h5> <%=language.Pickup_Address_details%> </h5>
+                                    <hr>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <h5> <%=language.Name%> </h5>
+                                        <span><%= order_list[0].pickup_firstname %> <%= order_list[0].pickup_lastname %></span>
+                                    </div>
+                                    
+                                    <% if (order_list[0].carrier_id != "0" && order_list[0].carrier_id != "Unapproved"){ %>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <div>
+                                            <h5> <%=language.Email%> </h5>
+                                            <span><%= order_list[0].pickup_email %></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <div>
+                                            <h5> <%=language.Phone_No%> </h5>
+                                            <span><%= order_list[0].pickup_country_code %><%= order_list[0].pickup_phone_no %></span>
+                                        </div>
+                                    </div>
+                                    <% }; %>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 pt-4">
+                                        <h5> <%=language.Address%> </h5>
+                                        <span><%= order_list[0].pickup_fulladdress %> | <%= order_list[0].pickup_city %> | <%= order_list[0].pickup_state %> | <%= order_list[0].pickup_country %> | <%= order_list[0].pickup_pincode %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery details -->
+
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <h5><%=language.Delivery_Address_Details%></h5>
+                                    <hr>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <h5><%=language.Name%></h5>
+                                        <span><%= order_list[0].delivery_first %> <%= order_list[0].delivery_lastname %></span>
+                                    </div>
+                                    <% if (order_list[0].carrier_id != "0" && order_list[0].carrier_id != "Unapproved"){ %>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <h5><%=language.Email%></h5>
+                                        <span><%= order_list[0].delivery_email %></span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 ul_padding">
+                                        <h5><%=language.Phone_No%></h5>
+                                        <span><%= order_list[0].delivery_country_code %><%= order_list[0].delivery_phone_no %></span>
+                                    </div>
+                                    <% }; %>
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 pt-4">
+                                        <h5><%=language.Address%></h5>
+                                        <span><%= order_list[0].delivery_fulladdress %> | <%= order_list[0].delivery_city %> | <%= order_list[0].delivery_state %> | <%= order_list[0].delivery_country %> | <%= order_list[0].delivery_pincode %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                <!-- Scroll - vertical dynamic Ends-->
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+        
+  
+  <%- include('./partials/script'); %>
+  </body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Rates%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Rates%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card" id="distance_rate">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            </div>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= Moduleid %>">
+
+                            <% let permiss = permission != "1" ? permission.Distance.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-end">
+                                <button class="btn btn-square btn-primary b-r-10" type="button" id="click_distance"><%=language.Add_New_Rates%></button>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="card-body ">
+                                <div class="table-responsive theme-scrollbar">
+                                 <table class="display" id="basic-1">
+                                    <thead class="">
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Origin%></th>
+                                            <th><%=language.State%></th>
+                                            <th><%=language.City%></th>
+                                            <th><%=language.Destination_Country%></th>
+                                            <th class="domestic_table"><%=language.Destination_State%></th>
+                                            <th class="domestic_table"><%=language.Destination_City%></th>
+                                            <th><%=language.Rate_Price%></th>
+                                            <th>Min Rate</th>
+                                            <th>Max Rate</th>
+                                            <% let permissions = permission != "1" ? permission.Distance.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="domestic_table">
+                                        <% var i = 1 %>
+                                        <% distance_data.forEach(function(distance){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%=distance.country_origin%></td>
+                                                <td><%=distance.state_name%></td>
+                                                <td><%=distance.city_name%></td>
+                                                <td><%=distance.destination_origin%></td>
+                                                <td><%=distance.destination_state%></td>
+                                                <td><%=distance.destination_city%></td>
+                                                <td class="invosymbol"><%=distance.Weight_rate%></td>
+                                                <td><%=distance.start_weight_range%></td>
+                                                <td><%=distance.end_weight_range%></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a href="/settings/edit_distance/<%=distance.id%>"><i class="icon-pencil-alt"></i></a></li>
+                                                    
+                                                        <li class="delete"><a href="/settings/delete_distance/<%= distance.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                            <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+
+                                    <tbody class="international_table d-none">
+                                        <% var i = 1 %>
+                                        <% zone_distant_data.forEach(function(distance){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%=distance.country_origin%></td>
+                                                <td><%=distance.state_name%></td>
+                                                <td><%=distance.city_name%></td>
+                                                <td><%=distance.destination_origin%></td>
+                                                <td class="invosymbol"><%=distance.Weight_rate%></td>
+                                                <td><%=distance.start_weight_range%></td>
+                                                <td><%=distance.end_weight_range%></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a href="/settings/edit_distance/<%=distance.id%>"><i class="icon-pencil-alt"></i></a></li>
+                                                    
+                                                        <li class="delete"><a href="/settings/delete_distance/<%= distance.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                            <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card d-none" id="show_distance_rate">
+                        <div class="card-header text-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" id="show_click_distance_rate"><%=language.Rates_List%></button>
+                        </div>
+                        <div class="card-body" >
+                            <form  class="needs-validation" novalidate="" action="/settings/add_distance" method="post">
+                            <div class="row g-3">
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.Origin%></label>
+                                    <select class="js-example-basic-single " id="select_origin" name="Origin" required>
+                                        <option value selected disabled><%=language.Choose_Origin%></option>
+                                        <% country_list.forEach(function(countrylist){ %>
+                                            <option value="<%=countrylist.id%>"><%=countrylist.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.State%></label>
+                                    <select class="js-example-basic-single " id="show_state" name="State" required>
+                                        <option value selected disabled><%=language.Choose_State%></option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.City%></label>
+                                    <select class="js-example-basic-single " id="show_origin_city" name="City" required>
+                                        <option value selected disabled><%=language.Choose_City%></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-4 pt-3" id="desti_Country">
+                                    <label class="col-form-label pt-0"><%=language.Destination_Country%></label>
+                                    <select class="js-example-basic-single " id="select_desti_Country" name="Destination_Country">
+                                        <option value selected disabled><%=language.Choose_Destination_Country%></option>
+                                        <% country_list.forEach(function(countrylist){ %>
+                                            <option value="<%=countrylist.id%>"><%=countrylist.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 pt-3" id="zone_desti_Country">
+                                    <div class="col-4">
+                                        <label class="col-form-label pt-0"><%=language.Destination_Country%></label>
+                                        <select class="js-example-basic-single " id="select_desti_Country" name="zone_Destination_Country">
+                                            <option value selected disabled><%=language.Choose_Destination_Country%></option>
+                                            <% zone_data.forEach(function(countrylist){ %>
+                                                <option value="<%=countrylist.id%>"><%=countrylist.zone_name %></option>
+                                            <% }); %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-4 pt-3" id="Destination_State">
+                                    <label class="col-form-label pt-0"><%=language.Destination_State%></label>
+                                    <select class="js-example-basic-single " id="slect_Destination_State" name="Destination_State" >
+                                        <option value selected disabled><%=language.Choose_Destination_State%></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-4 pt-3" id="Destination_City">
+                                    <label class="col-form-label pt-0"><%=language.Destination_City%></label>
+                                    <select class="js-example-basic-single " id="slect_Destination_City" name="Destination_City" >
+                                        <option value selected disabled><%=language.Choose_Destination_City%></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Start_Weight_Range%></label>
+                                    <div class="input-group left-radius"><span class="input-group-text" id="inputGroupPrepend"><i class="icofont icofont-stylish-down"></i></span>
+                                        <input class="form-control" type="number" name="start_weight_range" placeholder="<%=language.Start_Weight_Range%>" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Ending_Weight_Range%></label>
+                                    <div class="input-group left-radius"><span class="input-group-text" id="inputGroupPrepend"><i class="icofont icofont-stylish-up"></i></span>
+                                        <input class="form-control" type="number" name="end_weight_range" placeholder="<%=language.Ending_Weight_Range%>" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Rate_Price%></label>
+                                    <input class="form-control" type="number" name="Weight_rate" placeholder="<%=language.Rate_Price%>" min="0" step="0.01" required>
+                                </div>
+                                <input type="text" id="add_distance_module" name="distance_module" value="" hidden>
+
+                                <button class="btn btn-primary mt-5" type="submit"><%=language.Save%></button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

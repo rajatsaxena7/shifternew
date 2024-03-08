@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Dashboard%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Dashboard%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+
+                        <div class="col-sm-12 col-lg-6 col-xl-3 col-md-12 box-col-6 xl-50">
+                            <div class="card o-hidden pt-4" style="padding-bottom: 25px;">
+                              <div class="card-header pb-0">
+                                <div class="d-flex"> 
+                                  <div class="flex-grow-1"> 
+                                    <p class="square-after f-w-600 header-text-primary"><%=language.Today_Order%><i class="fa fa-circle"> </i></p>
+                                    <% var order_date = 0 %>
+                                    <% var i = 1 %>
+                                    <% order_data.forEach(function(orderdate){ %>
+                                    <% if(orderdate.date == order_full_Date){ %>
+                                    <% order_date = i %>
+                                    <% i++ %>
+                                    <% }; %>
+                                    <% }); %>
+                                    <h4><%=order_date%></h4>
+                                  </div>
+                                  <div class="d-flex static-widget">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233FF" fill-rule="evenodd" d="M17.5435 3.75992C16.5934 3.18989 15.4066 3.18989 14.4565 3.75992L6.45651 8.55992C6.30877 8.64857 6.1704 8.74883 6.04229 8.85914L16 14.8338L25.9577 8.85916C25.8296 8.74884 25.6912 8.64857 25.5435 8.55992L17.5435 3.75992ZM26.9516 10.5952L17 16.5662L17 28.4962C17.1872 28.43 17.3693 28.3446 17.5435 28.2401L25.5435 23.4401C26.4471 22.8979 27 21.9214 27 20.8676V11.1324C27 10.9504 26.9835 10.7708 26.9516 10.5952ZM15 28.4962L15 16.5661L5.04843 10.5952C5.01649 10.7707 5 10.9504 5 11.1324V20.8676C5 21.9214 5.5529 22.8979 6.45651 23.4401L14.4565 28.2401C14.6307 28.3446 14.8128 28.43 15 28.4962Z" clip-rule="evenodd" class="color5233FF svgShape"></path></svg>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card-body pt-0 pb-3">
+                                <div class="progress-widget">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+                              <div class="col-sm-12 col-lg-6 col-xl-9 col-md-12 box-col-6 xl-50">
+                                <div class="widget-joins card">
+                                  <div class="card-header pb-0 pt-3">
+                                    <h4><%=language.Carrier_details%></h4>
+                                  </div>
+                                  <div class="card-body p-3 pb-4">
+                                    <div class="row gy-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card ">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="50" width="50" viewBox="0 0 32 32"><g data-name="Employee" fill="#000000" class="color000 svgShape"><path fill="#5233ff" d="M16,4a5,5,0,0,0-5,5v2a5,5,0,0,0,10,0V9A5,5,0,0,0,16,4Z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M15.11,21a1,1,0,0,0,1.78,0l1.49-3H13.62l.27.55Z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M20.49,18.25l-1.81,3.62a3,3,0,0,1-5.36,0l-1.81-3.62A5,5,0,0,0,8,23v.79a3,3,0,0,0,1.73,2.72A14.48,14.48,0,0,0,16,28a14.48,14.48,0,0,0,6.27-1.49A3,3,0,0,0,24,23.79V23A5,5,0,0,0,20.49,18.25Z" class="color5233ff svgShape"></path></g></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Total_Carrier%></h6>
+                                              <h5><%=driver_length%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="50" width="50" viewBox="0 0 32 32"><g data-name="Layer 5" fill="#000000" class="color000 svgShape"><circle cx="16" cy="10" r="6" fill="#5233ff" class="color5233ff svgShape"></circle><path fill="#5233ff" d="M19,17.93H13a7,7,0,0,0-7,7,3,3,0,0,0,3,3H23a3,3,0,0,0,3-3A7,7,0,0,0,19,17.93Z" class="color5233ff svgShape"></path></g></svg>
+                                              
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Approved_Carrier%></h6>
+                                              <% var driver_approved = 0 %>
+                                              <% var driver_unapproved = 0 %>
+                                              <% var approved = 1 %>
+                                              <% var Unapproved = 1 %>
+
+                                              <% driver_detail.forEach(function(driver){ %>
+
+                                              <% if(driver.approved == "1"){ %>
+                                                <% driver_approved = approved %>
+                                                <% approved++ %>
+
+                                              <% } else if(driver.approved == "0") { %>
+                                                <% driver_unapproved = Unapproved %>
+                                                <% Unapproved++ %>
+
+                                              <% }; %>
+                                              
+                                              <% }); %>
+
+                                              <h5><%=driver_approved%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 2" viewBox="0 0 32 32"><path fill="#ff64c8" d="M29,25a1,1,0,0,0-1,1,2,2,0,1,1-3-1.74,1,1,0,0,0,1.68.86l1.41-1.41a1,1,0,0,0,0-1.42l-1.41-1.41a1,1,0,0,0-1.42,0,1,1,0,0,0-.13,1.21A4,4,0,1,0,30,26,1,1,0,0,0,29,25Z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M24.58,5.53a3,3,0,0,0-2.92-.13l-.3.15a1,1,0,0,1-.82,0L17.11,4.21a3,3,0,0,0-2.22,0L11.46,5.58a1,1,0,0,1-.82,0l-.3-.15A3,3,0,0,0,6,8.08v15a5,5,0,0,0,5,5h9.38a5.78,5.78,0,0,1-.38-2V26a6,6,0,0,1,3.13-5.26,3,3,0,0,1,.75-1.28l.12-.11a3.27,3.27,0,0,1,.62-.43,3,3,0,0,1,1.18-.32H26V8.08A3,3,0,0,0,24.58,5.53ZM18,21H12a1,1,0,0,1,0-2h6a1,1,0,0,1,0,2Zm2-6H12a1,1,0,0,1,0-2h8a1,1,0,0,1,0,2Z" class="color5233ff svgShape"></path></svg>
+                                              
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pending_Carrier%></h6>
+                                              <h5><%=driver_unapproved%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card" style="padding-top: 21px; padding-bottom: 21px;">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 2" viewBox="0 0 32 32"><path fill="#5233ff" d="M23.91,8.09A4.6,4.6,0,0,0,23,8H11a1,1,0,0,1,0-2H23a5,5,0,0,0-4-2H9A5,5,0,0,0,5,6,4.94,4.94,0,0,0,4,9V23a5,5,0,0,0,5,5H23a5,5,0,0,0,5-5V13A5,5,0,0,0,23.91,8.09ZM21.24,21A1,1,0,0,1,21,21a3,3,0,0,1,0-6,2.77,2.77,0,0,1,1,.18,3,3,0,0,1-.76,5.8Z" class="color5233ff svgShape"></path><circle cx="21" cy="18" r="1" fill="#ff64c8" class="colorff64c8 svgShape"></circle></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Carrier_Average_Commission%></h6>
+                                              <h5><%=general_data.default_carrier_commission%> %</h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col-sm-12 col-lg-6 col-xl-3 col-md-12 box-col-6 xl-50">
+                                <div class="card o-hidden product-widget pt-4" style="padding-bottom: 25px;">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex"> 
+                                      <div class="flex-grow-1"> 
+                                        <p class="square-after f-w-600 header-text-success"><%=language.Total_Order%><i class="fa fa-circle"> </i></p>
+                                        <h4><%=order_list%></h4>
+                                      </div>
+                                      <div class="d-flex static-widget">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233FF" fill-rule="evenodd" d="M17.5435 3.75992C16.5934 3.18989 15.4066 3.18989 14.4565 3.75992L6.45651 8.55992C6.30877 8.64857 6.1704 8.74883 6.04229 8.85914L16 14.8338L25.9577 8.85916C25.8296 8.74884 25.6912 8.64857 25.5435 8.55992L17.5435 3.75992ZM26.9516 10.5952L17 16.5662L17 28.4962C17.1872 28.43 17.3693 28.3446 17.5435 28.2401L25.5435 23.4401C26.4471 22.8979 27 21.9214 27 20.8676V11.1324C27 10.9504 26.9835 10.7708 26.9516 10.5952ZM15 28.4962L15 16.5661L5.04843 10.5952C5.01649 10.7707 5 10.9504 5 11.1324V20.8676C5 21.9214 5.5529 22.8979 6.45651 23.4401L14.4565 28.2401C14.6307 28.3446 14.8128 28.43 15 28.4962Z" clip-rule="evenodd" class="color5233FF svgShape"></path></svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body pt-0 pb-3">
+                                    <div class="progress-widget">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+    
+    
+    
+    
+                              <div class="col-sm-12 col-lg-6 col-xl-9 col-md-12 box-col-6 xl-50">
+                                <div class="widget-joins card">
+                                  <div class="card-header pb-0 pt-3">
+                                    <h4><%=language.General_details%></h4>
+                                  </div>
+                                  <div class="card-body p-3 pb-4">
+                                    <div class="row gy-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card ">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#5233ff" d="M28.31 20.12V21a3.12 3.12 0 1 1-6.23 0v-.84a3.12 3.12 0 1 1 6.23 0zM9.92 20.12V21a3.12 3.12 0 1 1-6.23 0v-.84a3.12 3.12 0 1 1 6.23 0zM19.12 5.12V6a3.12 3.12 0 0 1-6.24 0V5.12a3.12 3.12 0 0 1 6.24 0z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M19,21H17V18a1,1,0,0,0-2,0v3H13a1,1,0,0,0,0,2h6a1,1,0,0,0,0-2Z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M8.92 25H4.69A2.7 2.7 0 0 0 2 27.69V29a1 1 0 0 0 1 1h8v-.08a1 1 0 0 0 .62-.92V27.69A2.7 2.7 0 0 0 8.92 25zM27.31 25H23.08a2.7 2.7 0 0 0-2.7 2.69V29a1 1 0 0 0 .62.92V30h8a1 1 0 0 0 1-1V27.69A2.7 2.7 0 0 0 27.31 25zM18.12 10H13.88a2.7 2.7 0 0 0-2.69 2.69V14A1 1 0 0 0 12 15v0h8v0a1 1 0 0 0 .81-1V12.69A2.7 2.7 0 0 0 18.12 10z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Total_Customer%></h6>
+                                              <% var order_paid = 0 %>
+                                              <% var order_unpaid = 0 %>
+                                              <% var paid = 1 %>
+                                              <% var unpaid = 1 %>
+    
+                                              <% order_data.forEach(function(orderdate){ %>
+    
+                                              <% if(orderdate.total_price <= orderdate.paid_amount){ %>
+                                              <% order_paid = paid %>
+                                              <% paid++ %>
+    
+                                              <% } else { %>
+                                              <% order_unpaid = unpaid %>
+                                              <% unpaid++ %>
+    
+                                              <% }; %>
+    
+                                              <% }); %>
+                                              <h5><%=customer_length%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#ff64c8" d="M19 2h-6a3 3 0 0 0 0 6h6a3 3 0 0 0 0-6Z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M23.91 4.09A5.5 5.5 0 0 1 24 5a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5 5.5 5.5 0 0 1 .09-.91A5 5 0 0 0 4 9v16a5 5 0 0 0 5 5h14a5 5 0 0 0 5-5V9a5 5 0 0 0-4.09-4.91Zm-9.2 17.62-3 3a1 1 0 0 1-1.42 0l-1-1a1 1 0 0 1 1.42-1.42l.23.24.23-.12 2.12-2.12a1 1 0 0 1 1.42 1.42Zm0-8-3 3a1 1 0 0 1-1.42 0l-1-1a1 1 0 0 1 1.42-1.42l.23.24.23-.12 2.12-2.12a1 1 0 0 1 1.42 1.42ZM22 24h-4a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2Zm0-8h-4a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2Z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Total_Product%></h6>
+                                              <h5><%=product_length%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="50" width="50" viewBox="0 0 32 32"><g data-name="to do list" fill="#000000" class="color000 svgShape"><circle cx="11" cy="23" r="1" fill="#ff64c8" class="colorff64c8 svgShape"></circle><circle cx="11" cy="23" r="1" fill="#ff64c8" class="colorff64c8 svgShape"></circle><circle cx="11" cy="15" r="1" fill="#ff64c8" class="colorff64c8 svgShape"></circle><path fill="#5233ff" d="M23.91 4.09A5.5 5.5 0 0 1 24 5a5 5 0 0 1-5 5h-6a5 5 0 0 1-5-5 5.5 5.5 0 0 1 .09-.91A5 5 0 0 0 4 9v16a5 5 0 0 0 5 5h14a5 5 0 0 0 5-5V9a5 5 0 0 0-4.09-4.91ZM11 26a3 3 0 1 1 3-3 3 3 0 0 1-3 3Zm0-8a3 3 0 1 1 3-3 3 3 0 0 1-3 3Zm12 6h-6a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Zm0-8h-6a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M19 2h-6a3 3 0 0 0 0 6h6a3 3 0 0 0 0-6Z" class="colorff64c8 svgShape"></path></g></svg>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Total_Module%></h6>
+                                              <h5><%=module_length%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" viewBox="0 0 32 32"><path fill="#5233FF" d="M29.71 13.87 28.24 9a7 7 0 0 0-6.7-5H7a5 5 0 0 0-5 5v11a5 5 0 0 0 4.11 4.92 4 4 0 0 0 7.76.08h4.26a4 4 0 0 0 7.76-.08A5 5 0 0 0 30 20v-4.12a7.18 7.18 0 0 0-.29-2.01ZM4 14V9a3 3 0 0 1 3-3h2v8Zm7.73 11a2 2 0 1 1 .27-1 2 2 0 0 1-.27 1ZM17 14h-6V6h6Zm6.73 11a2 2 0 1 1-3.46-2 2 2 0 0 1 .73-.73 2 2 0 0 1 2 0 2 2 0 0 1 .73.73 2 2 0 0 1 0 2ZM19 14V6h2.54a5 5 0 0 1 4.78 3.56L27.66 14Zm9 6h-1a1 1 0 0 1 0-2h1Z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Total_Delivery_Type%></h6>
+                                              <h5><%=delivery_type_length%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col-sm-12 col-lg-6 col-xl-3 col-md-12 box-col-6 xl-50">
+                                <div class="card o-hidden message-widget pt-4" style="padding-bottom: 25px;">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex"> 
+                                      <div class="flex-grow-1"> 
+                                        <p class="square-after f-w-600 header-text-secondary"><%=language.Delivered_Order%><i class="fa fa-circle"> </i></p>
+                                        <h4><%=delivered_order%></h4>
+                                      </div>
+                                      <div class="d-flex static-widget" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233FF" fill-rule="evenodd" d="M17.5435 3.75992C16.5934 3.18989 15.4066 3.18989 14.4565 3.75992L6.45651 8.55992C6.30877 8.64857 6.1704 8.74883 6.04229 8.85914L16 14.8338L25.9577 8.85916C25.8296 8.74884 25.6912 8.64857 25.5435 8.55992L17.5435 3.75992ZM26.9516 10.5952L17 16.5662L17 28.4962C17.1872 28.43 17.3693 28.3446 17.5435 28.2401L25.5435 23.4401C26.4471 22.8979 27 21.9214 27 20.8676V11.1324C27 10.9504 26.9835 10.7708 26.9516 10.5952ZM15 28.4962L15 16.5661L5.04843 10.5952C5.01649 10.7707 5 10.9504 5 11.1324V20.8676C5 21.9214 5.5529 22.8979 6.45651 23.4401L14.4565 28.2401C14.6307 28.3446 14.8128 28.43 15 28.4962Z" clip-rule="evenodd" class="color5233FF svgShape"></path></svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body pt-0 pb-3">
+                                    <div class="progress-widget">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+    
+    
+    
+    
+                              <div class="col-sm-12 col-lg-6 col-xl-9 col-md-12 box-col-6 xl-50">
+                                <div class="widget-joins card">
+                                  <div class="card-header pb-0 pt-3">
+                                    <h4><%=module_list[0].name%></h4>
+                                  </div>
+                                  <div class="card-body p-3 pb-4">
+                                    <div class="row gy-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#ff64c8" d="M4.88 2.88A3 3 0 0 0 4 5a2.93 2.93 0 0 0 .3 1.31A14 14 0 0 1 6.1 4.1a13.36 13.36 0 0 1 2.2-1.79 3.09 3.09 0 0 0-3.42.57zm22.24 0a3.09 3.09 0 0 0-3.42-.57 13.36 13.36 0 0 1 2.2 1.79 14 14 0 0 1 1.8 2.21A2.93 2.93 0 0 0 28 5a3 3 0 0 0-.88-2.12zM28 27a3 3 0 0 1-3 3H7a3 3 0 0 1-.7-5.91A13.78 13.78 0 0 0 8.78 26a14 14 0 0 0 14.44 0 13.78 13.78 0 0 0 2.48-1.91A3 3 0 0 1 28 27z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M16 2a12 12 0 1 0 12 12A12 12 0 0 0 16 2Zm1 12a1 1 0 0 1-.08.38 1 1 0 0 1-.21.33l-4 4a1 1 0 0 1-1.42 0 1 1 0 0 1 0-1.42l3.71-3.7V7a1 1 0 0 1 2 0Z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pending_Order%></h6>
+                                              <h5><%=pending_order%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card ">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233ff" d="M28 7v3a5 5 0 0 1-5 5h-3v-4a1 1 0 0 0-2 0v4h-4v-4a1 1 0 0 0-2 0v4H9a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5zm-2 9.32V25a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5v-8.68A6.88 6.88 0 0 0 9 17h3v1a1 1 0 0 0 2 0v-1h4v1a1 1 0 0 0 2 0v-1h3a6.88 6.88 0 0 0 3-.68z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M4 25v-6.82A3 3 0 0 0 2 21v4a3 3 0 0 0 2.67 3A6.92 6.92 0 0 1 4 25zm24-6.82V25a6.92 6.92 0 0 1-.67 3A3 3 0 0 0 30 25v-4a3 3 0 0 0-2-2.82z" class="colorff64c8 svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pick_Up_Order%></h6>
+                                              <h5><%=pickup_order%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 32 32"><g data-name="Layer 5" fill="#000000" class="color000 svgShape"><path fill="#5233ff" d="M26.42,22a.59.59,0,0,0,0-.08c.16-.28.3-.56.44-.85l.06-.15c.12-.27.23-.54.33-.82,0,0,0,0,0-.05s0,0,0,0a11.91,11.91,0,0,0,.48-1.8,1,1,0,0,0-2-.36,9.56,9.56,0,0,1-.41,1.53c-.1.27-.2.53-.31.78l0,0A10,10,0,0,1,21,24.66c-.28.16-.58.31-.87.45l-.08,0c-.25.11-.51.21-.76.3l-.29.09-.58.17-.39.08a3.86,3.86,0,0,1-.49.09,3.47,3.47,0,0,1-.45.06l-.46,0-.47,0c-.15,0-.3,0-.44,0l-.55,0-.53-.06-.41-.07c-.2,0-.41-.08-.61-.13l-.35-.09-.57-.18c-.13-.05-.27-.09-.39-.15l-.46-.19c-.16-.08-.32-.15-.48-.24l-.31-.16-.57-.35-.19-.13-.61-.46-.13-.11c-.2-.17-.39-.34-.58-.53L8.83,23l-.48-.53-.21-.27c-.12-.15-.24-.3-.35-.46l-.27-.43-.23-.37A6.27,6.27,0,0,1,7,20.32c0-.1-.11-.2-.15-.3s-.17-.43-.25-.64l-.1-.28c-.08-.22-.13-.45-.19-.67s0-.19-.07-.28-.09-.45-.12-.67,0-.2,0-.3,0-.45,0-.68,0-.2,0-.3,0-.48,0-.72a2.18,2.18,0,0,1,0-.25c0-.26,0-.51.09-.77l0-.17a7.43,7.43,0,0,1,.17-.79.57.57,0,0,1,0-.14c.07-.26.15-.51.24-.76l.06-.17c.09-.23.19-.46.29-.68l.12-.25c.09-.18.2-.36.3-.54l.21-.35c.09-.14.18-.28.28-.41s.2-.28.31-.41.17-.21.26-.32L8.83,9l.27-.26.43-.4.33-.26c.14-.11.28-.22.43-.32l.45-.29.37-.22c.17-.1.33-.18.5-.26s.25-.13.38-.18l.49-.2.44-.16.42-.12.55-.14.35-.07.64-.09.32,0c.22,0,.45,0,.68,0h.27c.35,0,.69,0,1,.07l.32,0c.38.06.76.14,1.12.23l.47.15.67.25.48.2c.25.12.5.25.74.39l.3.16a9.93,9.93,0,0,1,.93.67l.3.25c.22.19.43.38.63.59l.27.28a10.77,10.77,0,0,1,.73.91c.07.09.12.19.18.28a8,8,0,0,1,.59,1,1,1,0,0,0,1.78-.92c-.09-.18-.19-.35-.29-.53h0l0,0c-.19-.33-.4-.66-.62-1l0,0c-.21-.29-.43-.57-.66-.83L25,8a12,12,0,0,0-1.6-1.5l-.12-.09A11.87,11.87,0,0,0,18,4.18l-.14,0c-.35-.05-.7-.1-1.06-.12h-.31L16,4h-.13c-.29,0-.58,0-.86,0l-.34,0-.82.12-.37.07c-.24.05-.47.12-.71.18l-.46.13-.57.22c-.18.07-.37.13-.55.21l-.48.24c-.19.09-.38.18-.57.29L10,5.61l-.33.21-.52.34c-.18.12-.35.26-.52.39s-.26.2-.38.31-.36.32-.54.48-.21.2-.31.31l-.48.52-.3.37c-.13.16-.26.33-.38.5l-.33.49L5.65,10c-.12.21-.24.43-.35.65l-.15.31c-.12.26-.24.52-.34.79,0,.08-.06.15-.08.22-.11.3-.21.6-.29.9,0,.07,0,.13-.05.19a9.19,9.19,0,0,0-.2.94,2.07,2.07,0,0,1,0,.22c0,.3-.08.6-.1.9,0,.11,0,.22,0,.33s0,.4,0,.6,0,.15,0,.23,0,.27,0,.4,0,.52.06.77,0,.27.06.4.08.52.13.77.07.25.1.38.13.51.21.76.1.25.14.38.18.48.28.72.13.27.2.4.21.44.33.66a.83.83,0,0,1,.07.13l.13.2c.2.32.4.63.63.93.09.12.17.24.27.36a12.25,12.25,0,0,0,.9,1l.29.26c.25.24.51.46.78.68l.38.28c.31.22.63.43,1,.62l.19.12a12,12,0,0,0,2.75,1.12l.15,0a11.92,11.92,0,0,0,1.35.26l.12,0A12.16,12.16,0,0,0,16,28a13.55,13.55,0,0,0,1.43-.09l.25,0a10.37,10.37,0,0,0,1.37-.27h0a12.61,12.61,0,0,0,1.39-.47l.2-.08a12,12,0,0,0,5.2-4.22l0,0C26.07,22.53,26.25,22.24,26.42,22Z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M24.55,13.33H19.67a1,1,0,0,1,0-2h4.88A1.44,1.44,0,0,0,26,9.89V5a1,1,0,0,1,2,0V9.89A3.45,3.45,0,0,1,24.55,13.33Z" class="colorff64c8 svgShape"></path></g></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.In_progress_Order%></h6>
+                                              <h5><%=progress_order%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="#5233ff" viewBox="0 0 24 24" fill="currentColor" class="ui-svg-inline"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Rejected_Order%></h6>
+                                              <h5><%=rejected_order%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col-sm-12 col-lg-6 col-xl-3 col-md-12 box-col-6 xl-50">
+                                <div class="card o-hidden message-widget pt-4" style="padding-bottom: 25px;">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex"> 
+                                      <div class="flex-grow-1"> 
+                                        <p class="square-after f-w-600 header-text-secondary"><%=language.Delivered_Order%><i class="fa fa-circle"> </i></p>
+                                        <h4><%=pam_delivered[0].tot_delivered%></h4>
+                                      </div>
+                                      <div class="d-flex static-widget" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233FF" fill-rule="evenodd" d="M17.5435 3.75992C16.5934 3.18989 15.4066 3.18989 14.4565 3.75992L6.45651 8.55992C6.30877 8.64857 6.1704 8.74883 6.04229 8.85914L16 14.8338L25.9577 8.85916C25.8296 8.74884 25.6912 8.64857 25.5435 8.55992L17.5435 3.75992ZM26.9516 10.5952L17 16.5662L17 28.4962C17.1872 28.43 17.3693 28.3446 17.5435 28.2401L25.5435 23.4401C26.4471 22.8979 27 21.9214 27 20.8676V11.1324C27 10.9504 26.9835 10.7708 26.9516 10.5952ZM15 28.4962L15 16.5661L5.04843 10.5952C5.01649 10.7707 5 10.9504 5 11.1324V20.8676C5 21.9214 5.5529 22.8979 6.45651 23.4401L14.4565 28.2401C14.6307 28.3446 14.8128 28.43 15 28.4962Z" clip-rule="evenodd" class="color5233FF svgShape"></path></svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body pt-0 pb-3">
+                                    <div class="progress-widget">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+    
+    
+    
+    
+                              <div class="col-sm-12 col-lg-6 col-xl-9 col-md-12 box-col-6 xl-50">
+                                <div class="widget-joins card">
+                                  <div class="card-header pb-0 pt-3">
+                                    <h4><%=module_list[1].name%></h4>
+                                  </div>
+                                  <div class="card-body p-3 pb-4">
+                                    <div class="row gy-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#ff64c8" d="M4.88 2.88A3 3 0 0 0 4 5a2.93 2.93 0 0 0 .3 1.31A14 14 0 0 1 6.1 4.1a13.36 13.36 0 0 1 2.2-1.79 3.09 3.09 0 0 0-3.42.57zm22.24 0a3.09 3.09 0 0 0-3.42-.57 13.36 13.36 0 0 1 2.2 1.79 14 14 0 0 1 1.8 2.21A2.93 2.93 0 0 0 28 5a3 3 0 0 0-.88-2.12zM28 27a3 3 0 0 1-3 3H7a3 3 0 0 1-.7-5.91A13.78 13.78 0 0 0 8.78 26a14 14 0 0 0 14.44 0 13.78 13.78 0 0 0 2.48-1.91A3 3 0 0 1 28 27z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M16 2a12 12 0 1 0 12 12A12 12 0 0 0 16 2Zm1 12a1 1 0 0 1-.08.38 1 1 0 0 1-.21.33l-4 4a1 1 0 0 1-1.42 0 1 1 0 0 1 0-1.42l3.71-3.7V7a1 1 0 0 1 2 0Z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pending_Order%></h6>
+                                              <h5><%=pam_pending[0].tot_pending%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card ">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233ff" d="M28 7v3a5 5 0 0 1-5 5h-3v-4a1 1 0 0 0-2 0v4h-4v-4a1 1 0 0 0-2 0v4H9a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5zm-2 9.32V25a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5v-8.68A6.88 6.88 0 0 0 9 17h3v1a1 1 0 0 0 2 0v-1h4v1a1 1 0 0 0 2 0v-1h3a6.88 6.88 0 0 0 3-.68z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M4 25v-6.82A3 3 0 0 0 2 21v4a3 3 0 0 0 2.67 3A6.92 6.92 0 0 1 4 25zm24-6.82V25a6.92 6.92 0 0 1-.67 3A3 3 0 0 0 30 25v-4a3 3 0 0 0-2-2.82z" class="colorff64c8 svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pick_Up_Order%></h6>
+                                              <h5><%=pam_pickup[0].tot_pickup%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g data-name="Layer 5" fill="#000000" class="color000 svgShape"><path fill="#5233ff" d="M26.42,22a.59.59,0,0,0,0-.08c.16-.28.3-.56.44-.85l.06-.15c.12-.27.23-.54.33-.82,0,0,0,0,0-.05s0,0,0,0a11.91,11.91,0,0,0,.48-1.8,1,1,0,0,0-2-.36,9.56,9.56,0,0,1-.41,1.53c-.1.27-.2.53-.31.78l0,0A10,10,0,0,1,21,24.66c-.28.16-.58.31-.87.45l-.08,0c-.25.11-.51.21-.76.3l-.29.09-.58.17-.39.08a3.86,3.86,0,0,1-.49.09,3.47,3.47,0,0,1-.45.06l-.46,0-.47,0c-.15,0-.3,0-.44,0l-.55,0-.53-.06-.41-.07c-.2,0-.41-.08-.61-.13l-.35-.09-.57-.18c-.13-.05-.27-.09-.39-.15l-.46-.19c-.16-.08-.32-.15-.48-.24l-.31-.16-.57-.35-.19-.13-.61-.46-.13-.11c-.2-.17-.39-.34-.58-.53L8.83,23l-.48-.53-.21-.27c-.12-.15-.24-.3-.35-.46l-.27-.43-.23-.37A6.27,6.27,0,0,1,7,20.32c0-.1-.11-.2-.15-.3s-.17-.43-.25-.64l-.1-.28c-.08-.22-.13-.45-.19-.67s0-.19-.07-.28-.09-.45-.12-.67,0-.2,0-.3,0-.45,0-.68,0-.2,0-.3,0-.48,0-.72a2.18,2.18,0,0,1,0-.25c0-.26,0-.51.09-.77l0-.17a7.43,7.43,0,0,1,.17-.79.57.57,0,0,1,0-.14c.07-.26.15-.51.24-.76l.06-.17c.09-.23.19-.46.29-.68l.12-.25c.09-.18.2-.36.3-.54l.21-.35c.09-.14.18-.28.28-.41s.2-.28.31-.41.17-.21.26-.32L8.83,9l.27-.26.43-.4.33-.26c.14-.11.28-.22.43-.32l.45-.29.37-.22c.17-.1.33-.18.5-.26s.25-.13.38-.18l.49-.2.44-.16.42-.12.55-.14.35-.07.64-.09.32,0c.22,0,.45,0,.68,0h.27c.35,0,.69,0,1,.07l.32,0c.38.06.76.14,1.12.23l.47.15.67.25.48.2c.25.12.5.25.74.39l.3.16a9.93,9.93,0,0,1,.93.67l.3.25c.22.19.43.38.63.59l.27.28a10.77,10.77,0,0,1,.73.91c.07.09.12.19.18.28a8,8,0,0,1,.59,1,1,1,0,0,0,1.78-.92c-.09-.18-.19-.35-.29-.53h0l0,0c-.19-.33-.4-.66-.62-1l0,0c-.21-.29-.43-.57-.66-.83L25,8a12,12,0,0,0-1.6-1.5l-.12-.09A11.87,11.87,0,0,0,18,4.18l-.14,0c-.35-.05-.7-.1-1.06-.12h-.31L16,4h-.13c-.29,0-.58,0-.86,0l-.34,0-.82.12-.37.07c-.24.05-.47.12-.71.18l-.46.13-.57.22c-.18.07-.37.13-.55.21l-.48.24c-.19.09-.38.18-.57.29L10,5.61l-.33.21-.52.34c-.18.12-.35.26-.52.39s-.26.2-.38.31-.36.32-.54.48-.21.2-.31.31l-.48.52-.3.37c-.13.16-.26.33-.38.5l-.33.49L5.65,10c-.12.21-.24.43-.35.65l-.15.31c-.12.26-.24.52-.34.79,0,.08-.06.15-.08.22-.11.3-.21.6-.29.9,0,.07,0,.13-.05.19a9.19,9.19,0,0,0-.2.94,2.07,2.07,0,0,1,0,.22c0,.3-.08.6-.1.9,0,.11,0,.22,0,.33s0,.4,0,.6,0,.15,0,.23,0,.27,0,.4,0,.52.06.77,0,.27.06.4.08.52.13.77.07.25.1.38.13.51.21.76.1.25.14.38.18.48.28.72.13.27.2.4.21.44.33.66a.83.83,0,0,1,.07.13l.13.2c.2.32.4.63.63.93.09.12.17.24.27.36a12.25,12.25,0,0,0,.9,1l.29.26c.25.24.51.46.78.68l.38.28c.31.22.63.43,1,.62l.19.12a12,12,0,0,0,2.75,1.12l.15,0a11.92,11.92,0,0,0,1.35.26l.12,0A12.16,12.16,0,0,0,16,28a13.55,13.55,0,0,0,1.43-.09l.25,0a10.37,10.37,0,0,0,1.37-.27h0a12.61,12.61,0,0,0,1.39-.47l.2-.08a12,12,0,0,0,5.2-4.22l0,0C26.07,22.53,26.25,22.24,26.42,22Z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M24.55,13.33H19.67a1,1,0,0,1,0-2h4.88A1.44,1.44,0,0,0,26,9.89V5a1,1,0,0,1,2,0V9.89A3.45,3.45,0,0,1,24.55,13.33Z" class="colorff64c8 svgShape"></path></g></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.In_progress_Order%></h6>
+                                              <h5><%=pam_progress[0].tot_progress%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="#5233ff" viewBox="0 0 24 24" fill="currentColor" class="ui-svg-inline"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Rejected_Order%></h6>
+                                              <h5><%=pam_rejected[0].tot_rejected%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+    
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+                              <div class="col-sm-12 col-lg-6 col-xl-3 col-md-12 box-col-6 xl-50">
+                                <div class="card o-hidden message-widget pt-4" style="padding-bottom: 25px;">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex"> 
+                                      <div class="flex-grow-1"> 
+                                        <p class="square-after f-w-600 header-text-secondary"><%=language.Delivered_Order%><i class="fa fa-circle"> </i></p>
+                                        <h4><%=int_delivered[0].tot_delivered%></h4>
+                                      </div>
+                                      <div class="d-flex static-widget" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#5233FF" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233FF" fill-rule="evenodd" d="M17.5435 3.75992C16.5934 3.18989 15.4066 3.18989 14.4565 3.75992L6.45651 8.55992C6.30877 8.64857 6.1704 8.74883 6.04229 8.85914L16 14.8338L25.9577 8.85916C25.8296 8.74884 25.6912 8.64857 25.5435 8.55992L17.5435 3.75992ZM26.9516 10.5952L17 16.5662L17 28.4962C17.1872 28.43 17.3693 28.3446 17.5435 28.2401L25.5435 23.4401C26.4471 22.8979 27 21.9214 27 20.8676V11.1324C27 10.9504 26.9835 10.7708 26.9516 10.5952ZM15 28.4962L15 16.5661L5.04843 10.5952C5.01649 10.7707 5 10.9504 5 11.1324V20.8676C5 21.9214 5.5529 22.8979 6.45651 23.4401L14.4565 28.2401C14.6307 28.3446 14.8128 28.43 15 28.4962Z" clip-rule="evenodd" class="color5233FF svgShape"></path></svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body pt-0 pb-3">
+                                    <div class="progress-widget">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+    
+    
+    
+    
+    
+                              <div class="col-sm-12 col-lg-6 col-xl-9 col-md-12 box-col-6 xl-50">
+                                <div class="widget-joins card">
+                                  <div class="card-header pb-0 pt-3">
+                                    <h4><%=module_list[2].name%></h4>
+                                  </div>
+                                  <div class="card-body p-3 pb-4">
+                                    <div class="row gy-4">
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#ff64c8" d="M4.88 2.88A3 3 0 0 0 4 5a2.93 2.93 0 0 0 .3 1.31A14 14 0 0 1 6.1 4.1a13.36 13.36 0 0 1 2.2-1.79 3.09 3.09 0 0 0-3.42.57zm22.24 0a3.09 3.09 0 0 0-3.42-.57 13.36 13.36 0 0 1 2.2 1.79 14 14 0 0 1 1.8 2.21A2.93 2.93 0 0 0 28 5a3 3 0 0 0-.88-2.12zM28 27a3 3 0 0 1-3 3H7a3 3 0 0 1-.7-5.91A13.78 13.78 0 0 0 8.78 26a14 14 0 0 0 14.44 0 13.78 13.78 0 0 0 2.48-1.91A3 3 0 0 1 28 27z" class="colorff64c8 svgShape"></path><path fill="#5233ff" d="M16 2a12 12 0 1 0 12 12A12 12 0 0 0 16 2Zm1 12a1 1 0 0 1-.08.38 1 1 0 0 1-.21.33l-4 4a1 1 0 0 1-1.42 0 1 1 0 0 1 0-1.42l3.71-3.7V7a1 1 0 0 1 2 0Z" class="color5233ff svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pending_Order%></h6>
+                                              <h5><%=int_pending[0].tot_pending%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card ">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" height="60" width="60" viewBox="0 0 32 32"><path fill="#5233ff" d="M28 7v3a5 5 0 0 1-5 5h-3v-4a1 1 0 0 0-2 0v4h-4v-4a1 1 0 0 0-2 0v4H9a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5h14a5 5 0 0 1 5 5zm-2 9.32V25a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5v-8.68A6.88 6.88 0 0 0 9 17h3v1a1 1 0 0 0 2 0v-1h4v1a1 1 0 0 0 2 0v-1h3a6.88 6.88 0 0 0 3-.68z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M4 25v-6.82A3 3 0 0 0 2 21v4a3 3 0 0 0 2.67 3A6.92 6.92 0 0 1 4 25zm24-6.82V25a6.92 6.92 0 0 1-.67 3A3 3 0 0 0 30 25v-4a3 3 0 0 0-2-2.82z" class="colorff64c8 svgShape"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Pick_Up_Order%></h6>
+                                              <h5><%=int_pickup[0].tot_pickup%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><g data-name="Layer 5" fill="#000000" class="color000 svgShape"><path fill="#5233ff" d="M26.42,22a.59.59,0,0,0,0-.08c.16-.28.3-.56.44-.85l.06-.15c.12-.27.23-.54.33-.82,0,0,0,0,0-.05s0,0,0,0a11.91,11.91,0,0,0,.48-1.8,1,1,0,0,0-2-.36,9.56,9.56,0,0,1-.41,1.53c-.1.27-.2.53-.31.78l0,0A10,10,0,0,1,21,24.66c-.28.16-.58.31-.87.45l-.08,0c-.25.11-.51.21-.76.3l-.29.09-.58.17-.39.08a3.86,3.86,0,0,1-.49.09,3.47,3.47,0,0,1-.45.06l-.46,0-.47,0c-.15,0-.3,0-.44,0l-.55,0-.53-.06-.41-.07c-.2,0-.41-.08-.61-.13l-.35-.09-.57-.18c-.13-.05-.27-.09-.39-.15l-.46-.19c-.16-.08-.32-.15-.48-.24l-.31-.16-.57-.35-.19-.13-.61-.46-.13-.11c-.2-.17-.39-.34-.58-.53L8.83,23l-.48-.53-.21-.27c-.12-.15-.24-.3-.35-.46l-.27-.43-.23-.37A6.27,6.27,0,0,1,7,20.32c0-.1-.11-.2-.15-.3s-.17-.43-.25-.64l-.1-.28c-.08-.22-.13-.45-.19-.67s0-.19-.07-.28-.09-.45-.12-.67,0-.2,0-.3,0-.45,0-.68,0-.2,0-.3,0-.48,0-.72a2.18,2.18,0,0,1,0-.25c0-.26,0-.51.09-.77l0-.17a7.43,7.43,0,0,1,.17-.79.57.57,0,0,1,0-.14c.07-.26.15-.51.24-.76l.06-.17c.09-.23.19-.46.29-.68l.12-.25c.09-.18.2-.36.3-.54l.21-.35c.09-.14.18-.28.28-.41s.2-.28.31-.41.17-.21.26-.32L8.83,9l.27-.26.43-.4.33-.26c.14-.11.28-.22.43-.32l.45-.29.37-.22c.17-.1.33-.18.5-.26s.25-.13.38-.18l.49-.2.44-.16.42-.12.55-.14.35-.07.64-.09.32,0c.22,0,.45,0,.68,0h.27c.35,0,.69,0,1,.07l.32,0c.38.06.76.14,1.12.23l.47.15.67.25.48.2c.25.12.5.25.74.39l.3.16a9.93,9.93,0,0,1,.93.67l.3.25c.22.19.43.38.63.59l.27.28a10.77,10.77,0,0,1,.73.91c.07.09.12.19.18.28a8,8,0,0,1,.59,1,1,1,0,0,0,1.78-.92c-.09-.18-.19-.35-.29-.53h0l0,0c-.19-.33-.4-.66-.62-1l0,0c-.21-.29-.43-.57-.66-.83L25,8a12,12,0,0,0-1.6-1.5l-.12-.09A11.87,11.87,0,0,0,18,4.18l-.14,0c-.35-.05-.7-.1-1.06-.12h-.31L16,4h-.13c-.29,0-.58,0-.86,0l-.34,0-.82.12-.37.07c-.24.05-.47.12-.71.18l-.46.13-.57.22c-.18.07-.37.13-.55.21l-.48.24c-.19.09-.38.18-.57.29L10,5.61l-.33.21-.52.34c-.18.12-.35.26-.52.39s-.26.2-.38.31-.36.32-.54.48-.21.2-.31.31l-.48.52-.3.37c-.13.16-.26.33-.38.5l-.33.49L5.65,10c-.12.21-.24.43-.35.65l-.15.31c-.12.26-.24.52-.34.79,0,.08-.06.15-.08.22-.11.3-.21.6-.29.9,0,.07,0,.13-.05.19a9.19,9.19,0,0,0-.2.94,2.07,2.07,0,0,1,0,.22c0,.3-.08.6-.1.9,0,.11,0,.22,0,.33s0,.4,0,.6,0,.15,0,.23,0,.27,0,.4,0,.52.06.77,0,.27.06.4.08.52.13.77.07.25.1.38.13.51.21.76.1.25.14.38.18.48.28.72.13.27.2.4.21.44.33.66a.83.83,0,0,1,.07.13l.13.2c.2.32.4.63.63.93.09.12.17.24.27.36a12.25,12.25,0,0,0,.9,1l.29.26c.25.24.51.46.78.68l.38.28c.31.22.63.43,1,.62l.19.12a12,12,0,0,0,2.75,1.12l.15,0a11.92,11.92,0,0,0,1.35.26l.12,0A12.16,12.16,0,0,0,16,28a13.55,13.55,0,0,0,1.43-.09l.25,0a10.37,10.37,0,0,0,1.37-.27h0a12.61,12.61,0,0,0,1.39-.47l.2-.08a12,12,0,0,0,5.2-4.22l0,0C26.07,22.53,26.25,22.24,26.42,22Z" class="color5233ff svgShape"></path><path fill="#ff64c8" d="M24.55,13.33H19.67a1,1,0,0,1,0-2h4.88A1.44,1.44,0,0,0,26,9.89V5a1,1,0,0,1,2,0V9.89A3.45,3.45,0,0,1,24.55,13.33Z" class="colorff64c8 svgShape"></path></g></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.In_progress_Order%></h6>
+                                              <h5><%=int_progress[0].tot_progress%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-3 xl-50">
+                                        <div class="widget-card">
+                                          <div class="d-flex align-self-center">
+                                            <div class="widget-icon flex-shrink-0">
+                                              <svg xmlns="http://www.w3.org/2000/svg" fill="#5233ff" viewBox="0 0 24 24" fill="currentColor" class="ui-svg-inline"><path d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                              <h6 style="font-size: 13px;"><%=language.Rejected_Order%></h6>
+                                              <h5><%=int_rejected[0].tot_rejected%></h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+
+      </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

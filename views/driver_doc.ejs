@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Driver_Document%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Driver_Document_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Document_Name%></th>
+                                            <th><%=language.Status%></th>
+                                            <th><%=language.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% data.forEach((data, x) => { %>
+                                            <% if (data.type == '1'){ %>
+                                                <tr>
+                                                    <td><%= x + 1 %></td>
+                                                    <td>Vehicle Document</td>
+                                                    <td>
+                                                        <% if (data.status == '1') { %>
+                                                            <span class="badge badge-success"><%=language.Approved%></span>
+                                                        <% } else { %>
+                                                            <span class="badge badge-danger"><%=language.Unapproved%></span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="action">
+                                                            <li class="edit"><a type="button" data-bs-toggle="modal" data-bs-target="#add_vehiclemodal" id="add_vehicle" data-id="<%= data.id %>" 
+                                                                data-type="<%= data.type %>" data-status="<%= data.status %>" data-image="<%= data.image %>" data-driver_id="<%= driver_id %>"><i class="icon-pencil-alt"></i></a></li>
+                                                            <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                
+                                            <% } else { %>
+                                                <tr>
+                                                    <td><%= x + 1 %></td>
+                                                    <td>Personal PAN or Passport Document</td>
+                                                    <td>
+                                                        <% if (data.status == '1') { %>
+                                                            <span class="badge badge-success"><%=language.Approved%></span>
+                                                        <% } else { %>
+                                                            <span class="badge badge-danger"><%=language.Unapproved%></span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <ul class="action">
+                                                            <li class="edit"><a type="button" data-bs-toggle="modal" data-bs-target="#add_personalmodal" id="add_personal" data-id="<%= data.id %>" 
+                                                                data-type="<%= data.type %>" data-status="<%= data.status %>" data-image="<%= data.image %>" data-driver_id="<%= driver_id %>"><i class="icon-pencil-alt"></i></a></li>
+                                                            <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            <% } %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_vehiclemodal -->
+    
+    <div class="modal fade" id="add_vehiclemodal" role="dialog" aria-labelledby="add_vehiclemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Vehicle_Document%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate="" id="edit_vehicle_id" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img class="vehicle_img" id="file-preview" width="120" height="120" src="../../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Vehicle_Document_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image" name="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <div class="checkbox p-0 checkbox-success">
+                                    <input class="form-check-input edit_vehicle_status" id="invalidCheck" type="checkbox" name="vehicle_document_status">
+                                    <label class="form-check-label" for="invalidCheck"><%=language.Is_Approved%> ?</label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="type" value="1">
+                            <input type="hidden" name="driver_id" value="<%= driver_id %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="add_personalmodal" role="dialog" aria-labelledby="add_personalmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Personal_PAN_or_Passport_Document%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate="" id="edit_personal_id" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img class="personal_img" id="file-preview" width="120" height="120" src="../../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Personal_PAN_or_Passport_Document_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image2" name="hidden_image2">
+                            </div>
+                            <div class="col-12">
+                                <div class="checkbox p-0 checkbox-success">
+                                    <input class="form-check-input edit_personal_status" id="invalidCheck2" type="checkbox" name="vehicle_document_status">
+                                    <label class="form-check-label" for="invalidCheck2"><%=language.Is_Approved%> ?</label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="type" value="2">
+                            <input type="hidden" name="driver_id" value="<%= driver_id %>">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

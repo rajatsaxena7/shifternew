@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Sales_Report%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Sales_Report%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="card-title"><%=language.Start_Date%></label>
+                                    <input  class="form-control" type="date" name="start_date" id="order_sales_start" >
+                                </div>  
+                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                    <label class="card-title"><%=language.End_Date%></label>
+                                    <input  class="form-control" type="date" name="end_date" id="order_sales_end"  >
+                                </div>
+                                <div class= "col-sm-12 col-md-6 col-lg-6 col-xl-4 <%= auth_data.role == '1' ? '' : 'd-none' %>">
+                                        <label class="col-form-label pt-0"><%=language.Carrier_List%></label>
+                                        <select class="js-example-basic-single" name="carrier" id="order_sales_carrier">
+                                        <option value selected disabled><%=language.Select_Carrier%></option>
+                                        <% carrier_list.forEach((data) => { %>
+                                            <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                        <% }) %>
+                                        </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                            <div class="table-responsive theme-scrollbar pt-3" id="invoice_page">
+                                <table class="display" id="basic-1">
+                                    <thead >
+                                        <tr>
+                                            <th class="d-none"></th>
+                                            <th><%=language.Order_Id%></th>
+                                            <th><%=language.Date%></th>
+                                            <th><%=language.Transaction_ID%></th>
+                                            <th><%=language.Customer%></th>
+                                            <th><%=language.Total_Price%></th>
+                                            <th><%=language.Total_Revenue%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb_salse_report">
+                                        <% order_list.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td>#<%= data.order_id %></td>
+                                                <td><%= data.date %></td>
+                                                <td>#<%= data.tracking_id %></td>
+                                                <td><%= data.first_name %> <%= data.last_name %></td>
+                                                <td class="invosymbol"><%= data.total_price %></td>
+
+                                                <% if(data.total_price == "0"){ %>
+                                                    <% let total_amount = 0; %>
+                                                <% } else { %>
+                                                    <% let total_amount = data.total_price; %>
+                                                <% } %>
+                                                <!-- ((driver_commission / 100) * row.total_price).toFixed(2) -->
+                                                <% let total = ( (driver_commission / 100 ) * data.total_price).toFixed(2) %>
+                                                <td ><%=total %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-3">
+                                    <strong><%=language.Total_Order%> :-</strong>
+                                    <strong><span id="total_salse_order"></span></strong>
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-3">
+                                    <strong><%=language.Total_Revenue%> :-</strong>
+                                    <strong><span class="invosymbol" id="total_salse_revenue"></span></strong>
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2 ">
+                                    <button class="btn btn-primary btn-block mt-3" type="submit" id="download_sales_report" ><%=language.Download_Report%></button>
+                                </div>
+
+                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-2 d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-block mt-3" type="submit" id="print_order_report" ><%=language.Print_Report%></button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

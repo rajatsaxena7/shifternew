@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Order%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Order_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                            
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Transfer_Photo%></th>
+                                            <th><%=language.Amount%></th>
+                                            <th><%=language.Transfer_Details%></th> 
+                                            <th><%=language.Transfer_Type%></th> 
+                                            <th><%=language.Status%></th> 
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% driver_payment_list.forEach(function(d_payment){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+
+                                                <% if(d_payment.payment_photo == "1"){ %>
+                                                    <td></td>
+                                                <% } else { %>
+                                                    <td><a href="../../uploads/<%=d_payment.payment_photo%>"><img src="../../uploads/<%=d_payment.payment_photo%>" class="logo-abbr mx-2 b-r-10" width="60px" height="60px" alt="image"></a></td>
+                                                <% }; %>
+
+                                                <td><%=d_payment.wallet_amout%> <%=general_data_list[0].site_currency%></td>
+                                                <td><%=d_payment.driver_email%></td>
+                                                <td><%=d_payment.wallet_type%></td>
+
+                                                <% if(d_payment.payment_status == "2"){ %>
+                                                <td><span class="badge badge-warning"><%=language.Pending%></span></td>
+                                                <% } else { %>
+                                                <td><span class="badge badge-success"><%=language.Completed%></span></td>
+                                                <% }; %>
+                                            </tr>
+                                            <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Pricing%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                            <li class="breadcrumb-item"><%=language.Pricing%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= Moduleid %>">
+                        </div>
+
+                        <!-- domestic_data -->
+                        <div class="domestic_table">
+                            <form action="/settings/pricing" method="post">
+                                <div class="card-body">
+                                    <div class="row mt-4">
+                                        <div class="col-12 mb-4">
+                                            <div class="col-4">
+                                            <label class="form-label">L x B x H / <%=language.Amount%></label> <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=language.Amount%> <%=language.Product_calculation_i_detail2%>"></i>
+                                            <input class="form-control" type="number" name="courier_multiplay_amount" value="<%= pricing_data1[0].curiour_amount %>" placeholder="<%=language.Enter%> <%=language.Carrier_Multiply_Amount%>" required>
+                                            </div>
+                                        </div>
+                                        <hr class="mb-0">
+                                        <div class="row mt-4 mb-4">
+                                            <div class="col-4">
+                                                <label class="form-label"><%=language.Min_Distance%></label> <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="top" title="<%=language.Total%> <%=language.Cost%> = ( <%=language.Min%> <%=language.Distance%> <%=language.Price%> × <%=language.Min%> <%=language.Distance%> ) + ( <%=language.Max%> <%=language.Distance%> <%=language.Price%> × ( <%=language.Total%> <%=language.Distance%> − <%=language.Min%>  <%=language.Distance%> ))"></i>
+                                                <input class="form-control" type="number" name="carrier_min_distance" value="<%= pricing_data1[0].min_distance %>" placeholder="<%=language.Enter%> <%=language.Min_Distance%>" required>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="form-label"><%=language.Min_Distance_Price%></label>
+                                                <input class="form-control" type="number" name="carrier_max_price" value="<%= pricing_data1[0].min_distance_price %>" placeholder="<%=language.Enter%> <%=language.Min_Distance_Price%>" required>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="form-label"><%=language.Max_Distance_Price%></label>
+                                                <input class="form-control" type="number" name="carrier_ex_dis_price" value="<%= pricing_data1[0].ex_distance_price %>" placeholder="<%=language.Enter%> <%=language.Max_Distance_Price%>" required>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <h5><%=language.Weight%> <%=language.Price%></h5>
+                                            <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="add_Weight_tbl_rate"><%=language.Add%></button>
+                                        </div>
+                                        <div class="mb-4" id="add_weight">
+                                            <% weight_data1.forEach((data, x) => { %>
+                                                <div class="row mt-4 cou_floor_field">
+                                                    <div class="col-3">
+                                                        <label class="form-label"><%=language.Min%> <%=language.Weight%></label>
+                                                        <input class="form-control" type="number" name="cou_min_weight" value="<%=data.min_weight%>" placeholder="<%=language.Enter%> <%=language.Min%> <%=language.Weight%>" required>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <label class="form-label"><%=language.Max%>. <%=language.Weight%></label>
+                                                        <input class="form-control" type="number" name="cou_max_weight" value="<%=data.max_weight%>" placeholder="<%=language.Enter%> <%=language.Max%>. <%=language.Weight%>" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label p-l-30"><%=language.Price%></label>
+                                                        <div class="d-flex">
+                                                            <label class="form-label pt-2 p-r-20">=</label>
+                                                            <input class="form-control" type="number" name="cou_weight_price" value="<%=data.price%>" placeholder="<%=language.Enter%> <%=language.Price%>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2" style="padding-top: 36px;">
+                                                        <a type="button" class="mx-4 text-danger delete_weight_tbl"><i class="fa fa-trash-o f-24"></i></a>
+                                                    </div>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+
+                                    <hr>
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0"><%=language.Floors%></h5>
+                                        <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="add_floor_field_btn_dom"><%=language.Add%></button>
+                                    </div>
+                                    <div class="mb-4" id="add_floor_field_dom">
+                                        <% floor_no1.forEach((data, x) => { %>
+                                            <div class="row mt-4 floor_field">
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Floor_No%>.</label>
+                                                    <input class="form-control" type="number" name="floor_no" value="<%= data %>" placeholder="<%=language.Enter%> <%=language.Floor_No%>." required>
+                                                </div>
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Price%></label>
+                                                    <input class="form-control" type="number" name="floor_price" value="<%= floor_price1[x] %>" placeholder="<%=language.Enter%> <%=language.Price%>" required>
+                                                </div>
+                                                <div class="col-2" style="padding-top: 36px;">
+                                                    <a type="button" class=" mx-4 text-danger floor_field_delete_dom"><i class="fa fa-trash-o f-24"></i></a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.Loading%>/<%=language.Unloading_with_elevator%></h5>
+                                    <div class="col-4 mt-3 mb-3">
+                                        <label class="form-label"><%=language.Discount%></label>
+                                        <input class="form-control" type="number" name="elevator_discount" value="<%= pricing_data1[0].elevator_discount %>" placeholder="<%=language.Enter%> <%=language.Elevator_Discount%>">
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.Dynamic%> <%=language.date%> <%=language.Pricing%></h5>
+                                    <div class="row">
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Today%></label>
+                                            <input class="form-control" type="number" name="today_price" value="<%= pricing_data1[0].today_price %>" placeholder="<%=language.Enter%> <%=language.Today%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Tomorrow%></label>
+                                            <input class="form-control" type="number" name="tomorrow_price" value="<%= pricing_data1[0].tomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Day_After_Tomorrow%></label>
+                                            <input class="form-control" type="number" name="dayaftertomorrow_price" value="<%= pricing_data1[0].dayaftertomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Day_After_Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                                
+                                <input id="pricing_module" name="module1" type="text" hidden>
+                                <% let permissions = permission != "1" ? permission.Pricing.split(",")[1] : "1" %>
+                                <% if(permissions == "1"){ %>
+                                <div class="text-end m-4 mt-0">
+                                    <button class="btn btn-square b-r-7 w-25 btn-primary" id="module_pricing_click" type="submit"><%=language.Save%></button>
+                                </div>
+                                <% } %>
+                            </form>
+                        </div>
+
+                        <!-- packersandmovers_data -->
+                        <div class="packersandmovers_table d-none">
+                            <form action="/settings/pricing" method="post">
+                                <div class="card-body">
+                                    <h5>Distance</h5>
+                                    <div class="row mt-4">
+                                        <div class="col-4">
+                                            <label class="form-label"><%=language.Min_Distance%></label> <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="top" title="<%=language.Total%> <%=language.Cost%> = ( <%=language.Min%> <%=language.Distance%> <%=language.Price%> × <%=language.Min%> <%=language.Distance%> ) + ( <%=language.Max%> <%=language.Distance%> <%=language.Price%> × ( <%=language.Total%> <%=language.Distance%> − <%=language.Min%>  <%=language.Distance%> ))"></i>
+                                            <input class="form-control" type="number" name="min_distance" value="<%= pricing_data2[0].min_distance %>" placeholder="<%=language.Enter%> <%=language.Min_Distance%>" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-label"><%=language.Min_Distance_Price%></label>
+                                            <input class="form-control" type="number" name="min_distance_price" value="<%= pricing_data2[0].min_distance_price %>" placeholder="<%=language.Enter%> <%=language.Min_Distance_Price%>" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <label class="form-label"><%=language.Max_Distance_Price%></label>
+                                            <input class="form-control" type="number" name="ex_distance_price" value="<%= pricing_data2[0].ex_distance_price %>" placeholder="<%=language.Enter%> <%=language.Max_Distance_Price%>" required>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between">
+                                        <h5><%=language.Floors%></h5>
+                                        <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="add_floor_field_btn"><%=language.Add%></button>
+                                    </div>
+                                    <div id="add_floor_field">
+                                        <% floor_no2.forEach((data, x) => { %>
+                                            <div class="row mt-4 floor_field">
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Floor_No%>.</label>
+                                                    <input class="form-control" type="number" name="floor_no" value="<%= data %>" placeholder="<%=language.Enter%> <%=language.Floor_No%>." required>
+                                                </div>
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Price%></label>
+                                                    <input class="form-control" type="number" name="floor_price" value="<%= floor_price2[x] %>" placeholder="<%=language.Enter%> <%=language.Price%>" required>
+                                                </div>
+                                                <div class="col-2" style="padding-top: 36px;">
+                                                    <a type="button" class=" mx-4 text-danger floor_field_delete"><i class="fa fa-trash-o f-24"></i></a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.Loading%>/<%=language.Unloading_with_elevator%></h5>
+                                    <div class="col-4 mt-3">
+                                        <label class="form-label"><%=language.Discount%></label>
+                                        <input class="form-control" type="number" name="elevator_discount" value="<%= pricing_data2[0].elevator_discount %>" placeholder="<%=language.Enter%> <%=language.Elevator_Discount%>">
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.date%></h5>
+                                    <div class="row">
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Today%></label>
+                                            <input class="form-control" type="number" name="today_price" value="<%= pricing_data2[0].today_price %>" placeholder="<%=language.Enter%> <%=language.Today%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Tomorrow%></label>
+                                            <input class="form-control" type="number" name="tomorrow_price" value="<%= pricing_data2[0].tomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Day_After_Tomorrow%></label>
+                                            <input class="form-control" type="number" name="dayaftertomorrow_price" value="<%= pricing_data2[0].dayaftertomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Day_After_Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <input id="pricing_module1" name="module2" type="text" hidden>
+
+                                <% if(permissions == "1"){ %>
+                                <div class="text-end m-4 mt-0">
+                                    <button class="btn btn-square b-r-7 w-25 btn-primary" id="module_pricing" type="submit"><%=language.Save%></button>
+                                </div>
+                                <% } %>
+                            </form>
+                        </div>
+                        
+                        <!-- international_data -->
+                        <div class="international_table d-none">
+                            <form action="/settings/pricing" method="post">
+                                <div class="card-body">
+                                    <div class="row mt-4">
+                                        <div class="col-4 mb-4">
+                                            <label class="form-label">L x B x H / <%=language.Amount%></label> <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=language.Amount%> <%=language.Product_calculation_i_detail2%>"></i>
+                                            <input class="form-control" type="number" name="international_amount" value="<%= pricing_data3[0].international_amount %>" placeholder="<%=language.Enter%> <%=language.International_Multiply_Amount%>" required>
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <h5><%=language.Weight%> <%=language.Price%></h5>
+                                            <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="int_Weight_tbl_rate"><%=language.Add%></button>
+                                        </div>
+                                        <div class="mb-4" id="add_int_weight">
+                                            <% weight_data3.forEach((data, x) => { %>
+                                                <div class="row mt-4 int_floor_field">
+                                                    <div class="col-3">
+                                                        <label class="form-label"><%=language.Min%> <%=language.Weight%></label>
+                                                        <input class="form-control" type="number" name="int_min_weight" value="<%=data.min_weight%>" placeholder="<%=language.Enter%> <%=language.Min%> <%=language.Weight%>" required>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <label class="form-label"><%=language.Max%>. <%=language.Weight%></label>
+                                                        <input class="form-control" type="number" name="int_max_weight" value="<%=data.max_weight%>" placeholder="<%=language.Enter%> <%=language.Max%>. <%=language.Weight%>" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label p-l-30"><%=language.Price%></label>
+                                                        <div class="d-flex">
+                                                            <label class="form-label pt-2 p-r-20">=</label>
+                                                            <input class="form-control" type="number" name="int_weight_price" value="<%=data.price%>" placeholder="<%=language.Enter%> <%=language.Price%>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2" style="padding-top: 36px;">
+                                                        <a type="button" class=" mx-4 text-danger delete_int_weight_tbl"><i class="fa fa-trash-o f-24"></i></a>
+                                                    </div>
+                                                </div>
+                                            <% }) %>
+                                        </div>
+
+                                        <hr>
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0"><%=language.Floors%></h5>
+                                        <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="add_floor_field_btn_int"><%=language.Add%></button>
+                                    </div>
+                                    <div class="mb-4" id="add_floor_field_int">
+                                        <% floor_no3.forEach((data, x) => { %>
+                                            <div class="row mt-4 floor_field_int">
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Floor_No%>.</label>
+                                                    <input class="form-control" type="number" name="floor_no" value="<%= data %>" placeholder="<%=language.Enter%> <%=language.Floor_No%>." required>
+                                                </div>
+                                                <div class="col-5">
+                                                    <label class="form-label"><%=language.Price%></label>
+                                                    <input class="form-control" type="number" name="floor_price" value="<%= floor_price3[x] %>" placeholder="<%=language.Enter%> <%=language.Price%>" required>
+                                                </div>
+                                                <div class="col-2" style="padding-top: 36px;">
+                                                    <a type="button" class=" mx-4 text-danger floor_field_delete_int"><i class="fa fa-trash-o f-24"></i></a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.Loading%>/<%=language.Unloading_with_elevator%></h5>
+                                    <div class="col-4 mt-3 mb-3">
+                                        <label class="form-label"><%=language.Discount%></label>
+                                        <input class="form-control" type="number" name="elevator_discount" value="<%= pricing_data3[0].elevator_discount %>" placeholder="<%=language.Enter%> <%=language.Elevator_Discount%>">
+                                    </div>
+                                    <hr>
+                                    <h5><%=language.Dynamic%> <%=language.date%> <%=language.Pricing%></h5>
+                                    <div class="row">
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Today%></label>
+                                            <input class="form-control" type="number" name="today_price" value="<%= pricing_data3[0].today_price %>" placeholder="<%=language.Enter%> <%=language.Today%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Tomorrow%></label>
+                                            <input class="form-control" type="number" name="tomorrow_price" value="<%= pricing_data3[0].tomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                        <div class="col-4 mt-3">
+                                            <label class="form-label"><%=language.Day_After_Tomorrow%></label>
+                                            <input class="form-control" type="number" name="dayaftertomorrow_price" value="<%= pricing_data3[0].dayaftertomorrow_price %>" placeholder="<%=language.Enter%> <%=language.Day_After_Tomorrow%> <%=language.Price%>">
+                                        </div>
+                                    </div>
+
+
+                                    </div>
+                                </div>
+
+                                
+
+                                <input id="pricing_module2" name="module3" type="text" hidden>
+
+                                <% if(permissions == "1"){ %>
+                                <div class="text-end m-4 mt-0">
+                                    <button class="btn btn-square b-r-7 w-25 btn-primary" id="international_pricing_click" type="submit"><%=language.Save%></button>
+                                </div>
+                                <% } %>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

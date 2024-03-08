@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+
+  <link rel="stylesheet" href="../../css/toastr.min.css"/>
+  <script src="../../js/tostify/jquery-1.9.1.min.js"></script>
+  <script src="../../js/tostify/js-toastr.js"></script>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="scetion ppc-section-padding pt-5 pb-5">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-12 ">
+            <div class="">
+              <div class="text-left">
+                  <div class="ppc-default-content large pb-3">
+                      <h4 class="font-weight-bold"></h4>
+                  </div>
+              </div>
+              <div class="card-body pb-0">
+                <div class="p-3 d-flex justify-content-center">
+                  <h3 ><%= policy_list[1].policy_title %></h3>
+                </div>
+
+                <div class="card m-5 p-5 ">
+                  <%- policy_list[1].policy_det %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

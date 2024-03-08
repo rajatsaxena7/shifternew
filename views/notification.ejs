@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/header_sidebar'); -%>
+
+        <div class="page-body">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h3><%=language.Notification%> </h3>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="/settings/notification"><%=language.Notification%></a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="row">
+                            
+                    <!-- Scroll - vertical dynamic Starts-->
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive theme-scrollbar">
+                                    <table class="display" id="basic-1" aria-label="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="d-none"></th>
+                                                <th><%=language.date%> </th>
+                                                <th><%=language.Order_Id%></th>
+                                                <th><%=language.time%></th>
+                                                <th><%=language.Sender%></th>
+                                                <th><%=language.Notification%> </th>
+                                                <th><%=language.Action%> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% notification_list.forEach((data) => { %>
+                                                <tr>
+                                                    <td class="d-none"></td>
+                                                    <% let date = new Date(data.date) %>
+                                                    <% let day = date.getDate() %>
+                                                    <% let month = date.getMonth()+1 %>
+                                                    <% let year = date.getFullYear() %>
+                                                    <% let fullDate = `${year}-${month}-${day}` %>
+                                                    <td><%= fullDate %></td>
+                                                    <td><%= data.invoice %></td>
+                                                    <td> <%= data.time %></td>
+                                                    <td><%= data.sender_firstname %> <%= data.sender_lastname %> </td>
+                                                    <td><%= data.notification %></td>
+                                                    <td>
+                                                        <a href="/online_shopping/show_register_packages/"><i class="fa fa-eye f-20"></i></a>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Scroll - vertical dynamic Ends-->
+                </div>
+            </div>
+        <!-- Container-fluid Ends-->
+        </div>
+        
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+
+</body>
+
+</html>

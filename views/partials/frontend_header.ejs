@@ -1,0 +1,327 @@
+
+<% if (auth_data.role != '2') { %>
+  <header class="site-header site-header--menu-center ppc-header-section header-pink" id="sticky-menu">
+      <div class="container-fluid">
+        <div class="navbar site-navbar">
+      <!-- Brand Logo-->
+      <div class=" brand-logo">
+        <a href="/">
+          <div class="d-flex">
+          <img src="../../uploads/<%=general_data.site_dark_logo %>" alt="" class="light-version-logo" height="30px" width="40px">
+          <h4 class="text-black m-0" style="font-size: 25px; padding-left: 5px; padding-top: 1px;font-weight:900"><%=general_data.site_title %></h4>
+        </div>
+        </a>
+      </div>
+      <div class="menu-block-wrapper">
+        <div class="menu-overlay"></div>
+        <nav class="menu-block" id="append-menu-header">
+          <div class="mobile-menu-head">
+            <div class="go-back">
+              <i class="fa fa-angle-left"></i>
+            </div>
+            <div class="current-menu-title"></div>
+            <div class="mobile-menu-close">&times;</div>
+          </div>
+          <ul class="site-menu-main">
+            <li class="nav-item nav-item-has-children">
+              <a href="/" class="nav-link-item drop-trigger"><%=language.Home%> </a>
+            </li>
+            <li class="nav-item">
+              <a href="/Shipping_calculator" class="nav-link-item"><%=language.How_it_works%></a>
+            </li>
+            <li class="nav-item">
+              <a href="/tracking_details" class="nav-link-item"><%=language.Tracking%></a>
+            </li>
+            <li class="nav-item">
+              <a href="/faqs" class="nav-link-item"><%=language.FAQ_s%></a>
+            </li>
+            <li class="nav-item">
+              <a href="/driver_singup" class="nav-link-item"><%=language.Become_a_Carrier%></a>
+            </li>
+            <li class="header-btn header-btn-l1 ppc-responsive-btn">
+              <a class="ppc-btn ppc-header-btn rounded-pill pink" href="/log_in">
+                <%=language.My_Account%>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class=" fron_lang header-btn header-btn-l1 ms-auto d-xs-inline-flex d-flex">
+        <div class="onhover-dropdown pt-sm-2 m-r-30">
+          <div class="notification-box">
+            <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 640 512">
+              <path d="M152.1 236.2c-3.5-12.1-7.8-33.2-7.8-33.2h-.5s-4.3 21.1-7.8 33.2l-11.1 37.5H163zM616 96H336v320h280c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24zm-24 120c0 6.6-5.4 12-12 12h-11.4c-6.9 23.6-21.7 47.4-42.7 69.9 8.4 6.4 17.1 12.5 26.1 18 5.5 3.4 7.3 10.5 4.1 16.2l-7.9 13.9c-3.4 5.9-10.9 7.8-16.7 4.3-12.6-7.8-24.5-16.1-35.4-24.9-10.9 8.7-22.7 17.1-35.4 24.9-5.8 3.5-13.3 1.6-16.7-4.3l-7.9-13.9c-3.2-5.6-1.4-12.8 4.2-16.2 9.3-5.7 18-11.7 26.1-18-7.9-8.4-14.9-17-21-25.7-4-5.7-2.2-13.6 3.7-17.1l6.5-3.9 7.3-4.3c5.4-3.2 12.4-1.7 16 3.4 5 7 10.8 14 17.4 20.9 13.5-14.2 23.8-28.9 30-43.2H412c-6.6 0-12-5.4-12-12v-16c0-6.6 5.4-12 12-12h64v-16c0-6.6 5.4-12 12-12h16c6.6 0 12 5.4 12 12v16h64c6.6 0 12 5.4 12 12zM0 120v272c0 13.3 10.7 24 24 24h280V96H24c-13.3 0-24 10.7-24 24zm58.9 216.1L116.4 167c1.7-4.9 6.2-8.1 11.4-8.1h32.5c5.1 0 9.7 3.3 11.4 8.1l57.5 169.1c2.6 7.8-3.1 15.9-11.4 15.9h-22.9a12 12 0 0 1-11.5-8.6l-9.4-31.9h-60.2l-9.1 31.8c-1.5 5.1-6.2 8.7-11.5 8.7H70.3c-8.2 0-14-8.1-11.4-15.9z"/>
+            </svg>
+          </div>
+          <ul class="notification-dropdown onhover-show-div">
+            <li class="p-1 m-1 ">
+              <div class="d-flex align-items-center " id="frontend_en">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-us"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="en" data-value="en"><span class="lang-txt">English<span> (US)</span></span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_in">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-in"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="in" data-value="in"><span class="lang-txt">Hindi</span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_de">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-de"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="de" data-value="de"><span class="lang-txt">Deutsch</span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_pt">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-pt"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="pt" data-value="pt"><span class="lang-txt">Portugu&ecirc;s<span> (BR)</span></span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_es">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-es"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="es" data-value="es"><span class="lang-txt">Espa&ntilde;ol</span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_fr">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-fr"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="fr" data-value="fr"><span class="lang-txt">Fran&ccedil;ais</span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_cn">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-cn"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="cn" data-value="cn"><span class="lang-txt">&#x7B80;&#x4F53;&#x4E2D;&#x6587;</span></div>
+                </div>
+              </div>
+            </li>
+            <li class="p-1 m-1">
+              <div class="d-flex align-items-center" id="frontend_ae">
+                <div class="flex-shrink-0"><i class="flag-icon flag-icon-ae"></i></div>
+                <div class="flex-grow-1">
+                  <div class="lang" id="ae" data-value="ae"><span class="lang-txt">&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629; <span> (ae)</span></span></div>
+                </div>
+              </div>
+            </li>
+            <input type="hidden" id="hidden_frontend_lang" value="<%=lang.lang%>">
+            <li>
+              <h6 class="f-18 mb-0"><%=language.Language%></h6>
+            </li>
+          </ul>
+        </div>
+        <div class="frontend_account_btn account_btn">
+          <a class="ppc-btn ppc-header-btn rounded-pill pink " href="/log_in">
+            <%=language.My_Account%>
+          </a>
+        </div>
+      </div>
+      <div class="mobile-menu-trigger">
+        <span></span>
+      </div>
+    </div>
+</div>
+</header>
+  <% } else { %>
+    <header class="site-header site-header--menu-center ppc-header-section header-pink" id="sticky-menu">
+      <div class="container-fluid">
+        <div class="navbar site-navbar">
+      <!-- Brand Logo-->
+      <div class=" brand-logo">
+        <a href="/packers_and_movers/pam">
+          <div class="d-flex">
+          <img src="../../uploads/<%=general_data.site_dark_logo %>" alt="" class="light-version-logo" height="30px" width="40px">
+          <h4 class="text-black m-0" style="font-size: 25px; padding-left: 5px; padding-top: 1px;font-weight:900"><%=general_data.site_title %></h4>
+        </div>
+        </a>
+      </div>
+      <div class="menu-block-wrapper">
+        <div class="menu-overlay"></div>
+        <div class="menu-block" id="append-menu-header">
+          <div class="mobile-menu-head">
+            <div class="go-back">
+              <i class="fa fa-angle-left"></i>
+            </div>
+            <div class="current-menu-title"></div>
+            <div class="mobile-menu-close">&times;</div>
+          </div>
+          <ul class="site-menu-main">
+            <li class="nav-item nav-item-has-children">
+             <a href="/packers_and_movers/pam" class="nav-link-item drop-trigger"> <i class="fas fa-tachometer-alt rt-mr-8"></i></span> <%=language.Dashboard%> </a>
+            </li>
+            <li class="nav-item">
+              <a href="/order_details" class="nav-link-item"><i class="fas fa-box-open rt-mr-8"></i> <%=language.Orders%></a>
+            </li>
+            <li class="nav-item">
+              <a href="/address_details" class="nav-link-item"><i class="fas fa-address-card rt-mr-8"></i> <%=language.Addresses%></a>
+            </li>
+            <!-- <li class="nav-item">
+              <a href="/tracking_details" class="nav-link-item"><i class="fas fa-truck rt-mr-8"></i> <%=language.Tracking%></a>
+            </li> -->
+            <li class="nav-item">
+              <a href="/customer_profile" class="nav-link-item"><i class="fas fa-user rt-mr-8"></i> <%=language.Profile%></a>
+            </li>
+            
+            <li class="header-btn header-btn-l1 ppc-responsive-btn">
+              <a class="ppc-btn ppc-header-btn rounded-pill pink" href="/log_in">
+                <%=language.My_Account%>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="  header-btn header-btn-l1 ms-auto d-xs-inline-flex d-flex">
+         <ul class="nav-menus" style="padding-top: 6px; padding-right: 10px;">
+          <li class="onhover-dropdown">
+            <div class="notification-box ppc-header-btn pink"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 640 512">
+              <path d="M152.1 236.2c-3.5-12.1-7.8-33.2-7.8-33.2h-.5s-4.3 21.1-7.8 33.2l-11.1 37.5H163zM616 96H336v320h280c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24zm-24 120c0 6.6-5.4 12-12 12h-11.4c-6.9 23.6-21.7 47.4-42.7 69.9 8.4 6.4 17.1 12.5 26.1 18 5.5 3.4 7.3 10.5 4.1 16.2l-7.9 13.9c-3.4 5.9-10.9 7.8-16.7 4.3-12.6-7.8-24.5-16.1-35.4-24.9-10.9 8.7-22.7 17.1-35.4 24.9-5.8 3.5-13.3 1.6-16.7-4.3l-7.9-13.9c-3.2-5.6-1.4-12.8 4.2-16.2 9.3-5.7 18-11.7 26.1-18-7.9-8.4-14.9-17-21-25.7-4-5.7-2.2-13.6 3.7-17.1l6.5-3.9 7.3-4.3c5.4-3.2 12.4-1.7 16 3.4 5 7 10.8 14 17.4 20.9 13.5-14.2 23.8-28.9 30-43.2H412c-6.6 0-12-5.4-12-12v-16c0-6.6 5.4-12 12-12h64v-16c0-6.6 5.4-12 12-12h16c6.6 0 12 5.4 12 12v16h64c6.6 0 12 5.4 12 12zM0 120v272c0 13.3 10.7 24 24 24h280V96H24c-13.3 0-24 10.7-24 24zm58.9 216.1L116.4 167c1.7-4.9 6.2-8.1 11.4-8.1h32.5c5.1 0 9.7 3.3 11.4 8.1l57.5 169.1c2.6 7.8-3.1 15.9-11.4 15.9h-22.9a12 12 0 0 1-11.5-8.6l-9.4-31.9h-60.2l-9.1 31.8c-1.5 5.1-6.2 8.7-11.5 8.7H70.3c-8.2 0-14-8.1-11.4-15.9z"/>
+            </svg></div>
+            <ul class="notification-dropdown onhover-show-div">
+              <li class="p-1 m-1 ">
+                <div class="d-flex align-items-center " id="frontend_en">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-us"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="en" data-value="en"><span class="lang-txt">English<span> (US)</span></span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_in">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-in"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="in" data-value="in"><span class="lang-txt">Hindi</span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_de">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-de"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="de" data-value="de"><span class="lang-txt">Deutsch</span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_pt">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-pt"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="pt" data-value="pt"><span class="lang-txt">Portugu&ecirc;s<span> (BR)</span></span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_es">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-es"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="es" data-value="es"><span class="lang-txt">Espa&ntilde;ol</span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_fr">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-fr"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="fr" data-value="fr"><span class="lang-txt">Fran&ccedil;ais</span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_cn">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-cn"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="cn" data-value="cn"><span class="lang-txt">&#x7B80;&#x4F53;&#x4E2D;&#x6587;</span></div>
+                  </div>
+                </div>
+              </li>
+              <li class="p-1 m-1">
+                <div class="d-flex align-items-center" id="frontend_ae">
+                  <div class="flex-shrink-0"><i class="flag-icon flag-icon-ae"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="lang" id="ae" data-value="ae"><span class="lang-txt">&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629; <span> (ae)</span></span></div>
+                  </div>
+                </div>
+              </li>
+              <input type="hidden" id="hidden_frontend_lang" value="<%=lang.lang%>">
+              <li>
+                <h6 class="f-18 mb-0"><%=language.Language%></h6>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+         <ul class="nav-menus">
+          <li class="onhover-dropdown">
+            <div class="notification-box ppc-btn ppc-header-btn rounded-pill pink"><i class="fas fa-bell"></i></div>
+            <% if(notification_data != ""){ %>
+              <ul class="notification-dropdown onhover-show-div">
+
+              <% let customer = "1" %>
+              <% notification_data.forEach((data) => { %>
+                <% if(data.sender == auth_data.tbl_admin_id && customer <= "6"){ %>
+              <li class="pt-1 pb-1">
+                <div class="d-flex align-items-center">
+                  <div class="flex-shrink-0"><i class="fas fa-truck"></i></div>
+                  <div class="flex-grow-1">
+                    <h5 class="mb-1 f-size-16 " ><%= data.notification %></h5>
+                      <% let date = new Date(data.date) %>
+                      <% let day = date.getDate() %>
+                      <% let month = date.getMonth()+1 %>
+                      <% let year = date.getFullYear() %>
+                      <% let fullDate = `${year}-${month}-${day}` %>
+                      <p><%= fullDate %> <%= data.time %></p>
+                  </div>
+                </div>
+              </li>
+              <% customer++ %>
+              <% } %>
+              <% }) %>
+
+              <li><a class="btn btn-primary custom-btn-noti" href="/c_notifaction" data-bs-original-title="" title=""><%=language.Check_all_notification%></a></li>
+            </ul>
+            <% }; %>
+          </li>
+        </ul>
+        
+        <div class="frontend_account_btn account_btn" style="margin-left: 8px;">
+          <a class="ppc-btn ppc-header-btn rounded-pill pink" href="/logout">
+          <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </div>
+        <!-- <a class="ppc-btn ppc-header-btn d-none d-md-block rounded-pill pink" href="/log_in">
+          <%=language.My_Account%>
+        </a> -->
+      </div>
+      <div class="mobile-menu-trigger">
+        <span></span>
+      </div>
+        </div>
+  </div>
+</header>
+<% } %>
+<input type="hidden" id="offdarkmode" value="darkoff"> 
+<input type="hidden" id="rates_sym" value="<%= general_data.site_currency %>">
+<input type="hidden" id="rates_pla" value="<%= general_data.currency_placement %>">
+<input type="hidden" id="thousands_replace" value="<%= general_data.thousands_separator %>">
+<input type="hidden" id="weight_units" value="<%=general_data.weight_units %>">
+<input type="hidden" id="length_units" value="<%=general_data.length_units %>">
+
+   
+
+
+
+

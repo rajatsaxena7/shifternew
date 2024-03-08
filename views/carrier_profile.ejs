@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Your_Profile%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Your_Profile%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid dashboard-2">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between p-0">
+                            
+
+                        </div>
+                        <div class="card-body pt-1">
+                            <div class="table-responsive theme-scrollbar d-flex justify-content-center">
+                                <div class="col-10">
+                                <form class="theme-form" action="/order/edit_carrier_profile/<%=customer_data[0].id%>" method="post" enctype="multipart/form-data" >
+                                    <div>
+                                      <input value="<%=auth_data.role%>"  class="hidden" type="text" name="role" required hidden>
+                  
+                                      <div class="d-flex justify-content-center pt-3">
+                  
+                                        <% if(customer_data[0].profile_img == 'null' || customer_data[0].profile_img == ""){ %>
+                                        <img src="../../uploads/<%=gPhoto[0].site_dark_logo%>" class="logo-abbr mx-2 b-r-10" width="130.5px" height="130.5px" alt="">
+                                        <% } else { %>
+                                          <img src="../../uploads/<%=customer_data[0].profile_img%>" class="logo-abbr mx-2 b-r-10" width="130.5px" height="130.5px" alt="">
+                                        <% }; %>
+                                      </div>
+                  
+                                          <div class="form-group pt-3">
+                                              <div class="row g-2">
+                                                  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                                  <label class="col-form-label pt-0"><%=language.First_Name%></label>
+                                                  <input class="form-control" value="<%=customer_data[0].first_name%>" type="text" name="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                                  <label class="col-form-label pt-0"><%=language.Last_Name%></label>
+                                                <input class="form-control" value="<%=customer_data[0].last_name%>" type="text" name="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                                              </div>
+                                            </div>
+                                          </div>
+                            
+                                          <div class="row g-2">
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                              <div class="form-group">
+                                                <label class="col-form-label"><%=language.Email%></label>
+                                                <input class="form-control" value="<%=customer_data[0].email%>" type="email" name="email" placeholder="Test@gmail.com" required>
+                                              </div>
+                                            </div>
+                  
+                                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                              <label class="col-form-label pt-1"><%=language.Phone_No%>.</label>
+                                              <div class="row g-2">
+                                                <div class="col-3 pt-1">
+                                                  <select class="js-example-basic-single" name="country_code" id="country_code" required>
+                                                    <option value selected disabled><%=language.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                      <option value="<%= data %>" <%= customer_data[0].country_code == data ? "selected" : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                  </select>
+                                                </div>
+                                                <div class="col-9 pt-1">
+                                                  <input class="form-control" value="<%=customer_data[0].phone_no%>" type="text" name="phone_no" placeholder="<%=language.Enter%> <%=language.Phone_Number%>" required>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                  
+                                          <div class="row g-2">
+                                            <label class="col-form-label pt-1"><%=language.Upload_Profile_Picture%></label>
+                  
+                                              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                                <input class="form-control " type="file" name="profile_img" >
+                                              </div>
+                                            </div>
+                                          </div>      
+                  
+                                          <div class="form-group pt-3">
+                                            <div class="row g-2">
+                                              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                                <label class="col-form-label pt-1"><%=language.Enter_Password%></label>
+                                                <div class="form-input position-relative">
+                                                  <input id="c_password" class="form-control" type="password" name="password" placeholder="*********" >
+                                                </div>
+                                              </div>
+                                              <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                                <label class="col-form-label"><%=language.Enter_Conform_Password%></label>
+                                                <div class="form-input position-relative">
+                                                  <input id="c_r_password" class="form-control" type="password" name="c_password" placeholder="*********" >
+                                                </div>
+                                              </div>
+                  
+                                              <% if(message == ""){ %>
+                                                <% } else { %>
+                                              <p class="text-danger" id="password_error"><%=language.Password_not_match%></p>
+                                              <% } %>
+                  
+                                            </div>
+                                          </div>
+                            
+                                          <button class="btn btn-primary btn-block w-100 mt-3" type="submit" id="customer_profile" ><%=language.Submit%></button>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

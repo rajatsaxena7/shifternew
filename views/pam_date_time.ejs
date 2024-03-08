@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="loader-box">
+            <div class="loader-19"></div>
+        </div>
+    </div>
+    <!-- Loader ends-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card">
+                    <div class="card w-50">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.Please_choose_a_specific_date_and_time_range_for_your_relocation%></h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="/packers_and_movers/add_date_time" method="post">
+                                <div class="mb-3 row">
+                                    <label class="form-label"><%=language.Select_Date%></label>
+                                    <input class="form-control w-50" id="select_date" type="date" name="date" value="<%= fullDate %>" placeholder="dd/mm/yyyy">
+                                </div>
+                                <hr>
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label><%=language.Select_Pick_Up_Time%></label>
+                                    </div>
+                                    <div class="row g-3 mt-0" id="all_time">
+                                        <% time_list.forEach((data) => { %>
+                                            <% var start_time = data.start_time.split(':') %>
+                                            <% var end_time = data.end_time.split(':') %>
+                                            <% var start_time_val = (parseInt(start_time[0]) < 13 ? "AM" : "PM") %>
+                                            <% var end_time_val = (parseInt(end_time[0]) < 13 ? "AM" : "PM") %>
+
+                                            <% if (hour < end_time[0]){ %>
+                                                <div class="col-4 time_div">
+                                                    <a class="btn time" data-id="<%= data.id %>" style="background-color: #F2F2F2;">
+                                                        <span>
+                                                            <h5 class="mb-0"><%= start_time[0] %><%= start_time_val %> To <%= end_time[0] %><%= end_time_val %></h5>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            <% } %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="time" id="hidden_time">
+                                <button class="btn btn-primary btn-square b-r-5 w-100 mt-4" type="submit"><%=language.Next%></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script'); -%>
+</body>
+
+</html>

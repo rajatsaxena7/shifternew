@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Package_Details%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Package_Details_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_packagemodal"><%=language.Add_Package%></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Image%></th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Start_Weight%></th>
+                                            <th><%=language.End_Weight%></th>
+                                            <th><%=language.Price%></th>
+                                            <th><%=language.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% package_details_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.start_weight %> <%= data.start_symbol_data %></td>
+                                                <td><%= data.end_weight %> <%= data.end_symbol_data %></td>
+                                                <td class="invosymbol"><%= data.price %></td>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_packagemodal" id="edit_package" data-id="<%= data.id %>" data-image="<%= data.image %>" 
+                                                            data-name="<%= data.name %>" data-start_weight="<%= data.start_weight %>" data-end_weight="<%= data.end_weight %>"
+                                                            data-start_symbol="<%= data.start_symbol %>" data-end_symbol="<%= data.end_symbol %>" data-price="<%= data.price %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_packagemodal -->
+    
+    <div class="modal fade" id="add_packagemodal" tabindex="-1" role="dialog" aria-labelledby="add_packagemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Package%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/settings/add_package" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Name%></label>
+                                <input class="form-control" type="text" name="name" placeholder="<%=language.Enter%> <%=language.Package_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label"><%=language.Start_Weight%> & <%=language.Weight_Unit%></label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="number" name="start_weight" placeholder="<%=language.Enter%> <%=language.Start_Weight%>" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-select digits" name="start_symbol">
+                                            <% weight_unit_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.symbol %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label"><%=language.End_Weight%> & <%=language.Weight_Unit%></label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="number" name="end_weight" placeholder="<%=language.Enter%> <%=language.End_Weight%>" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-select digits" name="end_symbol">
+                                            <% weight_unit_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.symbol %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Price%></label>
+                                <input class="form-control" type="number" name="price" placeholder="<%=language.Enter%> <%=language.Package_Price%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_packagemodal -->
+    
+    <div class="modal fade" id="edit_packagemodal" tabindex="-1" role="dialog" aria-labelledby="edit_packagemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Package%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_id" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" class="img" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image" name="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Name%></label>
+                                <input class="form-control" type="text" name="name" id="name" placeholder="<%=language.Enter%> <%=language.Package_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label"><%=language.Start_Weight%> & <%=language.Weight_Unit%></label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="number" name="start_weight" id="start_weight" placeholder="<%=language.Enter%> <%=language.Start_Weight%>" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-select digits" name="start_symbol" id="start_symbol">
+                                            <% weight_unit_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.symbol %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="form-label"><%=language.End_Weight%> & <%=language.Weight_Unit%></label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="number" name="end_weight" id="end_weight" placeholder="<%=language.Enter%> <%=language.End_Weight%>" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-select digits" name="end_symbol" id="end_symbol">
+                                            <% weight_unit_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.symbol %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Package_Price%></label>
+                                <input class="form-control" type="number" name="price" id="price" placeholder="<%=language.Enter%> <%=language.Package_Price%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

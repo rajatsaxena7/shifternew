@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <div>
+          <img src="cid:logo" class="rounded" width="66.5px" height="66.5px" alt="image"></img>
+        </div>
+                   
+        <div>
+          <h2><%= general_data.site_title %></h2>
+        </div>
+      </div>
+
+      <hr class="my-3">
+
+        <div>
+            <div style="float: left;">
+                <h5><%=language.Bill_To%></h5>
+                <h6><%= customer_address_data[0].first_name %> <%= customer_address_data[0].last_name %></h6>
+                <span><%= customer_address_data[0].email %></span><br>
+                <span><%= customer_address_data[0].country_code %><%= customer_address_data[0].phone_no %></span><br>
+                <span><%= customer_address_data[0].address %></span><br>
+                <span><%= customer_address_data[0].city %> | <%= customer_address_data[0].state %></span><br>
+                <span><%= customer_address_data[0].country %> | <%= customer_address_data[0].pincode %></span><br>
+            </div>
+            <div style="float: right;">
+                <h5><%=language.Order_Id%> : <%= order_data[0].order_id %></h5>
+                <h5><%=language.Date%> : <%= order_data[0].date %></h5>
+                <h5><%=language.Delivery_Type%> : <%= order_data[0].delivery_type_name %></h5>
+                <% if (order_data[0].total_price > order_data[0].paid_amount) { %>
+                    <h5><%=language.Payment_Status%> : Unpaid<%=language.Summary_Details%></h5>
+                <% } else { %>
+                    <h5><%=language.Payment_Status%> : Paid<%=language.Summary_Details%></h5>
+                <% } %>
+                <h5><%=language.Shipping_Status%> : <%= order_data[0].shipping_status_name %></h5>
+                <h5><%=language.Payment_Method%> : <%= order_data[0].transaction_method %></h5>
+            </div>
+        </div>
+
+        <% if(order_data[0].module == "1"){ %>
+        
+        <table style="width: 100% !important; margin-top: 30px; margin-bottom: 30px;" aria-label="table">
+          <thead style="width: 100% !important;">
+            <tr>
+              <th style="border: 1px solid black; padding: 5px;"> # </th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Package_Name%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Unit_Price%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Dead_Weight%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Length%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Breadth%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Height%></th>
+              <th style="border: 1px solid black; padding: 5px;"><%=language.Volumetric%></th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center; margin: 5px;">
+            <% var a = 1 %>
+            <% for(var i = 0; i < package_name; i++){ %>
+                    <tr>
+                      <td><%= a %></td>
+                      <td><%= product_list[0].package_name.split(",")[i] %></td>
+                      <td class="invosymbol"><%= product_list[0].package_Amouunt.split(",")[i] %></td>
+                      <td class="weight_units_sybl"><%= product_list[0].package_weight.split(",")[i] %></td>
+                      <td class="length_units_sybl"><%= product_list[0].package_Length.split(",")[i] %></td>
+                      <td class="length_units_sybl"><%= product_list[0].package_width.split(",")[i] %></td>
+                      <td class="length_units_sybl"><%= product_list[0].package_Height.split(",")[i] %></td>
+                      <td class="weight_units_sybl"><%= product_list[0].package_Weight_vol.split(",")[i] %></td>
+                    </tr>
+                <% a++ %>
+            <% }; %>
+          </tbody>
+        </table>
+
+        <% } if (order_data[0].module == "2") { %>
+        
+        <table style="width: 100% !important; margin-top: 30px; margin-bottom: 30px;" aria-label="table">
+          <thead style="width: 100% !important;">
+            <tr>
+              <th style="border: 1px solid black; padding: 5px;"> # </th>
+              <th style="border: 1px solid black; padding: 5px;"> <%=language.Category%> </th>
+              <th style="border: 1px solid black; padding: 5px;"> <%=language.Sub_Category%> </th>
+              <th style="border: 1px solid black; padding: 5px;"> <%=language.Product%> </th>
+              <th style="border: 1px solid black; padding: 5px;"> <%=language.Product_Qty%> </th>
+              <th style="border: 1px solid black; padding: 5px;"> <%=language.Product_Price%> </th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center; margin: 5px;">
+            <% var i = 1 %>
+            <% product_list.forEach((data) => { %>
+                <% product_name.forEach((product_name, x) => { %>
+                    <% if (data.id == product_name && product_qty[x] != '0') { %>
+                        <tr>
+                            <td><%= i %></td>
+                            <td><%= data.category %></td>
+                            <td><%= data.s_category %></td>
+                            <td><%= data.name %></td>
+                            <td><%= product_qty[x] %></td>
+                            <td><%= product_price[x] %> <%= general_data.site_currency %></td>
+                        </tr>
+                    <% } %>
+                <% }) %>
+            <% i %>
+            <% }) %>
+          </tbody>
+        </table>
+
+        <% }; %>
+    
+        <div>
+            <div style="float: left;">
+              <h5><%=language.Pick_Up_Address%></h5>
+              <span><%= order_data[0].pickup_firstname %> <%= order_data[0].pickup_lastname %></span><br>
+              <span><%= order_data[0].pickup_country_code %> <%= order_data[0].pickup_phone_no %></span><br>
+              <span><%= order_data[0].pickup_email %></span><br>
+              <span><%= order_data[0].pickup_fulladdress %></span><br>
+              <span><%= order_data[0].pickup_city %> | <%= order_data[0].pickup_state %> </span> <br>
+              <span> <%= order_data[0].pickup_country %> | <%= order_data[0].pickup_pincode %></span>
+                
+            </div>
+              <!-- <br> -->
+            <div style="float: right;">
+              
+              <h5><%=language.Delivery_Address%></h5>
+              <span><%= order_data[0].delivery_first %> <%= order_data[0].delivery_lastname %></span><br>
+              <span><%= order_data[0].delivery_country_code %> <%= order_data[0].delivery_phone_no %></span><br>
+              <span><%= order_data[0].delivery_email %></span><br>
+              <span><%= order_data[0].delivery_fulladdress %></span><br>
+              <span><%= order_data[0].delivery_city %> | <%= order_data[0].delivery_state %> </span> <br>
+              <span><%= order_data[0].delivery_country %> | <%= order_data[0].delivery_pincode %></span>
+            </div>
+
+            <% if(order_data[0].module == "1"){ %>
+        
+              <div style="float: right;">
+                <h5><%=language.Subtotal%> : <span><%= product_total_sum %> <%= general_data.site_currency %></span></h5>
+                <h5><%=language.Distance_Amount%> (<%= order_data[0].distance %> KM) : <span><%= order_data[0].address_price %> <%= general_data.site_currency %></span></h5>
+                <% if (coupon_data != '') { %>
+                    <h5><%=language.Coupon_Amount%> : <span><%= coupon_data[0].discount_amount %> <%= general_data.site_currency %></span></h5>
+                <% } %>
+                <h5><%=language.Delivery_Type_Amount%> : <span><%= delivery_type_data[0].price %> <%= general_data.site_currency %></span></h5>
+                <h5><%=language.Other_Amount%> : <span><%= parseFloat(order_data[0].date_price) %> <%= general_data.site_currency %></span></h5>
+                <h5><%=language.Insurance_Amount%> : <span><%= parseFloat(order_data[0].insurance_price) %> <%= general_data.site_currency %></span></h5>
+                <% if (order_data[0].differences_amount != null) { %>
+                    <h5><%=language.Differences_Amount%> : <span><%= parseFloat(order_data[0].differences_amount) %> <%= general_data.site_currency %></span></h5>
+                <% } %>
+                <h5><%=language.Total_Amount%> : <span><%= order_data[0].total_price %> <%= general_data.site_currency %></span></h5>
+              </div>
+      
+              <% } if (order_data[0].module == "2") { %>
+              
+                <div style="float: right;">
+                  <h5><%=language.Subtotal%> : <span><%= product_total_sum %> <%= general_data.site_currency %></span></h5>
+                  <h5><%=language.Distance_Amount%> (<%= order_data[0].distance %> KM) : <span><%= order_data[0].address_price %> <%= general_data.site_currency %></span></h5>
+                  <h5><%=language.Shifter_Amount%> : <span><%= shifter_data[0].price %> <%= general_data.site_currency %></span></h5>
+                  <% if (coupon_data != '') { %>
+                      <h5><%=language.Coupon_Amount%> : <span><%= coupon_data[0].discount_amount %> <%= general_data.site_currency %></span></h5>
+                  <% } %>
+                  <h5><%=language.Delivery_Type_Amount%> : <span><%= delivery_type_data[0].price %> <%= general_data.site_currency %></span></h5>
+                  <h5><%=language.Other_Amount%> : <span><%= parseFloat(order_data[0].date_price) %> <%= general_data.site_currency %></span></h5>
+                  <h5><%=language.Insurance_Amount%> : <span><%= parseFloat(order_data[0].insurance_price) %> <%= general_data.site_currency %></span></h5>
+                  <% if (order_data[0].differences_amount != null) { %>
+                      <h5><%=language.Differences_Amount%> : <span><%= parseFloat(order_data[0].differences_amount) %> <%= general_data.site_currency %></span></h5>
+                  <% } %>
+                  <h5><%=language.Total_Amount%> : <span><%= order_data[0].total_price %> <%= general_data.site_currency %></span></h5>
+                </div>
+      
+              <% }; %>
+
+
+
+        </div>
+
+    </div>
+  </body>
+  </html>

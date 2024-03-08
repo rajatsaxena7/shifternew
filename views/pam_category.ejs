@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="loader-box">
+            <div class="loader-19"></div>
+        </div>
+    </div>
+    <!-- Loader ends-->
+    <div class="container-fluid height-65px">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card">
+                    <div class="card w-50">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.category%></h5>
+                        </div>
+                        <div class="card-body" style="background-color: #FAFAFA;">
+                            <form action="/packers_and_movers/add_category" method="post" id="category_form">
+                                <div class="row">
+                                    <% if (category_list == ""){ %>
+                                        <h5 class="text-danger"><%=language.Category_Details_Not_Available%></h5>
+                                    <% } else { %>
+                                        <% category_list.forEach((data) => { %>
+                                            <div class="col-3">
+                                                <div class="card category_card">
+                                                    <input type="hidden" value="0" class="selected_item">
+                                                    <a class="btn text-center w-100 category_id" type="button" id="" data-id="<%= data.id %>">
+                                                        <img class="img-fluid b-r-7" id="file-preview" width="105px" height="105px" src="../uploads/<%= data.image %>" alt="image">
+                                                        <br>
+                                                        <span><%= data.name %></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    <% } %>
+                                    <input type="hidden" id="hidden_category" value="0">
+                                    <p class="text-danger d-none" id="category_error"><%=language.Please_Select_Category%></p>
+                                </div>
+                                <button class="btn btn-primary btn-square b-r-5 w-100 mt-4" id="category_btn" type="button"><%=language.Next%></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/script'); -%>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Edit_Customer%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Customer_List%></li>
+                        <li class="breadcrumb-item"><%=language.Edit_Customer%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <h5><%=language.Customer_Details%></h5>
+                        </div>
+                        <div class="card-body">
+                                <form  class="needs-validation" id="edit_admin_customer_form" novalidate="" action="/user/edit_customer/<%= customer_data[0].id %>" method="post">
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label"><%=language.First_Name%></label>
+                                        <input class="form-control" type="text" name="first_name" value="<%= customer_data[0].first_name %>" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label"><%=language.Last_Name%></label>
+                                        <input class="form-control" type="text" name="last_name" value="<%= customer_data[0].last_name %>" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label"><%=language.Phone_Number%></label>
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="js-example-basic-single" name="country_code" required>
+                                                    <option value selected disabled><%=language.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>" <%= customer_data[0].country_code == data ? "selected" : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="form-control" type="number" id="edit_admin_phone" name="phone_no" value="<%= customer_data[0].phone_no %>" placeholder="<%=language.Enter%> <%=language.Phone_Number%>" required>
+                                                <input class="form-control" type="number" id="val_edit_admin_phone" value="<%= customer_data[0].phone_no %>" hidden>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="form-label"><%=language.Email%></label>
+                                        <input class="form-control" type="email" id="edit_admin_email" name="email" value="<%= customer_data[0].email %>" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                                        <input class="form-control" type="email" id="val_edit_admin_email" value="<%= customer_data[0].email %>" hidden>
+                                    </div>
+                                    <p class="text-danger d-none mt-3" id="edit_customer_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                                    <p class="text-danger d-none mt-1" id="edit_customer_phone_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                                </div>
+                            </form>
+                            </div>
+                            <div class="text-end m-4 mt-0">
+                                <button class="btn btn-square b-r-7 w-25 btn-primary" id="admin_edit_cust_btn"><%=language.Save%></button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

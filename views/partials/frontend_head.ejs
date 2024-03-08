@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<% if (auth_data.role != "2" && auth_data != "1") { %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<% }; %>
+<title><%= general_data.site_title %></title>
+
+<link rel="shortcut icon" href="../../frontend/images/favicon.png" type="image/x-icon">
+<link rel="icon" href="../../frontend/images/favicon.png" type="image/x-icon">
+<!--- End favicon-->
+
+<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@600;700;800&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
+
+
+<!-- End google font  -->
+<link rel="stylesheet" href="../../frontend/css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../frontend/css/fontawesome.css" />
+<link rel="stylesheet" href="../../frontend/css/slick.css" />
+<link rel="stylesheet" href="../../frontend/css/magnific-popup.css" />
+<link rel="stylesheet" href="../../frontend/css/swiper-bundle.min.css" />
+<link rel="stylesheet" href="../../frontend/css/icomoon-font.css" />
+<link rel="stylesheet" href="../../frontend/css/animate.css" />
+<link rel="stylesheet" type="text/css" href="../../css/vendors/flag-icon.css">
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=<%= general_data.google_map_key %>"></script>
+<!-- Code Editor  -->
+
+<link rel="stylesheet" type="text/css" href="../../css/vendors/font-awesome.css">
+<link rel="stylesheet" href="../../frontend/css/main.css" />
+<link rel="stylesheet" href="../../frontend/css/app.min.css" />
+
+<link rel="stylesheet" href="../../css/toastr.min.css"/>
+<script src="../../js/tostify/jquery-1.9.1.min.js"></script>
+<script src="../../js/tostify/js-toastr.js"></script>
+<link rel="stylesheet" type="text/css" href="../../css/vendors/feather-icon.css">

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <%- include('./partials/frontend_head'); -%>
+  <meta http-equiv="Content-Type" content="">
+  <meta http-equiv="X-UA-Compatible" content="">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="" type="image/x-icon">
+  <link rel="shortcut icon" href="" type="image/x-icon">
+  <title>Sing Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/font-awesome.css">
+  <!-- Feather icon-->
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/vendors/select2.css">
+  <!-- Bootstrap css-->
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/bootstrap.css">
+  <!-- App css-->
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/responsive.css">
+
+  <!-- toster jqury link -->
+  <link rel="stylesheet" href="../../css/toastr.min.css"/>
+  <script src="../../js/tostify/jquery-1.9.1.min.js"></script>
+  <script src="../../js/tostify/js-toastr.js"></script>
+  </head>
+  <body>
+    <%- include('./partials/frontend_header'); -%>
+    
+    <!-- login page start-->
+    <div class="container-fluid">
+        <div class="row m-0">
+          <div class="col-xl-12 p-0"> 
+            <form class="theme-form" action="/add_driver_singup" method="post" enctype="multipart/form-data">
+                <div class="login-card">
+                  <div>
+                    <div class="login-main p-4">
+                      <h4><%=language.Create_your_account%></h4>
+                      <p class="my-3"><%=language.Went_to_register_as_Customers%> ? <a href="/sign_up"><%=language.Click_here%></a></p>
+                      <div class="form-group">
+                        <label class="col-form-label pt-0"><%=language.Your_Name%></label>
+                        <div class="row g-2">
+                          <div class="col-6">
+                            <input class="form-control" type="text" name="first_name" placeholder="<%=language.First_Name%>" required>
+                          </div>
+                          <div class="col-6">
+                            <input class="form-control" type="text" name="last_name" placeholder="<%=language.Last_Name%>" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-12">
+                          <div class="form-group">
+                            <label class="col-form-label"><%=language.Email%></label>
+                            <input class="form-control" type="email" name="email" placeholder="Test@gmail.com" required>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <label class="col-form-label pt-0"><%=language.Phone_No%>.</label>
+                          <div class="row g-2">
+                            <div class="col-4">
+                              <select class="js-example-basic-single" name="country_code" required>
+                                <option value selected disabled><%=language.Country%></option>
+                                <% CountryCode.forEach((data, x)=> { %>
+                                  <option value="<%= data %>">
+                                    <%= nameCode[x] %>
+                                      <%= data %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                            <div class="col-8">
+                              <input class="form-control" type="text" name="phone_no" placeholder="<%=language.Phone_No%>" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                
+                      <div class="form-group">
+                        <label class="col-form-label"><%=language.License_No%>.</label>
+                        <input class="form-control" type="text" name="license_number" placeholder="<%=language.Enter_Address%>" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="form-label"><%=language.Licence_photo%></label>
+                        <input class="form-control" type="file" name="carrier_img" required>
+                      </div>
+                
+                      <div class="form-group">
+                        <label class="col-form-label"><%=language.Password%></label>
+                        <div class="form-input position-relative">
+                          <input class="form-control" type="password" name="password" placeholder="*********" required>
+                        </div>
+                      </div>
+                
+                      <button class="btn btn-primary btn-block w-100 mt-3" type="submit"><%=language.Create_Account%></button>
+                
+                      <p class="mt-4 mb-0 text-center"><%=language.Already_have_an_account%><a class="ms-2" href="/log_in"><%=language.Log_in%></a></p>
+                    </div>
+                  </div>
+                </div>
+            </form>
+          </div>
+        </div>
+    </div>
+
+    
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

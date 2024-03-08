@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Role_Permission%> </h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Role_Permission%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            </ul>
+
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_product"><%=language.Add_New%></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Email%></th>
+                                            <th><%=language.Phone_Number%></th>
+                                            <th><%=language.Approved%></th>
+                                            <th><%=language.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% role_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.first_name %> <%= data.last_name %></td>
+                                                <td><%= data.email %></td>
+                                                <td><%= data.country_code %> <%= data.phone_no %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Active%> </span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.DeActive%> </span>
+                                                    <% } %>
+                                                </td>
+                                                <td> 
+                                                    <ul class="action">
+
+                                                    <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_role_modal" id="edit_role_permission" data-id="<%=data.id%>"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="delete"><a href="/role/delete_role_permission/<%=data.id%>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_product -->
+
+    <div class="modal fade bd-example-modal-lg" id="add_product" tabindex="-1" role="dialog" aria-labelledby="add_product" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Role_Permission%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="role_submit_form" class="needs-validation" novalidate="" action="/role/add_role_user" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.First_Name%></label>
+                                <input class="form-control" id="role_sub_first" type="text" name="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Last_Name%></label>
+                                <input class="form-control" id="role_sub_last" type="text" name="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" id="role_sub_email" type="text" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="col-form-label pt-0"><%=language.Phone_No%>.</label>
+                                <div class="row g-2">
+                                  <div class="col-4">
+                                    <select class="form-select" name="country_code" id="role_sub_code" required>
+                                      <option value selected disabled><%=language.Country%></option>
+                                      <% CountryCode.forEach((data, x) => { %>
+                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
+                                  <div class="col-8">
+                                    <input class="form-control" type="text" name="phone_no" id="role_sub_phone" placeholder="<%=language.Phone_Number%>" required>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Password%></label>
+                                <input class="form-control" id="role_sub_password" type="text" name="password" placeholder="**********" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="col-form-label pt-0"><%=language.Select_Status%></label>
+                                <select class="form-select" name="status" id="role_sub_status" required>
+                                    <option value selected disabled><%=language.Select_Status%></option>
+                                    <option value="1">Active</option>
+                                    <option value="2">DeActive</option>
+                                  </select>
+                            </div>
+
+                            <div class="text-center mt-3">
+                              <span class="text-danger d-none " id="role_input_error"><%=language.Please_Enter_All_Details%></span>
+                              <p class="text-danger d-none mt-1" id="role_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                              <p class="text-danger d-none mt-1" id="role_phone_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                            </div>
+
+                            <div class="mt-3 pt-3 pb-3" style="background-color: #e9ecef; padding-left:21px;">
+                              <label class="col-form-label p-0" ><%=language.Accessibility%></label>
+                            </div>
+
+                              <div class="table-responsive theme-scrollbar">
+                                <table class="table">
+                                  <thead class="table-dark">
+                                    <tr>
+                                      <th scope="col"><%=language.Permission%></th>
+                                      <th scope="col"><%=language.View%></th>
+                                      <th scope="col"><%=language.Add%></th>
+                                      <th scope="col"><%=language.Edit%></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td><%=language.Order%></td>
+                                      <td><input id="inline-sqr-1" name="order_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="order_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Customers%></th>
+                                      <td><input id="inline-sqr-1" name="customer_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="customer_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="customer_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Become_a_Carrier%></th>
+                                      <td><input id="inline-sqr-1" name="carrier_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="carrier_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="carrier_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Category%></th>
+                                      <td><input id="inline-sqr-1" name="category_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="category_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="category_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Sub_Category%></th>
+                                      <td><input id="inline-sqr-1" name="subcategory_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="subcategory_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="subcategory_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Product%></th>
+                                      <td><input id="inline-sqr-1" name="product_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="product_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="product_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Coupon%></th>
+                                      <td><input id="inline-sqr-1" name="coupon_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="coupon_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="coupon_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Payment%></th>
+                                      <td><input id="inline-sqr-1" name="payment_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="payment_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Location%></th>
+                                      <td><input id="inline-sqr-1" name="location_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="location_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="location_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Payout_List%></th>
+                                      <td><input id="inline-sqr-1" name="payout_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="payout_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Report%></th>
+                                      <td><input id="inline-sqr-1" name="report_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.General_Settings%></th>
+                                      <td><input id="inline-sqr-1" name="General_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="General_edit" type="checkbox"></td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row"><%=language.Shift_Express%></th>
+                                      <td><input id="inline-sqr-1" name="Shift_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Shift_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Shift_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Time_Management%></th>
+                                      <td><input id="inline-sqr-1" name="Time_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Time_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Time_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Delivery_Type%></th>
+                                      <td><input id="inline-sqr-1" name="delivery_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="delivery_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="delivery_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Pricing%></th>
+                                      <td><input id="inline-sqr-1" name="Pricing_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="Pricing_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Distance_Rate%></th>
+                                      <td><input id="inline-sqr-1" name="Distance_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Distance_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Distance_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Shipping_Status%></th>
+                                      <td><input id="inline-sqr-1" name="Shipping_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="Shipping_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Package_Insurance%></th>
+                                      <td><input id="inline-sqr-1" name="Insurance_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Insurance_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Insurance_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Zone%></th>
+                                      <td><input id="inline-sqr-1" name="Zone_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Zone_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="Zone_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Module%></th>
+                                      <td><input id="inline-sqr-1" name="Module_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input id="inline-sqr-1" name="Module_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Customer%> <%=language.Experience%></th>
+                                      <td><input id="inline-sqr-1" name="cus_exp_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="cus_exp_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="cus_exp_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.FAQ%></th>
+                                      <td><input id="inline-sqr-1" name="FAQ_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="FAQ_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="FAQ_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.policy_pages%></th>
+                                      <td><input id="inline-sqr-1" name="policy_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="policy_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="policy_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Social%> <%=language.Containt%></th>
+                                      <td><input id="inline-sqr-1" name="social_view" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="social_add" type="checkbox"></td>
+                                      <td><input id="inline-sqr-1" name="social_edit" type="checkbox"></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                        </div>
+                    </div>
+                  </form>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit" id="role_submit_btn"><%=language.Save%></button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_product -->
+
+    <div class="modal fade bd-example-modal-lg" id="edit_role_modal" tabindex="-1" role="dialog" aria-labelledby="edit_role_modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Role_Permission%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate="" action="/product/add_product" method="post" id="edit_role_form">
+                    <div class="modal-body">
+                        <div class="row g-3">
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.First_Name%></label>
+                                <input class="form-control" id="edit_first_name" type="text" name="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Last_Name%></label>
+                                <input class="form-control" id="edit_last_name" type="text" name="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" id="edit_role_email" type="text" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                                <input class="form-control" id="edit_d_role_email" type="text" hidden>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="col-form-label pt-0"><%=language.Phone_No%>.</label>
+                                <div class="row g-2">
+                                  <div class="col-4">
+                                    <select class="form-select" name="country_code" id="edit_role_country_code" required>
+                                      <option value selected disabled><%=language.Country%></option>
+                                      <% CountryCode.forEach((data, x) => { %>
+                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
+                                  <div class="col-8">
+                                    <input class="form-control" type="text" name="phone_no"  id="edit_phone_no" placeholder="<%=language.Phone_Number%>" required>
+                                    <input class="form-control" type="text"  id="edit_d_phone_no" hidden>
+                                  </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Password%></label>
+                                <input class="form-control" type="text" name="password" placeholder="**********" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                <label class="col-form-label pt-0"><%=language.Select_Status%></label>
+                                <select class="form-select" name="status" id="Select_Status" required>
+                                    <option value selected disabled><%=language.Select_Status%></option>
+                                    <option value="1">Active</option>
+                                    <option value="2">DeActive</option>
+                                  </select>
+                            </div>
+
+                            <div class="text-center mt-3">
+                              <p class="text-danger d-none mt-1" id="role_edit_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                              <p class="text-danger d-none mt-1" id="role_edit_phone_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                            </div>
+
+                            <div class="mt-3 pt-3 pb-3" style="background-color: #e9ecef; padding-left:21px;">
+                              <label class="col-form-label p-0" ><%=language.Accessibility%></label>
+                            </div>
+
+                              <div class="table-responsive theme-scrollbar">
+                                <table class="table">
+                                  <thead class="table-dark">
+                                    <tr>
+                                      <th scope="col"><%=language.Permission%></th>
+                                      <th scope="col"><%=language.View%></th>
+                                      <th scope="col"><%=language.Add%></th>
+                                      <th scope="col"><%=language.Edit%></th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th scope="row"><%=language.Order%></th>
+                                      <td><input class="order_view" id="inline-sqr-1 order_view" name="order_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="order_edit" id="inline-sqr-1 " name="order_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Customers%></th>
+                                      <td><input class="customer_view" id="inline-sqr-1 " name="customer_view" type="checkbox"></td>
+                                      <td><input class="customer_add" id="inline-sqr-1 " name="customer_add" type="checkbox"></td>
+                                      <td><input class="customer_edit" id="inline-sqr-1 " name="customer_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Become_a_Carrier%></th>
+                                      <td><input class="carrier_view" id="inline-sqr-1 " name="carrier_view" type="checkbox"></td>
+                                      <td><input class="carrier_add" id="inline-sqr-1 " name="carrier_add" type="checkbox"></td>
+                                      <td><input class="carrier_edit" id="inline-sqr-1 " name="carrier_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Category%></th>
+                                      <td><input class="category_view" id="inline-sqr-1 " name="category_view" type="checkbox"></td>
+                                      <td><input class="category_add" id="inline-sqr-1 " name="category_add" type="checkbox"></td>
+                                      <td><input class="category_edit" id="inline-sqr-1 " name="category_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Sub_Category%></th>
+                                      <td><input class="subcategory_view" id="inline-sqr-1 " name="subcategory_view" type="checkbox"></td>
+                                      <td><input class="subcategory_add" id="inline-sqr-1 " name="subcategory_add" type="checkbox"></td>
+                                      <td><input class="subcategory_edit" id="inline-sqr-1 " name="subcategory_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Product%></th>
+                                      <td><input class="product_view" id="inline-sqr-1 " name="product_view" type="checkbox"></td>
+                                      <td><input class="product_add" id="inline-sqr-1 " name="product_add" type="checkbox"></td>
+                                      <td><input class="product_edit" id="inline-sqr-1 " name="product_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Coupon%></th>
+                                      <td><input class="coupon_view" id="inline-sqr-1 " name="coupon_view" type="checkbox"></td>
+                                      <td><input class="coupon_add" id="inline-sqr-1 " name="coupon_add" type="checkbox"></td>
+                                      <td><input class="coupon_edit" id="inline-sqr-1 " name="coupon_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Payment%></th>
+                                      <td><input class="payment_view" id="inline-sqr-1 " name="payment_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="payment_edit" id="inline-sqr-1 " name="payment_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Location%></th>
+                                      <td><input class="location_view" id="inline-sqr-1 " name="location_view" type="checkbox"></td>
+                                      <td><input class="location_add" id="inline-sqr-1 " name="location_add" type="checkbox"></td>
+                                      <td><input class="location_edit" id="inline-sqr-1 " name="location_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Payout_List%></th>
+                                      <td><input class="payout_view" id="inline-sqr-1 " name="payout_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="payout_edit" id="inline-sqr-1 " name="payout_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Report%></th>
+                                      <td><input class="report_view" id="inline-sqr-1 " name="report_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <th scope="row"><%=language.General_Settings%></th>
+                                      <td><input class="General_view" id="inline-sqr-1 " name="General_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="General_edit" id="inline-sqr-1 " name="General_edit" type="checkbox"></td>
+                                    </tr>
+
+                                    <tr>
+                                      <th scope="row"><%=language.Shift_Express%></th>
+                                      <td><input class="Shift_view" id="inline-sqr-1 " name="Shift_view" type="checkbox"></td>
+                                      <td><input class="Shift_add" id="inline-sqr-1 " name="Shift_add" type="checkbox"></td>
+                                      <td><input class="Shift_edit" id="inline-sqr-1 " name="Shift_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Time_Management%></th>
+                                      <td><input class="Time_view" id="inline-sqr-1 " name="Time_view" type="checkbox"></td>
+                                      <td><input class="Time_add" id="inline-sqr-1 " name="Time_add" type="checkbox"></td>
+                                      <td><input class="Time_edit" id="inline-sqr-1 " name="Time_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Delivery_Type%></th>
+                                      <td><input class="delivery_view" id="inline-sqr-1 " name="delivery_view" type="checkbox"></td>
+                                      <td><input class="delivery_add" id="inline-sqr-1 " name="delivery_add" type="checkbox"></td>
+                                      <td><input class="delivery_edit" id="inline-sqr-1 " name="delivery_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Pricing%></th>
+                                      <td><input class="Pricing_view" id="inline-sqr-1 " name="Pricing_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="Pricing_edit" id="inline-sqr-1 " name="Pricing_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Distance_Rate%></th>
+                                      <td><input class="Distance_view" id="inline-sqr-1 " name="Distance_view" type="checkbox"></td>
+                                      <td><input class="Distance_add" id="inline-sqr-1 " name="Distance_add" type="checkbox"></td>
+                                      <td><input class="Distance_edit" id="inline-sqr-1 " name="Distance_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Shipping_Status%></th>
+                                      <td><input class="Shipping_view" id="inline-sqr-1 " name="Shipping_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="Shipping_edit" id="inline-sqr-1 " name="Shipping_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Package_Insurance%></th>
+                                      <td><input class="Insurance_view" id="inline-sqr-1 " name="Insurance_view" type="checkbox"></td>
+                                      <td><input class="Insurance_add" id="inline-sqr-1 " name="Insurance_add" type="checkbox"></td>
+                                      <td><input class="Insurance_edit" id="inline-sqr-1 " name="Insurance_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Zone%></th>
+                                      <td><input class="Zone_view" id="inline-sqr-1 " name="Zone_view" type="checkbox"></td>
+                                      <td><input class="Zone_add" id="inline-sqr-1 " name="Zone_add" type="checkbox"></td>
+                                      <td><input class="Zone_edit" id="inline-sqr-1 " name="Zone_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Module%></th>
+                                      <td><input class="Module_view" id="inline-sqr-1 " name="Module_view" type="checkbox"></td>
+                                      <td></td>
+                                      <td><input class="Module_edit" id="inline-sqr-1 " name="Module_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Customer%> <%=language.Experience%></th>
+                                      <td><input class="cus_exp_view" id="inline-sqr-1" name="cus_exp_view" type="checkbox"></td>
+                                      <td><input class="cus_exp_add" id="inline-sqr-1" name="cus_exp_add" type="checkbox"></td>
+                                      <td><input class="cus_exp_edit" id="inline-sqr-1" name="cus_exp_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.FAQ%></th>
+                                      <td><input class="FAQ_view" id="inline-sqr-1 " name="FAQ_view" type="checkbox"></td>
+                                      <td><input class="FAQ_add" id="inline-sqr-1 " name="FAQ_add" type="checkbox"></td>
+                                      <td><input class="FAQ_edit" id="inline-sqr-1 " name="FAQ_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.policy_pages%></th>
+                                      <td><input class="policy_view" id="inline-sqr-1 " name="policy_view" type="checkbox"></td>
+                                      <td><input class="policy_add" id="inline-sqr-1 " name="policy_add" type="checkbox"></td>
+                                      <td><input class="policy_edit" id="inline-sqr-1 " name="policy_edit" type="checkbox"></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row"><%=language.Social%> <%=language.Containt%></th>
+                                      <td><input class="social_view" id="inline-sqr-1 " name="social_view" type="checkbox"></td>
+                                      <td><input class="social_add" id="inline-sqr-1 " name="social_add" type="checkbox"></td>
+                                      <td><input class="social_edit" id="inline-sqr-1 " name="social_edit" type="checkbox"></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            
+                        </div>
+                    </div>
+                  </form>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" id="role_edit_submit_btn" type="submit"><%=language.Save%></button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

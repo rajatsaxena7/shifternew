@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Customer%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Customer_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = permission != "1" ? permission.customer.split(",")[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header text-end pb-0">
+                            <a class="btn btn-square btn-primary b-r-10" href="/user/add_customer"><%=language.Add_Customer%></a>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar" id="domestic_table">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Email%></th>
+                                            <th><%=language.Phone_Number%></th>
+                                            <% let permissions = permission != "1" ? permission.order_per.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% customer_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.first_name %> <%= data.last_name %></td>
+                                                <td><%= data.email %></td>
+                                                <td><%= data.country_code %><%= data.phone_no %></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a href="/user/edit_customer/<%= data.id %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/user/delete_customer/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.PayOut%> <%=language.Report%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.PayOut%> <%=language.Report%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-lg-8 col-xl-8 col-xxl-8"></div>
+                            <div class= "col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4 <%= auth_data.role == '1' ? '' : 'd-none' %>">
+                                <label class="col-form-label pt-0"><%=language.Carrier_List%></label>
+                                <select class="js-example-basic-single" name="carrier" id="payment_carrier">
+                                <option value selected disabled><%=language.Select_Carrier%></option>
+                                <% carrier_list.forEach((data) => { %>
+                                    <option value="<%= data.email %>"><%= data.first_name %> <%= data.last_name %></option>
+                                <% }) %>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                    <label class="card-title"><%=language.Start_Date%></label>
+                                    <input  class="form-control" type="date" name="start_date" id="payment_start_date" >
+                                </div>  
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                    <label class="card-title"><%=language.End_Date%></label>
+                                    <input  class="form-control" type="date" name="end_date" id="payment_end_date"  >
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                    <label class="col-form-label pt-0"><%=language.Payment_Status%></label>
+                                    <select class="js-example-basic-single" name="carrier" id="payment_carrier_type">
+                                    <option value="0" selected><%=language.All_Payment%></option>
+                                        <option value="1"><%=language.Successfull%></option>
+                                        <option value="2"><%=language.Pending%></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                            <div class="table-responsive theme-scrollbar pt-3" id="invoice_page">
+                                <table class="display" id="basic-1">
+                                    <thead >
+                                        <tr>
+                                            <th class="d-none"></th>
+                                            <th><%=language.Payment_Date%></th>
+                                            <th><%=language.Amount%></th>
+                                            <th><%=language.Payment_Type%></th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Payment_Status%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tb_payment_report">
+                                        <% driver_payment_list.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td><%= data.payment_date %></td>
+                                                <td><%= data.wallet_amout %></td>
+                                                <td><%= data.wallet_type %></td>
+                                                <td><%= data.driver_name %> <%= data.driver_lname %></td>
+                                                <td>
+                                                    <% if (data.payment_status == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Successfull%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Pending%></span>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col-sm-0 col-md-0 col-lg-6 col-xl-6 pt-3">
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 ">
+                                    <button class="btn btn-primary btn-block mt-3" type="submit" id="download_payment_report" ><%=language.Download_Report%></button>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2 d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-block mt-3" type="submit" id="print_order_report" ><%=language.Print_Report%></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

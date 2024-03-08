@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card" >
+                    <div class="login-main w-75">
+                        <div class="table-responsive theme-scrollbar">
+                            <table class="display" id="basic-1" aria-label="table">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none"></th>
+                                        <th><%=language.date%> </th>
+                                        <th><%=language.Order_Id%></th>
+                                        <th><%=language.time%></th>
+                                        <th><%=language.Sender%></th>
+                                        <th><%=language.Notification%> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% notification_list.forEach((data) => { %>
+                                    <% if(data.sender == auth_data.tbl_admin_id){ %>
+                                        <tr>
+                                            <td class="d-none"></td>
+                                            <% let date = new Date(data.date) %>
+                                            <% let day = date.getDate() %>
+                                            <% let month = date.getMonth()+1 %>
+                                            <% let year = date.getFullYear() %>
+                                            <% let fullDate = `${year}-${month}-${day}` %>
+                                            <td><%= fullDate %></td>
+                                            <td><%= data.invoice %></td>
+                                            <td> <%= data.time %></td>
+                                            <td><%= data.sender_firstname %> <%= data.sender_lastname %> </td>
+                                            <td><%= data.notification %></td>
+                                        </tr>
+                                    <% } %>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+
+</body>
+
+</html>

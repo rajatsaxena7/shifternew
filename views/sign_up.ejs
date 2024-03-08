@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <%- include('./partials/frontend_head'); -%>
+  <meta http-equiv="Content-Type" content="">
+  <meta http-equiv="X-UA-Compatible" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="" type="image/x-icon">
+  <link rel="shortcut icon" href="" type="image/x-icon">
+  <title>Sing Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/font-awesome.css">
+  <!-- Feather icon-->
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="../css/vendors/select2.css">
+  <!-- Bootstrap css-->
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/bootstrap.css">
+  <!-- App css-->
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/responsive.css">
+
+
+  <!-- toster jqury link -->
+  <link rel="stylesheet" href="../../css/toastr.min.css"/>
+  <script src="../../js/tostify/jquery-1.9.1.min.js"></script>
+  <script src="../../js/tostify/js-toastr.js"></script>
+  </head>
+  <body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <!-- login page start-->
+    <div class="container-fluid height-65px">
+      <div class="row m-0">
+        <div class="col-xl-12 p-0">
+          <form class="theme-form h-100" action="/sign_up" method="post" id="cus_signup">
+            <div class="login-card " id="customer_signup_modal">
+              <div>
+                <div class="login-main p-4">
+                    <h4><%=language.Create_your_account%></h4>
+                    <p class="my-3"><%=language.Want_to_register_as_Carrier%> ? <a href="/driver_singup"><%=language.Click_here%></a></p>
+                    <div class="form-group">
+                      <label class="col-form-label pt-0"><%=language.Your_Name%></label>
+                      <div class="row g-2">
+                        <div class="col-6">
+                          <input id="first_login_name" class="form-control" type="text" name="first_name" placeholder="<%=language.First_Name%>" required>
+                        </div>
+                        <div class="col-6">
+                          <input id="last_login_name" class="form-control" type="text" name="last_name" placeholder="<%=language.Last_Name%>" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-2">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label class="col-form-label"><%=language.Email%></label>
+                          <input class="form-control" type="email" name="email" id="email" placeholder="Test@gmail.com" required>
+                          <p class="text-danger d-none" id="email_error"><%=language.your_email_is_already_registered%>.</p>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="col-form-label pt-0"><%=language.Phone_No%>.</label>
+                        <div class="row g-2">
+                          <div class="col-4">
+                            <select class="js-example-basic-single" name="country_code" id="country_code" required>
+                              <option value selected disabled><%=language.Country%></option>
+                              <% CountryCode.forEach((data, x) => { %>
+                                <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                              <% }) %>
+                            </select>
+                          </div>
+                          <div class="col-8">
+                            <input class="form-control" type="text" name="phone_no" id="phone_no" placeholder="Phone Number" required>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="text-danger d-none" id="phone_no_error"><%=language.your_phone_no_is_already_registered%>.</p>
+                    </div>
+                    <div class="form-group pt-3">
+                      <label class="col-form-label"><%=language.Password%></label>
+                      <div class="form-input position-relative">
+                        <input id="password_login_name" class="form-control" type="password" name="password" placeholder="*********" required>
+                      </div>
+                    </div>
+
+                    <input type="text" id="sms_status" value="<%=general_data.sms_status%>" hidden>
+                    <input type="text" id="email_status" value="<%=general_data.email_status%>" hidden>
+                    <p class="text-danger d-none" id="Details_error"><%=language.Please_Enter_all_Details%>.</p>
+                    <button class="btn btn-primary btn-block w-100 mt-3" type="button" id="customer_signup_btn"><%=language.Create_Account%></button>
+                    <p class="mt-4 mb-0 text-center"><%=language.Already_have_an_account%><a class="ms-2" href="/log_in"><%=language.Log_in%></a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="login-card d-none" id="customer_otp_modal">
+              <div>
+                <div class="login-main p-4">
+                    <div class="text-center">
+                      <i class="fa fa-paper-plane-o mb-3 f-50"></i>
+                      <h3 class="f-20"><%=language.We_Just_send_you_an_SMS_Email%></h3>
+                    </div>
+                    <hr>
+                    <div class="m-2 mb-4">
+                      <div class="d-flex justify-content-center">
+                      <h6 id="enter_no"></h6> 
+                      </div>
+                      <label class="col-form-label pt-3"><%=language.Your_digit_code%></label>
+                      <input class="form-control mt-0" type="number" name="otp" id="customer_otp" placeholder="Enter OTP" required>
+                      <input class="form-control mt-4" type="hidden" name="hidden_customer_otp" id="hidden_otp">
+                      <p class="text-danger d-none" id="otp_error"><%=language.your_otp_is_wrong%></p>
+                    </div>
+                    <button class="btn btn-primary btn-square b-r-7 btn-block w-100 mt-3" type="button" id="customer_otp_btn"><%=language.Create_Account%></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+  </body>
+</html>

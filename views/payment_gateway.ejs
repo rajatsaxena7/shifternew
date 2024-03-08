@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Payment_Gateway%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Payment_Gateway_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_unitmodal"><%=language.Add_Payment_Gateway%></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Symbol%></th>
+                                            <th><%=language.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td> 
+                                                <ul class="action"> 
+                                                    <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_unitmodal" id="edit_unit"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_unitmodal -->
+    
+    <div class="modal fade" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Unit%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/settings/add_weight_unit" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Unit_Name%></label>
+                                <input class="form-control" type="text" name="name" placeholder="<%=language.Enter%> <%=language.Unit_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Unit_Symbol%></label>
+                                <input class="form-control" type="text" name="symbol" placeholder="<%=language.Enter%> <%=language.Unit_Symbol%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_unitmodal -->
+    
+    <div class="modal fade" id="edit_unitmodal" tabindex="-1" role="dialog" aria-labelledby="edit_unitmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Unit%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_id" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Unit_Name%></label>
+                                <input class="form-control" type="text" name="name" id="name" placeholder="<%=language.Enter%> <%=language.Unit_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Unit_Symbol%></label>
+                                <input class="form-control" type="text" name="symbol" id="symbol" placeholder="<%=language.Enter%> <%=language.Unit_Symbol%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

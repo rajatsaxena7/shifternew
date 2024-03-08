@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+            <% module_list.forEach(function(list){ %>
+            <% if(list.id == cart_data[0].module){ %>
+                <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=list.name%></h4>
+            <% }; %>
+            <% }); %>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= cart_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active"> <%= cart_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card py-5">
+
+                    <% if(cart_data[0].module != "2"){ %>
+
+                    <div class="row w-100 px-5 mx-5">
+                        <div class="col-xl-7 col-md-12">
+                            <div class="card b-r-6">
+                                <div class="card-header py-3">
+                                    <h4><i class="fa fa-paper-plane-o"></i> <%=language.Summary_Details%></h4>
+                                </div>
+                                <hr class="m-0">
+                                <div class="card-body py-3">
+                                    <h5><%=language.Address_Details%></h5>
+                                    <div class="row">
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0"><%=language.Pickup_Address%></h6>
+                                                <span><%= pickup_address[0].address %>, <%= pickup_address[0].city %>, <%= pickup_address[0].state %>, <%= pickup_address[0].country %></span>
+                                                <br>
+                                                <span><%= pickup_address[0].first_name %> <%= pickup_address[0].last_name %> | <%= pickup_address[0].country_code %><%= pickup_address[0].phone_no %></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0"><%=language.Delivery_Address%></h6>
+                                                <span><%= delivery_address[0].address %>, <%= delivery_address[0].city %>, <%= delivery_address[0].state %>, <%= delivery_address[0].country %></span>
+                                                <br>
+                                                <span><%= delivery_address[0].first_name %> <%= delivery_address[0].last_name %> | <%= delivery_address[0].country_code %><%= delivery_address[0].phone_no %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6">
+                                <div class="card-header pt-3 py-1">
+                                  <h5 class="f-w-700"><%=language.Package_Details%></h5>
+                                </div>
+                                <div class="card-block row">
+                                    <div class="col-12">
+                                        <div class="table-responsive theme-scrollbar" id="pam_details_table">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-dark">#</th>
+                                                        <th scope="col"><%=language.Package_Name%></th>
+                                                        <th scope="col"><%=language.Unit_Price%></th>
+                                                        <th scope="col"><%=language.Dead_Weight%></th>
+                                                        <th scope="col"><%=language.Length%></th>
+                                                        <th scope="col"><%=language.Breadth%></th>
+                                                        <th scope="col"><%=language.Height%></th>
+                                                        <th scope="col"><%=language.Volumetric%></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% var a = 1 %>
+                                                    <% for(var i = 0; i < package_name; i++){ %>
+                                                            <tr>
+                                                                <td><%= a %></td>
+                                                                <td><%= product_list[0].package_name.split(",")[i] %></td>
+                                                                <td class="invosymbol"><%= product_list[0].package_Amouunt.split(",")[i] %></td>
+                                                                <td class="weight_units_sybl"><%= product_list[0].package_weight.split(",")[i] %></td>
+                                                                <td class="length_units_sybl"><%= product_list[0].package_Length.split(",")[i] %></td>
+                                                                <td class="length_units_sybl"><%= product_list[0].package_width.split(",")[i] %></td>
+                                                                <td class="length_units_sybl"><%= product_list[0].package_Height.split(",")[i] %></td>
+                                                                <td class="weight_units_sybl"><%= product_list[0].package_Weight_vol.split(",")[i] %></td>
+                                                            </tr>
+                                                        <% a++ %>
+                                                    <% }; %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6">
+                                <div class="card-header pt-3 py-1">
+                                  <h5 class="f-w-700"><%=language.Product_Details%></h5>
+                                </div>
+                                <div class="card-block row">
+                                    <div class="col-12">
+                                        <div class="table-responsive theme-scrollbar" id="pam_details_table">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-dark">#</th>
+                                                        <th class="text-dark"><%=language.Category%></th>
+                                                        <th class="text-dark"><%=language.Sub_Category%></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% var a = 1 %>
+                                                    <% for(var i = 0; i < cart_data[0].product_name.split(',').length; i++){ %>
+                                                        <% all_category_data.forEach(function(product){ %>
+                                                            <% if (product.id == cart_data[0].product_name.split(',')[i]) { %>
+                                                                <tr>
+                                                                    <td><%= a %></td>
+                                                                    <td><%= product.category_full_name %></td>
+                                                                    <td><%= product.name %></td>
+                                                                </tr>
+                                                            <% a++ %>
+                                                            <% } %>
+                                                        <% }) %>
+                                                    <% }; %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-5 col-md-12">
+                            <div class="card b-r-6" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class="f-w-700"><%=language.Select_Delivery_Type%></h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <a class="w-100 text-dark" type="button" data-bs-toggle="modal" data-bs-target="#add_coupon">
+                                        <div class="d-flex justify-content-between pb-2">
+                                            <div class="d-flex">
+                                                <i class="fa fa-ticket f-20"></i>
+                                                <p class="mx-3"><%=language.Apply_Coupon%></p>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-chevron-right"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="mt-1">
+                                    <h5><%=language.Delivery_Type%></h5>
+                                    <div class="row g-3 mx-0">
+                                        <% delivery_type_list.forEach((data) => { %>
+                                            <div class="col-xl-3 col-sm-3 b-r-10 mx-2 p-2 all_delivery_type" style="background-color: #eef2ff;">
+                                                <a type="button" data-id="<%= data.id %>" class="select_delivery_type text-dark w-100">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fa fa-truck"></i>
+                                                        <span class="mx-2 f-w-600"><%= data.type %></span>
+                                                    </div>
+                                                    <h5 class="mb-0 invosymbol"><%= data.price %></h5>
+                                                    <p class="mb-0"><%= data.sub_type %></p>
+                                                </a>
+                                            </div>
+                                        <% }) %>
+                                        <p class="text-danger d-none" id="delivery_type_error"><%=language.Please_Select_Delivery_Type%></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card b-r-6 mb-2" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class=""><%=language.All_Details%></h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <div class="row g-3">
+                                        <% if (insurance_data != ""){ %>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="checkbox p-0 checkbox-dark">
+                                                    <input class="form-check-input add_insurance" id="invalidCheck" type="checkbox">
+                                                    <label class="form-check-label m-0 f-w-600" for="invalidCheck"><%=language.Secure_your_package_for_just%> <span class="invosymbol"><%= premium_charged %></span></label>
+                                                </div>
+                                            </div>
+                                            <p class="f-12 px-3 mx-4 mt-2 my-0 d-none" id="hidden_insurance"><%=language.Claim_upto%> <span class="font-success f-w-700 invosymbol"><%= damage_payout %></span> <%=language.in_case_of_loss_or_damage%></p>
+                                            <input type="hidden" name="add_insurance_id" id="add_insurance_id" value="<%= insurance_data[0].id %>">
+                                            <input type="hidden" name="add_insurance_price" id="add_insurance_price" value="<%= damage_payout %>">
+                                            <input type="hidden" id="add_insurance_charge" value="<%= premium_charged %>">
+                                            <hr>
+                                        <% } %>
+                                        <input type="hidden" id="product_total_sum" value="00">
+
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700"><%=language.Product%> <%=language.Weight%> <%=language.Price%>
+                                                <button data-bs-toggle="tooltip" data-bs-placement="Top" data-bs-html="true" title='
+                                                    <% if(package_name == "1"){ %>
+                                                        <% for(var i = 0; i < package_name; i++){ %>
+                                                            <span class="weight_units_sybl"><%= product_list[0].package_name.split(",")[i] %> : <%= product_list[0].package_weight.split(",")[i] %> <%=general_data.weight_units%></span><br>
+                                                        <% }; %>
+
+                                                    <% } else { %>
+
+                                                        <% for(var i = 0; i < package_name; i++){ %>
+                                                            <span class="weight_units_sybl"><%= product_list[0].package_name.split(",")[i] %> : <%= product_list[0].package_weight.split(",")[i] %> <%=general_data.weight_units%></span><br>
+                                                        <% }; %>
+                                                        <hr class="mt-1 mb-1">
+                                                        <span>Total : &nbsp;<span><%=pack_weight%> <%=general_data.weight_units%></span></span>
+                                                    <% }; %>
+                                                '><i class="fa fa-info-circle f-16"></i></button>
+                                                
+                                            </span>
+                                            <span class="f-w-700 invosymbol" id="show_product_total_sum"><%= cart_data[0].weight_price%>
+                                            </span>
+                                            <input type="hidden" id="customer_weight_price" value="<%= cart_data[0].weight_price %>">
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700"><%=language.Other_Total%>
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext" style="width: 340px;">
+                                                        <span><%=language.Distance%>-<%=language.Based%> <%=language.Weight%> <%=language.Range%> <%=language.Pricing%> :&nbsp; <span class="invosymbol"><%= cart_data[0].diss_weight_price %></span> </span><br>
+                                                        <% if(cart_data[0].module == "1"){ %> 
+                                                        <span><%=language.Distance%> (<%= cart_data[0].distance %> KM) :&nbsp; <span class="invosymbol"><%= cart_data[0].address_price %></span> </span><br>
+                                                        <% }; %>
+                                                        <span><%= pickup_floor %> <%=language.Floor_Price_for_Pickup%> :&nbsp; <span class="invosymbol"><%= pickup_price %></span> </span><br>
+                                                        <span><%= delivery_floor %> <%=language.Floor_Price_for_Drop%> :&nbsp; <span class="invosymbol"><%= delivery_price %></span> </span><br>
+                                                        <span><%=language.Elevator_Pickup_Charge%> :&nbsp; <span class="invosymbol"><%= pickup_elevator %></span> </span><br>
+                                                        <span><%=language.Elevator_Drop_Charge%> :&nbsp; <span class="invosymbol"><%= delivery_elevator %></span> </span>
+                                                    </span>
+                                                </div> 
+                                            </span>
+                                            <span class="f-w-700 invosymbol" id="show_other_price"><%= other_price %></span>
+                                            <input type="hidden" id="other_price" value="<%= other_price %>">
+                                        </div>
+
+                                        <div class="d-flex justify-content-between d-none" id="coupon_data">
+                                            <span class="f-w-700"><%=language.Coupon%></span>
+                                            <span class="f-w-700 invosymbol" id="show_coupon_price">00</span>
+                                            <input type="hidden" id="coupon_price" value="00">
+                                        </div>
+
+                                        <div class="d-flex justify-content-between d-none" id="delivery_type_data">
+                                            <span class="f-w-700"><%=language.Delivery_Type%></span>
+                                            <span class="f-w-700 invosymbol" id="show_delivery_type_price">00</span>
+                                            <input type="hidden" id="delivery_type_price" value="00">
+                                        </div>
+
+                                        <% if (insurance_data != ""){ %>
+                                            <div class="d-flex justify-content-between d-none" id="insurance_data">
+                                                <span class="f-w-700"><%=language.Insurance_Price%>
+
+                                                    <button data-bs-toggle="tooltip" data-bs-placement="Top" data-bs-html="true" title='
+                                                        <% if(package_name == "1"){ %>
+                                                            <% for(var i = 0; i < package_name; i++){ %>
+                                                            <span><%= product_list[0].package_name.split(",")[i] %> :&nbsp; <span class="invosymbol"><%=general_data.site_currency%> <%= product_list[0].package_Amouunt.split(",")[i] %></span></span><br>
+                                                            <% }; %>
+                                                            
+                                                        <% } else { %>
+                                                            <% for(var i = 0; i < package_name; i++){ %>
+                                                                <span><%= product_list[0].package_name.split(",")[i] %> :&nbsp; <span class="invosymbol"><%=general_data.site_currency%> <%= product_list[0].package_Amouunt.split(",")[i] %> </span></span><br>
+                                                            <% }; %>
+                                                            <hr class="mt-1 mb-1">
+                                                            <span>Total : &nbsp;<span><%=general_data.site_currency%> <%=product_tots%></span></span>
+
+                                                        <% }; %>
+                                                    '><i class="fa fa-info-circle f-16"></i></button>
+
+                                                </span>
+                                                <span class="f-w-700 invosymbol" id="show_insurance_price">00</span>
+                                                <input type="hidden" id="insurance_price" value="00">
+                                            </div>
+                                        <% } else { %> 
+                                            <input type="hidden" id="insurance_price" value="00">
+                                        <% }; %>
+
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700"><%=language.Booking_Amount%></span>
+                                            <span class="f-w-700 invosymbol payment_amount" id="show_Total_Price"><%= Total_Price %></span>
+                                            <input type="hidden" id="Total_Price" value="<%= Total_Price %>">
+                                        </div>
+
+                                        <input class="insurance_add_id" type="text" id="insurance_add_id" value="0" name="add_insurance_id_modal" hidden>
+                                        
+                                    </div>
+                                    <button class="btn btn-primary btn-square b-r-5 w-100 mt-4 proceed_to_pay" data-general="<%=general_data.site_currency%>" type="button"><%=language.Proceed_To_Pay%></button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% } else { %>
+
+                        <div class="row w-100 px-5 mx-5">
+                            <div class="col-xl-7 col-md-12">
+                                <div class="card b-r-6">
+                                    <div class="card-header py-3">
+                                        <h4><i class="fa fa-paper-plane-o"></i> <%=language.Summary_Details%></h4>
+                                    </div>
+                                    <hr class="m-0">
+                                    <div class="card-body py-3">
+                                        <h5><%=language.Address_Details%></h5>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex mt-3">
+                                                <div>
+                                                    <i class="fa fa-map-marker"></i>
+                                                </div>
+                                                <div class="mx-3">
+                                                    <h6 class="mb-0"><%=language.Pickup_Address%></h6>
+                                                    <span><%= pickup_address[0].address %>, <%= pickup_address[0].city %>, <%= pickup_address[0].state %>, <%= pickup_address[0].country %></span>
+                                                    <br>
+                                                    <span><%= pickup_address[0].first_name %> <%= pickup_address[0].last_name %> | <%= pickup_address[0].country_code %><%= pickup_address[0].phone_no %></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 d-flex mt-3">
+                                                <div>
+                                                    <i class="fa fa-map-marker"></i>
+                                                </div>
+                                                <div class="mx-3">
+                                                    <h6 class="mb-0"><%=language.Delivery_Address%></h6>
+                                                    <span><%= delivery_address[0].address %>, <%= delivery_address[0].city %>, <%= delivery_address[0].state %>, <%= delivery_address[0].country %></span>
+                                                    <br>
+                                                    <span><%= delivery_address[0].first_name %> <%= delivery_address[0].last_name %> | <%= delivery_address[0].country_code %><%= delivery_address[0].phone_no %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="card b-r-6">
+                                    <div class="card-header py-3">
+                                      <h5 class="f-w-700"><%=language.Package_Details%></h5>
+                                    </div>
+                                    <div class="card-block row">
+                                        <div class="col-12">
+                                            <div class="table-responsive theme-scrollbar" id="pam_details_table">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-dark">#</th>
+                                                            <th class="text-dark"><%=language.Category%></th>
+                                                            <th class="text-dark"><%=language.Sub_Category%></th>
+                                                            <th class="text-dark"><%=language.Product%></th>
+                                                            <th class="text-dark"><%=language.Qty%></th>
+                                                            <th class="text-dark"><%=language.Price%></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% var i = 1 %>
+                                                        <% product_list.forEach((data) => { %>
+                                                            <% product.forEach((product, x) => { %>
+                                                                <% if (data.id == product && product_qty[x] != '0') { %>
+                                                                    <tr>
+                                                                        <td><%= i %></td>
+                                                                        <td><%= data.category %></td>
+                                                                        <td><%= data.s_category %></td>
+                                                                        <td><%= data.name %></td>
+                                                                        <td><%= product_qty[x] %></td>
+                                                                        <td class="invosymbol"><%= data.price %></td>
+                                                                    </tr>
+                                                                <% i++ %>
+                                                                <% } %>
+                                                            <% }) %>
+                                                        <% }) %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="card b-r-6 mb-2">
+                                    <div class="card-body py-3">
+                                        <h5 class="mb-3 f-w-700"><%=language.Pickup_Schedule%></h5>
+                                        <div class="d-flex justify-content-between">
+                                            <h5><%=language.Date%></h5>
+                                            <h5><%= cart_data[0].date %></h5>
+                                        </div>
+                                        <hr class="my-2">
+                                        <div class="d-flex justify-content-between">
+                                            <h5><%=language.Time_Slot%></h5>
+                                            <h5><%= start_time[0] %>:00 - <%= end_time[0] %>:00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-md-12">
+                                <div class="card b-r-6" id="enter_package_details">
+                                    <div class="card-header text-start py-3 px-4 pb-0">
+                                        <h5 class="f-w-700"><%=language.Select_Delivery_Type%></h5>
+                                        <hr class="mb-2">
+                                    </div>
+                                    <div class="card-body pt-2" id="add_package_details">
+                                        <a class="w-100 text-dark" type="button" data-bs-toggle="modal" data-bs-target="#add_coupon">
+                                            <div class="d-flex justify-content-between pb-2">
+                                                <div class="d-flex">
+                                                    <i class="fa fa-ticket f-20"></i>
+                                                    <p class="mx-3"><%=language.Apply_Coupon%></p>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <hr class="mt-1">
+                                        <h5><%=language.Delivery_Type%></h5>
+                                        <div class="row g-3 mx-0">
+                                            <% delivery_type_list.forEach((data) => { %>
+                                                <div class="col-xl-3 col-sm-3 b-r-10 mx-2 p-2 all_delivery_type" style="background-color: #eef2ff;">
+                                                    <a type="button" data-id="<%= data.id %>" class="select_delivery_type text-dark w-100">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="fa fa-truck"></i>
+                                                            <span class="mx-2 f-w-600"><%= data.type %></span>
+                                                        </div>
+                                                        <h5 class="mb-0 invosymbol"><%= data.price %></h5>
+                                                        <p class="mb-0"><%= data.sub_type %></p>
+                                                    </a>
+                                                </div>
+                                            <% }) %>
+                                            <p class="text-danger d-none" id="delivery_type_error"><%=language.Please_Select_Delivery_Type%></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card b-r-6 mb-2" id="enter_package_details">
+                                    <div class="card-header text-start py-3 px-4 pb-0">
+                                        <h5 class=""><%=language.All_Details%></h5>
+                                        <hr class="mb-2">
+                                    </div>
+                                    <div class="card-body pt-2" id="add_package_details">
+                                        <div class="row g-3">
+                                            <% if (insurance_data != ""){ %>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="checkbox p-0 checkbox-dark">
+                                                        <input class="form-check-input add_insurance" id="invalidCheck" type="checkbox">
+                                                        <label class="form-check-label m-0 f-w-600" for="invalidCheck"><%=language.Secure_your_package_for_just%> <span class="invosymbol"><%= premium_charged %></span></label>
+                                                    </div>
+                                                </div>
+                                                <p class="f-12 px-3 mx-4 mt-2 my-0 d-none" id="hidden_insurance"><%=language.Claim_upto%> <span class="font-success f-w-700 invosymbol"><%= damage_payout %></span> <%=language.in_case_of_loss_or_damage%></p>
+                                                <input type="hidden" name="add_insurance_id" id="add_insurance_id" value="<%= insurance_data[0].id %>">
+                                                <input type="hidden" name="add_insurance_price" id="add_insurance_price" value="<%= damage_payout %>">
+                                                <input type="hidden" id="add_insurance_charge" value="<%= premium_charged %>">
+                                                <hr>
+                                            <% } %>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="f-w-700"><%=language.Amount_Quoted%></span>
+                                                <span class="f-w-700 invosymbol" id="show_product_total_sum"><%= product_total_sum %></span>
+                                                <input type="hidden" id="product_total_sum" value="<%= product_total_sum %>">
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="f-w-700"><%=language.Other_Total%>
+                                                    <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                        <span class="tooltiptext">
+                                                            <span><%=language.Time_based_Pricing%> : <span class="invosymbol"><%= date_price %></span> </span><br>
+                                                            <span><%=language.Delivery_Operator%> : <span class="invosymbol"><%= shift_express_data %></span> </span><br>
+                                                            <span><%=language.Distance%> (<%= cart_data[0].distance %> KM) : <span class="invosymbol"><%= cart_data[0].address_price %></span> </span><br>
+                                                            <span><%= pickup_floor %> <%=language.Floor_Price_for_Pickup%> : <span class="invosymbol"><%= pickup_price %></span> </span><br>
+                                                            <span><%= delivery_floor %> <%=language.Floor_Price_for_Drop%> : <span class="invosymbol"><%= delivery_price %></span> </span><br>
+                                                            <span><%=language.Elevator_Pickup_Charge%> : <span class="invosymbol"><%= pickup_elevator %></span> </span><br>
+                                                            <span><%=language.Elevator_Drop_Charge%> : <span class="invosymbol"><%= delivery_elevator %></span> </span>
+                                                        </span>
+                                                    </div> 
+                                                </span>
+                                                <span class="f-w-700 invosymbol" id="show_other_price"><%= other_price %></span>
+                                                <input type="hidden" id="other_price" value="<%= other_price %>">
+                                            </div>
+                                            <div class="d-flex justify-content-between d-none" id="coupon_data">
+                                                <span class="f-w-700"><%=language.Coupon%></span>
+                                                <span class="f-w-700 invosymbol" id="show_coupon_price">00</span>
+                                                <input type="hidden" id="coupon_price" value="00">
+                                            </div>
+                                            <div class="d-flex justify-content-between d-none" id="delivery_type_data">
+                                                <span class="f-w-700"><%=language.Delivery_Type%></span>
+                                                <span class="f-w-700 invosymbol" id="show_delivery_type_price">00</span>
+                                                <input type="hidden" id="delivery_type_price" value="00">
+                                            </div>
+                                            <% if (insurance_data != ""){ %>  
+                                                <div class="d-flex justify-content-between d-none" id="insurance_data">
+                                                    <span class="f-w-700"><%=language.Insurance_Price%></span>
+                                                    <span class="f-w-700 invosymbol" id="show_insurance_price">00</span>
+                                                    <input type="hidden" id="insurance_price" value="00">
+                                                </div>
+                                            <% } else { %> 
+                                                <input type="hidden" id="insurance_price" value="00">
+                                            <% }; %>
+                                            
+                                            <div class="d-flex justify-content-between">
+                                                <span class="f-w-700"><%=language.Booking_Amount%></span>
+                                                <span class="f-w-700 invosymbol payment_amount" id="show_Total_Price"><%= Total_Price %></span>
+                                                <input type="hidden" id="Total_Price" value="<%= Total_Price %>">
+                                            </div>
+
+                                            <input class="insurance_add_id" type="text" id="insurance_add_id" value="0" name="add_insurance_id_modal" hidden>
+                                            <input type="hidden" id="customer_weight_price" value="00">
+
+                                        </div>
+                                        <button class="btn btn-primary btn-square b-r-5 w-100 mt-4 proceed_to_pay" data-general="<%=general_data.site_currency%>" type="button"><%=language.Proceed_To_Pay%></button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <% }; %>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add_coupon -->
+
+    <div class="modal fade" id="add_coupon" tabindex="-1" role="dialog" aria-labelledby="add_coupon" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Coupon%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #FAFAFA;">
+
+                    <% if(coupon_list == ""){ %>
+                        <h6 class="text-danger">Coupon Not Available</h6>
+                    <% } else { %>
+                        <% coupon_list.forEach((data) => { %>
+                            <div class="w-100 select_shifter shadow-sm shadow-showcase mb-4">
+                                <div class="card b-r-7 mb-0 p-2">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span><%= data.title %></span>
+                                        <span><%=language.Coupon_code%> : <%= data.code %></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span><%=language.Discount%> : <span class="invosymbol"><%= data.discount_amount %></span></span>
+                                        <span><%=language.Min_Amount%> : <span class="invosymbol"><%= data.min_amount %></span></span>
+                                    </div>
+    
+                                    <div class="text-end mt-2 show_coupon_btn" id="show_coupon_btn">
+                                        <button class="btn btn-square btn-success py-0 px-2 b-r-7 select_coupon count_coupon" id="coupon_model_click" data-bs-dismiss="modal" data-id="<%= data.id %>" type="button"><i class="fa fa-save"></i> &nbsp; <%=language.Apply%></button>
+                                    </div>
+    
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- pam_payment -->
+
+    <div class="modal fade" id="pam_payment" tabindex="-1" role="dialog" aria-labelledby="pam_payment" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Payment%></h5>
+                    <button class="btn-close" id="close_model" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #FAFAFA;">
+                    <div class="row">
+                        <% transaction_method_list.forEach((data) => { %>
+                            <div class="col-4">
+                                <div class="card" style="height: 130px;">
+
+                                    <% if(data.id == "3"){ %>
+                                        <form id="submitform" class="needs-validation" novalidate="" action="/packers_and_movers/payment_place_order/<%=data.id%>" method="get" enctype="multipart/form-data" data-id="<%= data.id %>">
+                                            
+                                            <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-id="<%= data.id %>">
+                                                <button><img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image"></button>
+                                                <br>
+                                                <span><%= data.title %></span>
+                                            </a>
+                                        </form>
+
+                                    <% } else if(data.id == "4"){ %>
+
+                                        <form id="submitform" class="needs-validation" novalidate="" action="/packers_and_movers/paystack_payment" method="post">
+
+                                            <input class="hidden" id="paystack_amount" name="paystack_total_amount" type="text" value="" >
+                                            <input class="hidden" name="paystack_payment_type" type="text" value="<%= data.id %>" >
+                                            <input class="hidden" type="text" name="type" value="1">
+
+                                            <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-id="<%= data.id %>" id="paypal_payment_click">
+                                                <button><img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image"></button>
+                                                <br>
+                                                <span><%= data.title %></span>
+                                            </a>
+                                        </form>
+
+                                    <% } else if(data.id == "5"){ %>
+
+                                        <form id="submitform" class="needs-validation" novalidate="" action="/packers_and_movers/paypal_payment" method="post">
+
+                                            <input class="hidden" id="paypal_amount" name="paypal_total_amount" type="text" value="" >
+                                            <input class="hidden" name="paypal_payment_type" type="text" value="<%= data.id %>" >
+                                            <input class="hidden" type="text" name="type" value="1">
+                                            
+                                            <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-id="<%= data.id %>" id="">
+                                                <button><img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image"></button>
+                                                <br>
+                                                <span><%= data.title %></span>
+                                            </a>
+                                        </form>
+                                        
+                                    <% } else if(data.id == "6"){ %>
+                                            
+                                            
+                                        <input class="hidden" id="razorpay_amount" name="razorpay_total_amount" type="text" value="" >
+                                        <input class="hidden" name="razorpay_payment_type" type="text" value="<%= data.id %>" >
+                                        <input class="hidden" type="text" name="type" value="1">
+                                        <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-id="<%= data.id %>" id="rzp-button1">
+                                            <button><img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image"></button>
+                                            <br>
+                                            <span><%= data.title %></span>
+                                        </a>
+                                    
+                                    <% } else if (data.id == "7") { %>
+                                            
+                                        <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-bs-toggle="modal" data-bs-target="#add_patment" id="payment_model" data-id="<%= data.id %>"
+                                            data-secrestid="<%= data.secret_id %>" data-key="<%= data.secret_key %>" data-bank_name="<%= data.bank_name %>" data-hoder_name="<%= data.bank_holder_name %>"
+                                            data-ban_no="<%= data.bank_account_No %>" data-ifsc="<%= data.bank_ifsc_code %>" data-swift="<%= data.swift_code %>">
+                                            <img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image">
+                                            <br>
+                                            <span><%= data.title %></span>
+                                        </a>
+                                            
+                                    <% } else if (data.id == "8") { %>
+
+                                        <form id="submitform" class="needs-validation" novalidate="" action="/packers_and_movers/stripe_payment" method="post">
+
+                                            <input class="hidden" id="stripe_amount" name="stripe_total_amount" type="text" value="" >
+                                            <input class="hidden" name="stripe_payment_type" type="text" value="<%= data.id %>" >
+                                            <input class="hidden" type="text" name="type" value="1">
+                                        
+                                            <a href="" class="btn text-center w-100 h-100 px-0 py-3" type="button" data-id="<%= data.id %>">
+                                                <button><img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image"></button>
+                                                <br>
+                                                <span><%= data.title %></span>
+                                            </a>
+
+                                        </form>
+                                            
+                                    <% }; %>
+
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- pam_add_payment -->
+
+    <div class="modal fade" id="add_patment" tabindex="-1" role="dialog" aria-labelledby="add_patment" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Payment%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #FAFAFA;">
+                    <div class="row d-flex justify-content-center">
+                        <div class="card">
+                            <% transaction_method_list.forEach((data) => { %>
+                                <% if(data.id == "7"){ %>
+                            <div class="show_payment_list">
+                                <div class="d-flex">
+                                    <div class="col-6 mb-1 ">
+                                      <h6 class="mb-1"><%=language.Bank_Name%> :- </h6>
+                                      <p class="mb-3"><%=data.bank_name%></p>
+                                    </div>
+                                    <div class="col-6 mb-1 ">
+                                      <h6 class="mb-1"><%=language.Bank_Account_Holder_Name%> :- </h6>
+                                      <p class="mb-3"><%=data.bank_holder_name%></p>
+                                    </div>
+                                  </div>
+
+                                  <div class="d-flex">
+                                    <div class="col-6 mb-1 ">
+                                      <h6 class="mb-1"><%=language.Bank_Account_No%> :- </h6>
+                                      <p class="mb-3"><%=data.bank_account_No%></p>
+                                    </div>
+                                    <div class="col-6 mb-1 ">
+                                      <h6 class="mb-1"><%=language.Bank_IFSC_Code%> :- </h6>
+                                      <p class="mb-3"><%=data.bank_ifsc_code%></p>
+                                    </div>
+                                  </div>
+                                            
+                                  <div class="d-flex">
+                                    <div class="col-6 ">
+                                      <h6 class="mb-1"><%=language.Bank_Swift_Code%> :- </h6>
+                                      <p><%=data.swift_code%></p>
+                                    </div>
+                                    <div class="col-6 ">
+                                      <h6 class="mb-1"><%=language.Total_Amount%> :- </h6>
+                                      <p class="invosymbol" id="show_amount"></p>
+                                    </div>
+                                  </div>
+
+                            </div>
+                            <form  class="needs-validation" id="payment_image_submit" novalidate="" action="/packers_and_movers/place_order/<%=data.id%>" method="post" enctype="multipart/form-data">
+                                <div class="col-12 pt-5">
+                                    <label class="form-label"><%=language.Upload_Transaction_Image%></label>
+                                    <input class="form-control form-control-lg" value="1" type="file" name="payment_image" required>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <button class="btn btn-primary" type="submit"><%=language.Submit%></button>
+                                </div>
+                            </form>
+                            <% }; %>
+                            <% }) %>
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Driver_List%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Driver_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card" id="driver_list">
+                        <div class="card-header d-flex justify-content-end pb-0">
+
+                            <button class="btn btn-square btn-primary b-r-10" id="add_driver_btn" type="submit"><%=language.Add_Driver%></button>
+
+                        </div>
+
+                        <div class="card-body">
+                            
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.name%></th>
+                                            <th><%=language.Email%></th> 
+                                            <th><%=language.Phone_No%></th> 
+                                            <th><%=language.License_No%></th>
+                                            <th><%=language.Action%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% driver_detail.forEach(function(data){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.first_name %> <%= data.last_name  %></td>
+                                                <td><%= data.email %></td>
+                                                <td><%= data.country_code %> <%= data.phone_no %></td>
+                                                <td><%= data.license_number %></td>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_unitmodal" id="edit_driver_detail" data-id="<%= data.id %>" data-fname="<%= data.first_name %>" data-lname="<%= data.last_name  %>" data-email="<%= data.email %>"
+                                                            data-country_code="<%= data.country_code %>" data-phone="<%= data.phone_no %>" data-license="<%= data.license_number %>"><i class="icon-pencil-alt"></i></a></li>
+    
+                                                        <li class="delete"><a href="/delete_driver_detail/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                                
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="card d-none" id="show_add_driver">
+                        <div class="card-header d-flex justify-content-end pb-0">
+                                <button class="btn btn-square btn-primary b-r-10" id="show_driver_btn" type="submit"><%=language.Driver_List%></button>
+                        </div>
+
+                        <div class="card-body">
+                            
+                            <form  class="needs-validation" id="driver_from_click" novalidate="" action="/add_carrier_driver" method="post">
+                                <div class="d-flex justify-content-center">
+                                    <div class="row g-4 customer_print_card">
+                                    
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-5">
+                                            <label class="form-label"><%=language.First_Name%></label>
+                                            <input class="form-control " type="text" id="driver_first_name" name="first_name" value="" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-5">
+                                            <label class="form-label"><%=language.Last_Name%></label>
+                                            <input class="form-control " type="text" id="driver_last_name" name="last_name" value="" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.Email%></label>
+                                            <input class="form-control " id="driver_signup_email" type="text" name="email" value="" placeholder="<%=language.Enter%> Email Id" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.Phone_No%>.</label>
+                                            <div class="d-flex">
+                                                <div class="col-3 pt-md-1">
+                                                    <select class="js-example-basic-single" name="country_code" id="driver_country_code" required>
+                                                    <option value selected disabled><%=language.Country%></option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-9" style="margin-left: 10px;">
+                                                    <input class="form-control " type="text" id="driver_phone" name="phone_no" value="" placeholder="<%=language.Enter%> <%=language.Phone_No%>." required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.License_No%>.</label>
+                                            <input class="form-control " type="text" id="driver_License_no" name="License_no" value="" placeholder="<%=language.Enter%> <%=language.License_No%>." required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.Password%></label>
+                                            <input class="form-control " type="text" id="driver_password" name="password" value="" placeholder="<%=language.Enter%> <%=language.Password%>" required>
+                                        </div>
+
+                                        <p class="text-danger d-none mt-1" id="driver_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="driver_phone_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="check_driver_detail_error"><%=language.Please_Enter_All_Detail%>.</p>
+                                        
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="d-flex justify-content-center">
+                                <div class="row g-4 w-75">
+
+                                    <button class="btn btn-primary mt-5" id="driver_detail_check_btn" type="submit"><%=language.Submit%></button>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+
+
+
+                    <div class="card d-none" id="show_edit_driver">
+                        <div class="card-header d-flex justify-content-end pb-0">
+                                <button class="btn btn-square btn-primary b-r-10" id="show_driver_btn" type="submit"><%=language.Driver_List%></button>
+                        </div>
+
+                        <div class="card-body">
+                            
+                            <form  class="needs-validation" id="edit_driver_from_click" novalidate="" action="" method="post">
+                                <div class="d-flex justify-content-center">
+                                    <div class="row g-4 customer_print_card">
+                                    
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-5">
+                                            <label class="form-label"><%=language.First_Name%></label>
+                                            <input class="form-control " type="text" id="edit_driver_first_name" name="edit_first_name" value="" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-5">
+                                            <label class="form-label">Last Name</label>
+                                            <input class="form-control " type="text" id="edit_driver_last_name" name="edit_last_name" value="" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label">Email</label>
+                                            <input class="form-control " id="edit_driver_signup_email" type="text" name="edit_email" value="" placeholder="<%=language.Enter%> Email Id" required>
+                                            <input class="form-control " id="edit_driver_signup_email_val" name="edit_email_vol" type="text"  value=""  hidden>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.Phone_No%>.</label>
+                                            <div class="d-flex">
+                                                <div class="col-3 pt-md-1">
+                                                    <select class="js-example-basic-single" name="edit_country_code" id="edit_driver_country_code" required>
+                                                    <option value disabled>Country</option>
+                                                    <% CountryCode.forEach((data, x) => { %>
+                                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
+                                                <div class="col-9" style="margin-left: 10px;">
+                                                    <input class="form-control " type="text" id="edit_driver_phone" name="edit_phone_no" value="" placeholder="<%=language.Enter%> <%=language.Phone_No%>." required>
+                                                    <input class="form-control " type="text" id="edit_driver_phone_vol"  value=""  hidden>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.License_No%>.</label>
+                                            <input class="form-control " type="text" id="edit_driver_License_no" name="edit_License_no" value="" placeholder="<%=language.Enter%> <%=language.License_No%>." required>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                                            <label class="form-label"><%=language.Password%>.</label>
+                                            <input class="form-control " type="text" id="edit_driver_password" name="edit_password" value="" placeholder="<%=language.Enter%> <%=language.Password%>">
+                                        </div>
+
+
+                                        <p class="text-danger d-none mt-1" id="edit_driver_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                                        <p class="text-danger d-none mt-1" id="edit_driver_phone_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                                        
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="d-flex justify-content-center">
+                                <div class="row g-4 w-75">
+
+                                    <button class="btn btn-primary mt-5" id="edit_driver_detail_check_btn" type="submit"><%=language.Submit%></button>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

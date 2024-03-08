@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+            <% module_list.forEach(function(list){ %>
+            <% if(list.id == cart_data[0].module){ %>
+                <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=list.name%></h4>
+            <% }; %>
+            <% }); %>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= cart_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active"> <%= cart_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid height-100px">
+        <div class="row">
+            <div class="login-card py-5">
+                <div class="col-xl-12 d-flex justify-content-center p-0">    
+                    <div class="card login_width">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.What_type_of_property_are_you_moving_out_of%></h5>
+                        </div>
+                        <div class="card-body" style="background-color: #FAFAFA;">
+                            <form action="/packers_and_movers/add_category" method="post" id="category_form">
+                                <div class="row">
+                                    <% if (category_list == ""){ %>
+                                        <h5 class="text-danger"><%=language.Category_Details_Not_Available%></h5>
+                                    <% } else { %>
+                                        <% category_list.forEach((data) => { %>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-3">
+                                                <div class="card category_card" style="height: 150px;">
+                                                    <input type="hidden" value="0" class="selected_item">
+                                                    <a class="btn text-center category_id w-100 h-100" type="button" id="" data-id="<%= data.id %>">
+                                                        <img class="img-fluid b-r-7" id="file-preview" width="90px" height="90px" src="../uploads/<%= data.image %>" alt="image">
+                                                        <br>
+                                                        <span><%= data.name %></span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    <% } %>
+                                    <input type="hidden" id="hidden_category" value="0">
+                                    <div class="text-center">
+                                    <p class="text-danger d-none" id="category_error"><%=language.Please_Select_Category%></p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-square b-r-5 w-100 mt-4" id="category_btn" type="button"><%=language.Next%></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

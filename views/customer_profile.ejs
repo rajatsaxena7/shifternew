@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+
+  <link rel="stylesheet" href="../../css/toastr.min.css"/>
+  <script src="../../js/tostify/jquery-1.9.1.min.js"></script>
+  <script src="../../js/tostify/js-toastr.js"></script>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+      <div class="scetion ppc-section-padding pt-5 pb-5">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-10">
+            <div class="">
+              <div class="text-left">
+                  <div class="ppc-default-content large pb-3">
+                      <h4 class="font-weight-bold"><%=language.Recent_Added_Address%></h4>
+                  </div>
+              </div>
+              <form class="theme-form" action="/edit_edmin/<%=customer_data[0].id%>" method="post" enctype="multipart/form-data" >
+                  <div>
+                    
+                    <h4 class="pt-3 d-flex justify-content-center"><%=language.Edit_your_Profile%></h4>
+
+                    <input value="<%=auth_data.role%>"  class="hidden" type="text" name="role" placeholder="Enter Pincode" required>
+
+                    <div class="d-flex justify-content-center pt-1">
+
+                      <% if(customer_data[0].profile_img == null){ %>
+                        <img src="../../uploads/<%=gPhoto[0].site_dark_logo%>" class="logo-abbr mx-2 b-r-10"  height="130.5px" alt="">
+                      <% } else { %>
+                        <img src="../../uploads/<%=customer_data[0].profile_img%>" class="logo-abbr mx-2 b-r-10"  height="130.5px" alt="">
+                      <% }; %>
+                    </div>
+
+                        <div class="form-group pt-3">
+                          <div class="row g-2">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                              <label class="col-form-label pt-0"><%=language.First_Name%></label>
+                              <input class="form-control" value="<%=customer_data[0].first_name%>" type="text" name="first_name" placeholder="First name" required>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                              <label class="col-form-label pt-0"><%=language.Last_Name%></label>
+                              <input class="form-control" value="<%=customer_data[0].last_name%>" type="text" name="last_name" placeholder="Last name" required>
+                            </div>
+                          </div>
+                        </div>
+          
+                        <div class="row g-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <div class="form-group">
+                              <label class="col-form-label"><%=language.Email%></label>
+                              <input class="form-control" value="<%=customer_data[0].email%>" type="email" name="email" placeholder="Test@gmail.com" required>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <label class="col-form-label pt-1"><%=language.Phone_No%>.</label>
+                            <div class="row g-2">
+                              <div class="col-3 pt-1">
+                                <select class="js-example-basic-single" name="country_code" id="country_code" required>
+                                  <option value selected disabled><%=language.Country%></option>
+                                  <% CountryCode.forEach((data, x) => { %>
+                                    <option value="<%= data %>" <%= customer_data[0].country_code == data ? "selected" : "" %>> <%= nameCode[x] %> <%= data %> </option>
+                                  <% }) %>
+                                </select>
+                              </div>
+                              <div class="col-9 pt-1">
+                                <input class="form-control" value="<%=customer_data[0].phone_no%>" type="text" name="phone_no" placeholder="<%=language.Phone_Number%>" required>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row g-2">
+                          <label class="col-form-label pt-2"><%=language.Upload_Profile_Picture%></label>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                              <input class="form-control " type="file" name="profile_img" >
+                            </div>
+                          </div>
+                        </div>      
+
+                        <div class="form-group pt-3">
+                          <div class="row g-2">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                              <label class="col-form-label pt-1"><%=language.Enter_Password%></label>
+                              <div class="form-input position-relative">
+                                <input id="c_password" class="form-control" type="password" name="password" placeholder="*********" >
+                              </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                              <label class="col-form-label"><%=language.Enter_Conform_Password%></label>
+                              <div class="form-input position-relative">
+                                <input id="c_r_password" class="form-control" type="password" name="c_password" placeholder="*********" >
+                              </div>
+                            </div>
+
+                            <% if(message == ""){ %>
+                              <% } else { %>
+                            <p class="text-danger" id="password_error"><%=language.Password_not_match%></p>
+                            <% } %>
+
+                          </div>
+                        </div>
+          
+                        <button class="btn btn-primary btn-block w-100 mt-3" type="submit" id="Carrier_profile" ><%=language.Submit%></button>
+                </div>
+              </form>
+  
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

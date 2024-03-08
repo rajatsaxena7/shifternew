@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+            <% module_list.forEach(function(list){ %>
+            <% if(list.id == card_data[0].module){ %>
+                <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=list.name%></h4>
+            <% }; %>
+            <% }); %>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= card_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active"> <%= card_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid height-150px">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card py-5">
+                    <div class="card w-90">
+                        <div class="card-header d-flex justify-content-between p-3 mx-3">
+                            <h4><%=language.Package_Information%></h4>
+                            <button class="btn btn-square btn-primary b-r-3 py-1" type="button" id="add_product_btn"><%=language.Add%></button>
+                        </div>
+                        <div class="card-body pt-1" style="background-color: #FAFAFA;">
+                            <div class="row">
+
+                                <form action="/packers_and_movers/add_product_price" method="post" id="customer_product_form">
+                                    <div class="" id="add_product_tbl">
+                                        
+                                        <div class="row mt-4 floor_field">
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
+                                                <label class="form-label"><%=language.Package_Name%></label>
+                                                <input class="form-control package_name" type="text" id="package_name" name="package_name" value="" placeholder="<%=language.Enter%> <%=language.Package_Name%>" required>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
+                                                <label class="form-label"><%=language.Package_Description%></label>
+                                                <input class="form-control" type="text" id="package_des" name="package_des" value="" placeholder="<%=language.Enter%> <%=language.Description%>" required>
+                                            </div>
+
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-1 ">
+                                                <label class="form-label"><%=language.Unit_Price%></label>
+                                                <input class="form-control package_Amouunt" type="number" id="package_Amouunt" name="package_Amouunt" value="" placeholder="<%=language.Enter%> <%=language.Amount%>" required>
+                                            </div>
+
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
+                                                <label class="form-label"><%=language.Dead_Weight%> (<%=general_data.weight_units%>)</label> <button class="pb-1" data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Dead_Weight_is_the_physical_weight%>"><i class="fa fa-info-circle f-16"></i></button>
+                                                <input class="form-control package_weight " type="number" id="package_weight" name="package_Weight" value="" placeholder="0" required>
+                                            </div>
+
+                                            
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-1">
+                                                <label class="form-label"><%=language.Length%> (<%=general_data.length_units%>)</label>
+                                                <input class="form-control package_length" type="number" id="package_length" name="package_Length" value="" placeholder="0" required>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-1">
+                                                <label class="form-label"><%=language.Breadth%> (<%=general_data.length_units%>)</label>
+                                                <input class="form-control package_width" type="number" id="package_width" name="package_width" value="" placeholder="0" required>
+                                            </div>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-1">
+                                                <label class="form-label"><%=language.Height%> (<%=general_data.length_units%>)</label>
+                                                <input class="form-control package_height" type="number" id="package_height" name="package_Height" value="" placeholder="0" required>
+                                            </div>
+                                            <% if(card_data[0].module == "1"){ %>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                                <label class="form-label"><%=language.Weight_Vol%> (<%=general_data.weight_units%>) <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=pricing_data.curiour_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label>
+                                                <div class="d-flex">
+                                                    <input class="form-control m-r-20 weight_vol" type="number" id="weight_vol" name="package_Weight_vol" value="0" placeholder="" readonly>
+                                                    <a type="button" class="mt-1 pt-1 mx-4 text-danger" style="padding-right: 50px;"><i class="fa fa-trash-o f-24"></i></a>
+                                                </div>
+                                            </div>
+                                            <% } else if(card_data[0].module == "3"){ %>
+                                            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                                                <label class="form-label"><%=language.Weight_Vol%> (<%=general_data.weight_units%>) <button data-bs-toggle="tooltip" data-bs-placement="left" title="<%=language.Product_calculation_i_detail1%><%=pricing_data.international_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label>
+                                                <div class="d-flex">
+                                                    <input class="form-control m-r-20 weight_vol" type="number" id="weight_vol" name="package_Weight_vol" value="0" placeholder="" readonly>
+                                                    <a type="button" class="mt-1 pt-1 mx-4 text-danger" style="padding-right: 50px;"><i class="fa fa-trash-o f-24"></i></a>
+                                                </div>
+                                            </div>
+                                            <% }; %>
+                                                
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 text-center mt-3">
+                                        <span class="d-none text-danger d-none " id="details_input_error"><%=language.Please_Enter_All_Details%></span>
+                                    </div>
+                                    <div class="col-12 text-center mt-3">
+                                        <span class="d-none text-danger d-none " id="product_input_error"></span>
+                                    </div>
+                                    <div class="col-12 text-center mt-3">
+                                        <span class="d-none text-danger d-none " id="product_weight_error"></span>
+                                    </div>
+                                    <div class="col-12 text-center mt-3">
+                                        <span class="d-none text-danger d-none " id="details_error"><%=language.Distance_Rate_Not_Available%></span>
+                                    </div>
+                                    
+                                    <% if(card_data[0].module == "1"){ %>
+                                    <input type="text" id="curiour_amount" value="<%=pricing_data.curiour_amount%>" hidden>
+                                    <% } else if(card_data[0].module == "3"){ %>
+                                    <input type="text" id="curiour_amount" value="<%=pricing_data.international_amount%>" hidden>
+                                    <% }; %>
+                                    <input type="text" id="tot_weight" name="tot_weight" value="" hidden>
+                                    <input type="text" id="tot_weight_vol" name="tot_weight_vol" value="" hidden>
+
+                                </form>
+                                <div class="text-end">
+                                    <button class="btn btn-primary btn-square b-r-5 w-25 mt-5" id="customer_product_btn" type="button"><%=language.Next%></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

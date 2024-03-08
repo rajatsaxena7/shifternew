@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Edit_Rates%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Edit_Rates%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body" >
+                            <form  class="needs-validation" novalidate="" action="/settings/add_distance_page/<%=reates_detail.id%>" method="post">
+                            <div class="row g-3 pt-3">
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.Origin%></label>
+                                    <select class="js-example-basic-single " id="select_origin" name="Origin" required>
+                                        <option value selected disabled><%=language.Choose_Origin%></option>
+                                        <% counter.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.Origin == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.State%></label>
+                                    <select class="js-example-basic-single " id="show_state" name="State" required>
+                                        <option value selected disabled><%=language.Choose_State%></option>
+                                        <% state.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.State == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-4">
+                                    <label class="col-form-label pt-0"><%=language.City%></label>
+                                    <select class="js-example-basic-single " id="show_origin_city" name="City" required>
+                                        <option value selected disabled><%=language.Choose_City%></option>
+                                        <% city.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.City == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <% if(reates_detail.module == "1"){ %>
+
+                                <div class="col-4 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Destination_Country%></label>
+                                    <select class="js-example-basic-single " id="select_desti_Country" name="Destination_Country" required>
+                                        <option value selected disabled><%=language.Choose_Destination_Country%></option>
+                                        <% counter.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.Destination_Country == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-4 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Destination_State%></label>
+                                    <select class="js-example-basic-single " id="slect_Destination_State" name="Destination_State" required>
+                                        <option value selected disabled><%=language.Choose_Destination_State%></option>
+                                        <% des_state.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.Destination_State == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <div class="col-4 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Destination_City%></label>
+                                    <select class="js-example-basic-single " id="slect_Destination_City" name="Destination_City" required>
+                                        <option value selected disabled><%=language.Choose_Destination_City%></option>
+                                        <% des_city.forEach(function(countrylist){ %>
+                                            <option <%= reates_detail.Destination_City == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.name%></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+
+                                <% } else if(reates_detail.module == "3") {  %>
+
+                                    <div class="col-12 pt-3">
+                                        <div class="col-4">
+                                            <label class="col-form-label pt-0"><%=language.Destination_Country%></label>
+                                            <select class="js-example-basic-single " id="select_desti_Country" name="Destination_Country" required>
+                                                <option value selected disabled><%=language.Choose_Destination_Country%></option>
+                                                <% zone_data.forEach(function(countrylist){ %>
+                                                    <option <%= reates_detail.Destination_Country == countrylist.id ? "selected" : "" %> value="<%=countrylist.id%>"><%=countrylist.zone_name %></option>
+                                                <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                <% }; %>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Start_Weight_Range%></label>
+                                    <div class="input-group left-radius"><span class="input-group-text" id="inputGroupPrepend"><i class="icofont icofont-stylish-down"></i></span>
+                                        <input class="form-control" type="number" value="<%=reates_detail.start_weight_range%>" name="start_weight_range" placeholder="<%=language.Start_Weight_Range%>" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Ending_Weight_Range%></label>
+                                    <div class="input-group left-radius"><span class="input-group-text" id="inputGroupPrepend"><i class="icofont icofont-stylish-up"></i></span>
+                                        <input class="form-control" type="number" value="<%=reates_detail.end_weight_range%>" name="end_weight_range" placeholder="<%=language.Ending_Weight_Range%>" min="0" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 pt-3">
+                                    <label class="col-form-label pt-0"><%=language.Rate_Price%></label>
+                                    <input class="form-control" type="number" value="<%=reates_detail.Weight_rate%>" name="Weight_rate" placeholder="<%=language.Rate_Price%>" min="0" step="0.01" required>
+                                </div>
+                                
+                                <input type="text" value="<%=reates_detail.module%>" name="end_distance_module" hidden>
+
+                                <button class="btn btn-primary mt-5" type="submit">Save<%=language.Rates%></button>
+                            </div>
+                            </form>
+                        </div>
+  
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

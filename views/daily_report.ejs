@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Daily_Report%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Daily_Report%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4  ">
+                                <label class="card-title"><%=language.Start_Date%></label>
+                                <input  class="form-control" type="date" name="daily_date" id="daily_report_date" >
+                                </div>
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4  ">
+                                <div class= " <%= auth_data.role == '1' ? '' : 'd-none' %>">
+                                    <label class="col-form-label pt-0"><%=language.Carrier_List%></label>
+                                    <select class="js-example-basic-single" name="carrier" id="daily_payment_carrier">
+                                    <option value selected disabled><%=language.Select_Carrier%></option>
+                                    <% carrier_list.forEach((data) => { %>
+                                        <option value="<%= data.email %>"><%= data.first_name %> <%= data.last_name %></option>
+                                    <% }) %>
+                                    </select>
+                                </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                            <div class="table-responsive theme-scrollbar pt-3" id="invoice_page">
+                                <table class="display" id="basic-1">
+                                    <thead >
+                                        <tr>
+                                            <th class="d-none"></th>
+                                            <th><%=language.Particulars%></th>
+                                            <th><%=language.Value%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td><%=language.Order%></td>
+                                                <td id="daily_report_order">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td><%=language.No_of_Order_Delivered%></td>
+                                                <td id="daily_report_delivered">0</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td><%=language.Total_Revenue%></td>
+                                                <td id="daily_report_revenue">0</td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

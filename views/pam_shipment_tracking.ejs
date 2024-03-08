@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+  </head>
+  <body>
+    <%- include('./partials/header_sidebar'); -%> 
+
+    <div class="page-body">
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+             
+                <!-- Scroll - vertical dynamic Starts-->
+                <div class="col-lg-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="/order/shipment_tracking/<%= order_list[0].id %>" method="post">
+                                <div class="row g-3">
+                                
+                                    <h4><span class="font-danger"> <%=language.Shipment_Tracking%> </span> | <%= order_list[0].order_id %></h4>
+
+                                    <hr>
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <label class="form-label"><%=language.Address%></label>
+                                        <input class="form-control" type="text" placeholder="<%=language.Enter%> <%=language.Address%>" name="address" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <label class="form-label"><%=language.City%></label>
+                                        <input class="form-control" type="text" placeholder="<%=language.Enter%> <%=language.City%>" name="city" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <label class="form-label"><%=language.State%></label>
+                                        <input class="form-control" type="text" placeholder="<%=language.Enter%> <%=language.State%>" name="state" required>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <label class="form-label"><%=language.Country%></label>
+                                        <input class="form-control" type="text" placeholder="<%=language.Enter%> <%=language.Country%>" name="country" required>
+                                    </div>
+                                    
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-form-label"><%=language.Delivery_Status%></div>
+                                        <select class="js-example-basic-single" name="delivery_status" required>
+                                            <option value selected disabled><%=language.Status%></option>
+                                            <% shipping_status_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.status_name %></option>
+                                            <% }) %>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <label class="form-label"><%=language.Message%></label>
+                                        <input class="form-control" type="text" name="message" placeholder="<%=language.Enter%> Message<%=language.Enter%>">
+                                    </div>
+
+                                    <hr class="mt-5">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="text-end">
+                                            <button class="btn btn-square btn-primary btn-air-primary add_detail_btn b-r-10" type="submit"><%=language.Add_Shipment_Tracking%></button> 
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scroll - vertical dynamic Ends-->
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+        
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+  </body>
+
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    
+    <!-- Loader starts-->
+    <div class="loader-wrapper">
+        <div class="loader-box">
+            <div class="loader-19"></div>
+        </div>
+    </div>
+    <!-- Loader ends-->
+    <div class="container-fluid">
+        <div class="row">
+                      
+    <input type="hidden" id="rates_sym" value="<%= general_data.site_currency %>">
+    <input type="hidden" id="rates_pla" value="<%= general_data.currency_placement %>">
+    <input type="hidden" id="thousands_replace" value="<%= general_data.thousands_separator %>">
+
+            <div class="col-xl-12 p-0">    
+                <div class="login-card">
+                    <div class="row w-75">
+                        <div class="col-7">
+                            <div class="card b-r-6 mb-2">
+                                <div class="card-header py-3">
+                                    <h4><%=language.Summary_Details%></h4>
+                                </div>
+                                <hr class="m-0">
+                                <div class="card-body py-3">
+                                    <h5><%=language.Address_Details%></h5>
+                                    <div class="row">
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0"><%=language.Pickup_Address%></h6>
+                                                <span><%= pickup_address[0].address %>, <%= pickup_address[0].city %>, <%= pickup_address[0].state %>, <%= pickup_address[0].country %></span>
+                                                <br>
+                                                <span><%= pickup_address[0].first_name %> <%= pickup_address[0].last_name %> | <%= pickup_address[0].country_code %><%= pickup_address[0].phone_no %></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0"><%=language.Delivery_Address%></h6>
+                                                <span><%= delivery_address[0].address %>, <%= delivery_address[0].city %>, <%= delivery_address[0].state %>, <%= delivery_address[0].country %></span>
+                                                <br>
+                                                <span><%= delivery_address[0].first_name %> <%= delivery_address[0].last_name %> | <%= delivery_address[0].country_code %><%= delivery_address[0].phone_no %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6">
+                                <div class="card-header py-3">
+                                  <h5><%=language.Package_Details%></h5>
+                                </div>
+                                <div class="card-block row">
+                                    <div class="col-12">
+                                        <div class="table-responsive theme-scrollbar" id="pam_details_table">
+                                            <table class="table table-light">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-dark">#</th>
+                                                        <th class="text-dark"><%=language.Category%></th>
+                                                        <th class="text-dark"><%=language.Sub_Category%></th>
+                                                        <th class="text-dark"><%=language.Product%></th>
+                                                        <th class="text-dark"><%=language.Qty%></th>
+                                                        <th class="text-dark"><%=language.Price%></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% var i = 1 %>
+                                                    <% product_list.forEach((data) => { %>
+                                                        <% product.forEach((product, x) => { %>
+                                                            <% if (data.id == product && product_qty[x] != '0') { %>
+                                                                <tr>
+                                                                    <td><%= i %></td>
+                                                                    <td><%= data.category %></td>
+                                                                    <td><%= data.s_category %></td>
+                                                                    <td><%= data.name %></td>
+                                                                    <td><%= product_qty[x] %></td>
+                                                                    <td class="invosymbol"><%= data.price %></td>
+                                                                </tr>
+                                                            <% i++ %>
+                                                            <% } %>
+                                                        <% }) %>
+                                                    <% }) %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6 mb-2">
+                                <div class="card-body py-3">
+                                    <h5 class="mb-3"><%=language.Pickup_Schedule%></h5>
+                                    <div class="d-flex justify-content-between">
+                                        <h5><%=language.Date%></h5>
+                                        <h5><%= cart_data[0].date %></h5>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between">
+                                        <h5><%=language.Time_Slot%></h5>
+                                        <h5><%= start_time[0] %>:00 - <%= end_time[0] %>:00</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="card b-r-6 mb-2" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class=""><%=language.Select_Delivery_Type%></h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <a class="w-100 text-dark" type="button" data-bs-toggle="modal" data-bs-target="#add_coupon">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                <i class="fa fa-ticket f-20"></i>
+                                                <p class="mx-3"><%=language.Apply_Coupon%></p>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-chevron-right"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="mt-1">
+                                    <h5><%=language.Delivery_Type%></h5>
+                                    <div class="row mx-0">
+                                        <% delivery_type_list.forEach((data) => { %>
+                                            <div class="col-5 b-r-10 p-2 mx-3 all_delivery_type" style="background-color: #eef2ff;">
+                                                <a type="button" data-id="<%= data.id %>" class="select_delivery_type text-dark w-100">
+                                                    <div class="d-flex align-items-center">
+                                                        <i class="fa fa-truck"></i>
+                                                        <span class="mx-2 f-w-600"><%= data.type %></span>
+                                                    </div>
+                                                    <h5 class="mb-0 invosymbol"><%= data.price %></h5>
+                                                    <p class="mb-0"><%= data.sub_type %></p>
+                                                </a>
+                                            </div>
+                                        <% }) %>
+                                        <p class="text-danger d-none" id="delivery_type_error"><%=language.Please_Select_Delivery_Type%></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card b-r-6 mb-2" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class=""><%=language.All_Details%></h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <div class="row g-3">
+                                        <% if (insurance_data != ""){ %>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="checkbox p-0 checkbox-dark">
+                                                    <input class="form-check-input add_insurance" id="invalidCheck" type="checkbox">
+                                                    <label class="form-check-label m-0 f-w-600" for="invalidCheck"><%=language.Secure_your_package_for_just%> <span class="invosymbol"><%= premium_charged %></span></label>
+                                                </div>
+                                            </div>
+                                            <p class="f-12 px-3 mx-4 mt-2 my-0 d-none" id="hidden_insurance"><%=language.Claim_upto%> <span class="font-success f-w-700 invosymbol"><%= damage_payout %></span> <%=language.in_case_of_loss_or_damage%></p>
+                                            <input type="hidden" name="add_insurance_id" id="add_insurance_id" value="<%= insurance_data[0].id %>">
+                                            <input type="hidden" name="add_insurance_price" id="add_insurance_price" value="<%= damage_payout %>">
+                                            <input type="hidden" id="add_insurance_charge" value="<%= premium_charged %>">
+                                            <hr>
+                                        <% } %>
+                                        <div class="d-flex justify-content-between">
+                                            <span><%=language.Package_Total%></span>
+                                            <span class="invosymbol" id="show_product_total_sum"><%= product_total_sum %></span>
+                                            <input type="hidden" id="product_total_sum" value="<%= product_total_sum %>">
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span><%=language.Other_Total%>
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext">
+                                                        <span><%=language.Date_Price%> :- <span class="invosymbol"><%= date_price %></span> </span><br>
+                                                        <span><%=language.Shifter%> :- <span class="invosymbol"><%= shift_express_data %></span> </span><br>
+                                                        <span><%=language.Distance%> (<%= cart_data[0].distance %> KM) :- <span class="invosymbol"><%= distance_price %></span> </span><br>
+                                                        <span><%= pickup_floor %> <%=language.Floor_Price_for_Pickup%> :- <span class="invosymbol"><%= pickup_price %></span> </span><br>
+                                                        <span><%= delivery_floor %> <%=language.Floor_Price_for_Drop%> :- <span class="invosymbol"><%= delivery_price %></span> </span><br>
+                                                        <span><%=language.Elevator_Pickup_Charge%> :- <span class="invosymbol"><%= pickup_elevator %></span> </span><br>
+                                                        <span><%=language.Elevator_Drop_Charge%> :- <span class="invosymbol"><%= delivery_elevator %></span> </span><br>
+                                                    </span>
+                                                </div> 
+                                            </span>
+                                            <span class="invosymbol" id="show_other_price"><%= other_price %></span>
+                                            <input type="hidden" id="other_price" value="<%= other_price %>">
+                                        </div>
+                                        <div class="d-flex justify-content-between d-none" id="coupon_data">
+                                            <span><%=language.Coupon%></span>
+                                            <span class="invosymbol" id="show_coupon_price">00</span>
+                                            <input type="hidden" id="coupon_price" value="00">
+                                        </div>
+                                        <div class="d-flex justify-content-between d-none" id="delivery_type_data">
+                                            <span><%=language.Delivery_Type%></span>
+                                            <span class="invosymbol" id="show_delivery_type_price">00</span>
+                                            <input type="hidden" id="delivery_type_price" value="00">
+                                        </div>
+                                        <% if (insurance_data != ""){ %>  
+                                            <div class="d-flex justify-content-between d-none" id="insurance_data">
+                                                <span><%=language.Insurance_Price%></span>
+                                                <span class="invosymbol" id="show_insurance_price">00</span>
+                                                <input type="hidden" id="insurance_price" value="00">
+                                            </div>
+                                        <% } %>
+                                        <div class="d-flex justify-content-between">
+                                            <span><%=language.Booking_Amount%></span>
+                                            <span class="invosymbol" id="show_Total_Price"><%= Total_Price %></span>
+                                            <input type="hidden" id="Total_Price" value="<%= Total_Price %>">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-square b-r-5 w-100 mt-4 proceed_to_pay" type="button"><%=language.Proceed_To_Pay%></button>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add_coupon -->
+
+    <div class="modal fade" id="add_coupon" tabindex="-1" role="dialog" aria-labelledby="add_coupon" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Coupon%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #FAFAFA;">
+                    <% coupon_list.forEach((data) => { %>
+                        <div class="w-100 select_coupon_div shadow-sm shadow-showcase mb-4">
+                            <div class="card b-r-7 mb-0 p-2">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span><%= data.title %></span>
+                                    <span>Coupon code<%=language.Next%> : <%= data.code %></span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><%=language.Discount%> : <span class="invosymbol"><%= data.discount_amount %></span></span>
+                                    <span><%=language.Min_Amount%> : <span class="invosymbol"><%= data.min_amount %></span></span>
+                                </div>
+                                
+                                <div class="text-end mt-2">
+                                    <button class="btn btn-square btn-success py-0 px-2 b-r-7 select_coupon" data-bs-dismiss="modal" data-id="<%= data.id %>" data-btn="1" type="button"><i class="fa fa-save"></i> &nbsp; <%=language.Apply%></button>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- pam_payment -->
+
+    <div class="modal fade" id="pam_payment" tabindex="-1" role="dialog" aria-labelledby="pam_payment" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Payment%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #FAFAFA;">
+                    <div class="row">
+                        <% transaction_method_list.forEach((data) => { %>
+                            <div class="col-4">
+                                <div class="card" style="height: 130px;">
+                                    <a href="/packers_and_movers/place_order/<%= data.id %>" class="btn text-center w-100 h-100 px-0 py-3" type="button" id="" data-id="">
+                                        <img class="img-fluid b-r-7 mb-2" id="file-preview" width="105px" height="105px" src="../../uploads/<%= data.image %>" alt="image">
+                                        <br>
+                                        <span><%= data.title %></span>
+                                    </a>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('./partials/script'); -%>
+</body>
+
+</html>

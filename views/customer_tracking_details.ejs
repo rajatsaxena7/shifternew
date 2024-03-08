@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <%- include('./partials/frontend_head'); -%>
+  <link rel="stylesheet" type="text/css" href="../../css/vendors/animate.css">
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+        <div class="container">
+          <div class="breadcrumbs ppc-inner-padding pb-0 pt-5">
+          </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5 height-150px">
+      <div class="row">
+        <div class="col-xl-12 p-0">  
+          <div id="tracking_page">
+            <div class="px-5 py-3 " style="margin-bottom: 120px;">
+              <div class="p-3 text-center">
+                <div class="justify-content-center mb-3">
+                  <img src="../../uploads/<%=general_data.site_dark_logo %>" alt="" class="light-version-logo w-10">
+                  <h1 class="f-w-900" style="margin-left: 5px;">
+                    <%= general_data.site_title %>
+                  </h1>
+                </div>
+                <h5><%=language.Track_your_shipment%></h5>
+              </div>
+    
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                      <label class="form-label"><%=language.Order_Type%></label>
+                      <select class="form-select" id="order_type">
+                        <option selected disabled value><%=language.Choose_Type%></option>
+                        <% module_list.forEach(function(module){ %>
+                        <% if(module.isactive == "1"){ %>
+                        <option value="<%= module.id %>"><%= module.name %></option>
+                        <% }; %>
+                        <% }) %>
+                      </select>
+                      <p class="d-none text-danger" id="error_module_select"><%=language.Please_Select_Order_Type%></p>
+                    </div>
+    
+                    <div class="col-lg-6 col-sm-12">
+                      <label class="form-label f-w-500"><%=language.Tracking_Id%></label>
+                      <input class="form-control" type="text" placeholder="<%=language.Enter%> <%=language.Invoice_Number%>" id="invoice_no">
+                      <p class="d-none text-danger" id="error_invoice_no"><%=language.Please_Enter_Tracking_Id%></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                      <p class="d-none text-danger" id="error_order_id"><%=language.Please_check_Your_Tracking_Id%></p>
+                    </div>
+                    
+                    <div class="col-12">
+                      <button class="btn btn-square btn-primary mt-4 b-r-7 w-100 text-nowrap" type="submit" id="track_order"><%=language.Track_shipment%></button>
+                    </div>
+                    <a href="/" class="p-3 text-center"><%=language.Back_to_home%></a>
+                  </div>
+                </div>
+              </div>
+    
+              <div class="row" id="show_tracking_data">
+    
+                <div class="card d-none" id="address_card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-6 col-sm-12">
+                        <span class="badge badge-light text-dark w-100 text-start f-20"><%=language.Pickup%></span>
+    
+                        <div class="row mt-4">
+    
+                          <div class="col-6">
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-user"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Contact_Name%></span>
+                                <h5 class="f-16" id="customer_name"><%=language.Jeel_Patel%></h5>
+                              </div>
+                            </div>
+                           
+                            <hr>
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="icofont icofont-map-pins"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Contact_Address%></span>
+                                <h5 class="f-16" id="customer_address"><%=language.No_XYZ%> </h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-map-marker"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Origin_Country%></span>
+                                <h5 class="f-16" id="origin_country"><%=language.India%></h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                          </div>
+    
+                          <div class="col-6">
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-calendar-o"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Date_of_shipment%></span>
+                                <h5 class="f-16" id="date_of_shipment">2023-04-16</h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-map-marker"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Origin_City%></span>
+                                <h5 class="f-16" id="origin_city"><%=language.Surat%></h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                          </div>
+    
+                        </div>
+    
+                      </div>
+    
+                      <div class="col-lg-6 col-sm-12">
+                        <span class="badge badge-light text-dark w-100 text-start f-20"><%=language.Delivery%></span>
+    
+                        <div class="row mt-4">
+    
+                          <div class="col-6">
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-user"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Contact_Name%></span>
+                                <h5 class="f-16" id="client_name"><%=language.Vivek_Patel%></h5>
+                              </div>
+                            </div>
+
+                            <hr>
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-map-marker"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Destination_City%></span>
+                                <h5 class="f-16" id="destination_city"><%=language.Rajkot%></h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                          </div>
+    
+                          <div class="col-6">
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="icofont icofont-map-pins"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Contact_Address%></span>
+                                <h5 class="f-16" id="destination_address"><%=language.No_XYZ%></h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                            <div class="d-flex">
+                              <h2 class="m-r-10">
+                                <i class="fa fa-map-marker"></i>
+                              </h2>
+                              <div>
+                                <span class="f-16 mb-2"><%=language.Destination_Country%></span>
+                                <h5 class="f-16" id="destination_country"><%=language.India%></h5>
+                              </div>
+                            </div>
+    
+                            <hr>
+    
+                          </div>
+    
+                        </div>
+    
+                      </div>
+    
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-12 d-none" id="track_card">
+                  <div class="card">
+                    <div class="card-header pb-0">
+                      <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                          <span class="badge badge-light text-dark w-100 text-start f-20"><%=language.Shipping_History%></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body mb-5 pt-0">
+                      <div class="activity-timeline position-relative" id="">
+                        <section class="cd-container history_table" id="cd-timeline">
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+    <script src="../../js/timeline/timeline-v-1/main.js"></script>
+    <script src="../../js/modernizr.js"></script> 
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Package_Insurance%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Package_Insurance_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                        <% var Moduleid = module_list[1].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[2].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            </div>
+                            <input type="hidden" id="dynamic_table" value="<%= ModuleList %>">
+
+                            <% let permiss = permission != "1" ? permission.Insurance.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-end">
+                                <button class="btn btn-square btn-primary b-r-10" type="button" id="insurance_module_btn" data-bs-toggle="modal" data-bs-target="#add_insurancemodal"><%=language.Add_Package_Insurance%></button>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Price%></th>
+                                            <th><%=language.Premium_Charged%></th>
+                                            <th><%=language.Damage_Payout%></th>
+                                            <th><%=language.Status%></th>
+                                            <% let permissions = permission != "1" ? permission.Insurance.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+
+                                    <!-- domestic_table -->
+                                    <tbody class="domestic_table">
+                                        <% insurance_list1.forEach((data, x) => { %>
+                                            <tr>
+                                                <td><%= x + 1 %></td>
+                                                <td><span class="invosymbol"><%= data.start_price %></span> - <span class="invosymbol"><%= data.end_price %></span></td>
+                                                <td><%= data.premium_charged %> <%= data.premium_percentage == '1' ? '%' : '' %></td>
+                                                <td><%= data.damage_payout %> <%= data.damage_percentage == '1' ? '%' : '' %></td>
+                                                <td>
+                                                    <% if (data.active == '1'){ %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_insurancemodal" id="edit_insurance" data-id="<%= data.id %>"
+                                                            data-start_price="<%= data.start_price %>" data-end_price="<%= data.end_price %>" data-premium_charged="<%= data.premium_charged %>"
+                                                            data-premium_percentage="<%= data.premium_percentage %>" data-damage_payout="<%= data.damage_payout %>" data-damage_percentage="<%= data.damage_percentage %>"
+                                                            data-active="<%= data.active %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_insurance/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                    
+                                    <!-- packersandmovers_table -->
+                                    <tbody class="packersandmovers_table d-none">
+                                        <% insurance_list2.forEach((data, x) => { %>
+                                            <tr>
+                                                <td><%= x + 1 %></td>
+                                                <td><span class="invosymbol"><%= data.start_price %></span> - <span class="invosymbol"><%= data.end_price %></span></td>
+                                                <td><%= data.premium_charged %> <%= data.premium_percentage == '1' ? '%' : '' %></td>
+                                                <td><%= data.damage_payout %> <%= data.damage_percentage == '1' ? '%' : '' %></td>
+                                                <td>
+                                                    <% if (data.active == '1'){ %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_insurancemodal" id="edit_insurance" data-id="<%= data.id %>"
+                                                            data-start_price="<%= data.start_price %>" data-end_price="<%= data.end_price %>" data-premium_charged="<%= data.premium_charged %>"
+                                                            data-premium_percentage="<%= data.premium_percentage %>" data-damage_payout="<%= data.damage_payout %>" data-damage_percentage="<%= data.damage_percentage %>"
+                                                            data-active="<%= data.active %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_insurance/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <!-- international_table -->
+                                    <tbody class="international_table d-none">
+                                        <% insurance_list3.forEach((data, x) => { %>
+                                            <tr>
+                                                <td><%= x + 1 %></td>
+                                                <td><span class="invosymbol"><%= data.start_price %></span> - <span class="invosymbol"><%= data.end_price %></span></td>
+                                                <td><%= data.premium_charged %> <%= data.premium_percentage == '1' ? '%' : '' %></td>
+                                                <td><%= data.damage_payout %> <%= data.damage_percentage == '1' ? '%' : '' %></td>
+                                                <td>
+                                                    <% if (data.active == '1'){ %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_insurancemodal" id="edit_insurance" data-id="<%= data.id %>"
+                                                            data-start_price="<%= data.start_price %>" data-end_price="<%= data.end_price %>" data-premium_charged="<%= data.premium_charged %>"
+                                                            data-premium_percentage="<%= data.premium_percentage %>" data-damage_payout="<%= data.damage_payout %>" data-damage_percentage="<%= data.damage_percentage %>"
+                                                            data-active="<%= data.active %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_insurance/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_insurancemodal -->
+    
+    <div class="modal fade" id="add_insurancemodal" tabindex="-1" role="dialog" aria-labelledby="add_insurancemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Package_Insurance%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/settings/add_insurance" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Start_Price%></label>
+                                <input class="form-control" type="number" name="start_price" id="add_start_price" placeholder="<%=language.Enter%> <%=language.Start_Price%>" required>
+                                <p class="text-danger d-none" id="start_price_error"><%=language.Price_Already_Added%></p>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.End_Price%></label>
+                                <input class="form-control" type="number" name="end_price" placeholder="<%=language.Enter%> <%=language.End_Price%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span><%=language.Premium_Charged%></span>
+                                    <div class="checkbox p-0 checkbox-success">
+                                        <input class="form-check-input approved" id="invalidCheck" type="checkbox" name="premium_charged_percentage">
+                                        <label class="form-check-label m-0" for="invalidCheck"><%=language.Is_Percentage_Default_Fix%></label>
+                                    </div>
+                                </label>
+                                <input class="form-control" type="number" name="premium_charged" placeholder="<%=language.Enter%> <%=language.Premium_Charged%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span><%=language.Loss%>/<%=language.Damage_Payout%></span>
+                                    <div class="checkbox p-0 checkbox-success">
+                                        <input class="form-check-input approved" id="invalidCheck2" type="checkbox" name="damage_payout_percentage">
+                                        <label class="form-check-label m-0" for="invalidCheck2"><%=language.Is_Percentage_Default_Fix%></label>
+                                    </div>
+                                </label>
+                                <input class="form-control" type="number" name="damage_payout" placeholder="<%=language.Enter%> <%=language.Loss%>/<%=language.Damage_Payout%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="insurance_zone" name="insurance_module" hidden>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit" id="insurance_btn"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_insurancemodal -->
+    
+    <div class="modal fade" id="edit_insurancemodal" tabindex="-1" role="dialog" aria-labelledby="edit_insurancemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Package_Insurance%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/settings/add_insurance" method="post" id="edit_id">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Start_Price%></label>
+                                <input class="form-control" type="number" name="start_price" id="start_price" placeholder="<%=language.Enter%> <%=language.Start_Price%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.End_Price%></label>
+                                <input class="form-control" type="number" name="end_price" id="end_price" placeholder="<%=language.Enter%> <%=language.End_Price%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span><%=language.Premium_Charged%></span>
+                                    <div class="checkbox p-0 checkbox-success premium_charged_percentage">
+                                        <!-- ajax -->
+                                        <label class="form-check-label m-0" for="invalidCheck3"><%=language.Is_Percentage_Default_Fix%></label>
+                                    </div>
+                                </label>
+                                <input class="form-control" type="number" name="premium_charged" id="premium_charged" placeholder="<%=language.Enter%> <%=language.Premium_Charged%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label d-flex justify-content-between">
+                                    <span><%=language.Loss%>/<%=language.Damage_Payout%></span>
+                                    <div class="checkbox p-0 checkbox-success damage_payout_percentage">
+                                        <!-- ajax -->
+                                        <label class="form-check-label m-0" for="invalidCheck4"><%=language.Is_Percentage_Default_Fix%></label>
+                                    </div>
+                                </label>
+                                <input class="form-control" type="number" name="damage_payout" id="damage_payout" placeholder="<%=language.Enter%> <%=language.Loss%>/<%=language.Damage_Payout%>" required>
+                            </div>
+                            <div class="col-6">
+                                <div class="checkbox p-0 checkbox-success edit_insurance_active">
+                                    <!-- ajax -->
+                                    <label class="form-check-label" for="invalidCheck5"><%=language.Is_Approved%> ?</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="text" id="insurance_edit_zone" name="insurance_module" hidden>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

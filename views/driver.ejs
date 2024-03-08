@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Become_a_Carrier%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Carrier_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = permission != "1" ? permission.carrier.split(",")[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header text-end pb-0">
+                            <a class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_carriermodal"><%=language.Add_Carrier%></a>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Email%></th>
+                                            <th><%=language.Phone_Number%></th>
+                                            <th><%=language.Approved%></th>
+                                            <% let permissions = permission != "1" ? permission.carrier.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% }; %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% driver_data.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.first_name %> <%= data.last_name %></td>
+                                                <td><%= data.email %></td>
+                                                <td><%= data.country_code %><%= data.phone_no %></td>
+                                                <td>
+                                                    <% if (data.approved == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Approved%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Pending%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action">
+                                                        <li class="edit"><a type="button" data-bs-toggle="modal" data-bs-target="#edit_carriermodal" id="edit_driver"
+                                                            data-id="<%= data.id %>" data-first_name="<%= data.first_name %>" data-last_name="<%= data.last_name %>"
+                                                            data-email="<%= data.email %>" data-country_code="<%= data.country_code %>" data-phone_no="<%= data.phone_no %>"
+                                                            data-approved="<%= data.approved %>" data-vehicle_plate="<%= data.license_number %>" data-zone="<%= data.zone %>"
+                                                            data-carrier_commission="<%= data.carrier_commission %>" data-default_carrier_commission="<%= general_data.default_carrier_commission %>"
+                                                            data-carrier_min_balance_for_withdraw="<%= data.carrier_min_balance_for_withdraw %>" data-default_wallet_min_balance="<%= general_data.default_wallet_min_balance %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/user/delete_carrier/<%= data.id %>"><i class="icon-trash"></i></a></li>
+
+                                                        <li class="text-primary mx-2"><a data-bs-toggle="modal" data-bs-target="#add_vehiclemodal" id="add_vehicle" data-id="<%= data.id %>"><i class="icon-id-badge"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% }; %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <div class="modal fade" id="add_vehiclemodal" role="dialog" aria-labelledby="add_vehiclemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Vehicle_Document%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate="" id="edit_vehicle_id" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <a href="" id="driver_img" class="btn text-center w-100 h-100 p-0" type="button">
+                                    <img class="img-fluid b-r-7 mb-2 vehicle_img" id="file-preview" width="180" height="180" src="../../images/dashboard/default/profile.png" alt="image">
+                                    <br>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Vehicle_Document_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image" name="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <div class="checkbox p-0 checkbox-success">
+                                    <input class="form-check-input edit_vehicle_status" id="invalidCheck" type="checkbox" name="vehicle_document_status">
+                                    <label class="form-check-label" for="invalidCheck"><%=language.Is_Approved%> ?</label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="type" value="1">
+                            <input type="hidden" name="driver_id" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- add_carriermodal -->
+    
+    <div class="modal fade" id="add_carriermodal" role="dialog" aria-labelledby="add_carriermodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Carrier%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" id="carrier_form_click" novalidate="" action="/user/add_driver" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label"><%=language.First_Name%></label>
+                                <input class="form-control" type="text" id="driver_first" name="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Last_Name%></label>
+                                <input class="form-control" type="text" id="driver_last" name="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" type="email" id="driver_email" id="driver_email" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.License_No%>.</label>
+                                <input class="form-control" type="text" id="driver_linumber" name="license_number" placeholder="<%=language.Enter%> <%=language.License_No%>." required>
+                            </div>
+                            <div class="col-7">
+                                <label class="col-form-label pt-0"><%=language.Phone_No%></label>
+                                <div class="row g-2">
+                                  <div class="col-4">
+                                    <select class="js-example-basic-single" id="driver_code" name="country_code" required>
+                                      <option value selected disabled><%=language.Country%></option>
+                                      <% CountryCode.forEach((data, x) => { %>
+                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
+                                  <div class="col-8">
+                                    <input class="form-control" type="text" id="driver_phone" name="phone_no" placeholder="<%=language.Phone_No%>" required>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <label class="col-form-label pt-0"><%=language.Zone%></label>
+                                <select class="js-example-basic-single" name="zone" id="driver_zone" required>
+                                    <option value selected disabled><%=language.Select_Zone%></option>
+                                    <% zone_data.forEach((data) => { %>
+                                      <option value="<%= data.zone_name %>"> <%= data.zone_name %> </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Carrier_Commission%> (%)</label>
+                                <input class="form-control" type="number" id="driver_commission" name="carrier_commission" value="<%= general_data.default_carrier_commission %>" placeholder="<%=language.Enter%> <%=language.Carrier_Commission%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Carrier_Min_Balance_For_Withdraw%> (<%= general_data.site_currency %>)</label>
+                                <input class="form-control" type="number" id="driver_withdraw" name="carrier_min_balance_for_withdraw" value="<%= general_data.default_wallet_min_balance %>" placeholder="<%=language.Enter%> <%=language.Carrier_Min_Balance_For_Withdraw%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Password%></label>
+                                <input class="form-control" type="password" name="password" placeholder="<%=language.Enter%> <%=language.Password%>" required>
+                            </div>
+                        </div>
+                        <p class="text-danger d-none mt-3" id="carrier_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                        <p class="text-danger d-none mt-1" id="carrier_phoneno_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                        <p class="text-danger d-none mt-1" id="carrier_details_error"><%=language.Please_Enter_All_Detail%>.</p>
+                    </div>
+                </form>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit" id="carrier_detail_check"><%=language.Save%></button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_carriermodal -->
+    
+    <div class="modal fade" id="edit_carriermodal" role="dialog" aria-labelledby="edit_carriermodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Carrier%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="needs-validation" novalidate="" id="edit_id" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label"><%=language.First_Name%></label>
+                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Last_Name%></label>
+                                <input class="form-control" type="text" name="last_name" id="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" type="email" name="email" id="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                                <input class="form-control" type="email"  id="edit_email" hidden>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.License_No%>.</label>
+                                <input class="form-control" type="text" name="license_number" id="vehicle_plate" placeholder="<%=language.Enter%> <%=language.License_No%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Phone_No%></label>
+                                <div class="row g-2">
+                                  <div class="col-4">
+                                    <select class="js-example-basic-single" name="country_code" id="country_code" required>
+                                      <option value selected disabled><%=language.Country%></option>
+                                      <% CountryCode.forEach((data, x) => { %>
+                                        <option value="<%= data %>"> <%= nameCode[x] %> <%= data %></option>
+                                      <% }) %>
+                                    </select>
+                                  </div>
+                                  <div class="col-8">
+                                    <input class="form-control" type="text" name="phone_no" id="phone_no" placeholder="<%=language.Phone_No%>" required>
+                                    <input class="form-control" type="text"  id="edit_phone_no" hidden>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Zone%></label>
+                                <select class="js-example-basic-single" name="zone" id="zone" required>
+                                    <option value selected disabled><%=language.Select_Zone%></option>
+                                    <% zone_data.forEach((data) => { %>
+                                      <option value="<%= data.zone_name %>"> <%= data.zone_name %> </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Carrier_Commission%> (%)</label>
+                                <input class="form-control" type="number" name="carrier_commission" id="carrier_commission" placeholder="<%=language.Enter%> <%=language.Carrier_Commission%>" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Carrier_Min_Balance_For_Withdraw%> (<%= general_data.site_currency %>)</label>
+                                <input class="form-control" type="number" name="carrier_min_balance_for_withdraw" id="carrier_min_balance_for_withdraw" placeholder="<%=language.Enter%> <%=language.Carrier_Min_Balance_For_Withdraw%>" required>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-0 checkbox-success">
+                                    <input class="form-check-input approved" style="width: 21px; height: 21px;" id="invalidCheck" type="checkbox" name="approved">
+                                    <label class="form-check-label pt-1 p-l-10" for="invalidCheck"><%=language.Is_Approved%> ?</label>
+                                </div>
+                            </div>
+                            <p class="text-danger d-none mt-3" id="edit_carrier_email_error"><%=language.This_Email_Id_Already_Registered%>.</p>
+                            <p class="text-danger d-none mt-1" id="edit_carrier_phoneno_error"><%=language.This_Phone_No_Already_Registered%>.</p>
+                            
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                    <button class="btn btn-primary" type="submit" id="edit_carrier_details"><%=language.Save%></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

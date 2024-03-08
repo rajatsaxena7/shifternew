@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  
+  <%- include('./partials/head'); -%>
+  </head>
+  <body>
+    <%- include('./partials/header_sidebar'); -%> 
+
+        <div class="page-body">
+          <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.General_Settings%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.General_Settings%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="row">
+             
+              <!-- Scroll - vertical dynamic Starts-->
+              <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                      <form action="/settings/general_settings" method="post" class="needs-validation" enctype="multipart/form-data">
+                        <div class="row g-3">
+                            <div class="col-6 text-center">
+                                <img src="../../uploads/<%= settings_data[0].site_logo %>" style="background-color: black;" class="logo-abbr mx-2 b-r-10 p-1" width="130.5px" height="130.5px" alt="image">
+                            </div>
+
+                            <div class="col-6 text-center">
+                                <img src="../../uploads/<%= settings_data[0].site_dark_logo %>" class="logo-abbr mx-2 b-r-10 p-1" width="130.5px" height="130.5px" alt="image">
+                            </div>
+                            
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Light_Logo%></label>
+                                <input class="form-control form-control-lg" type="file" name="site_logo" id="site_logo">
+                                
+                                <input class="form-control form-control-lg" type="hidden" name="site_logo_hidden" value="0" id="site_logo_hidden">
+                            </div>
+                            
+                            <div class="col-6">
+                                <label class="form-label"><%=language.Dark_Logo%></label>
+                                <input class="form-control form-control-lg" type="file" name="site_dark_logo" id="site_dark_logo">
+                            
+                                <input class="form-control form-control-lg" type="hidden" name="site_dark_logo_hidden" value="0" id="site_dark_logo_hidden">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Site_Title%></label>
+                                <input class="form-control" type="text" name="site_title" value="<%= settings_data[0].site_title %>" placeholder="<%=language.Enter%> <%=language.Site_Title%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Currency%></label>
+                              <input class="form-control" type="text" name="site_currency" value="<%= settings_data[0].site_currency %>" placeholder="<%=language.Enter%> <%=language.Currency%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label for="currency" class="form-label"><%=language.Timezone%></label>
+                                <select class="form-control wide" name="site_timezone" data-id="<%= settings_data[0].site_timezone %>" id="settings_timezone">
+                                    <option value selected disabled><%=language.Choose_Timezone%></option>  
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="d-flex mb-2 mt-4">
+                                    <div class="icon-state switch-outline">
+                                      <label class="switch">
+                                        <input type="checkbox" name="currency_placement" <%= settings_data[0].currency_placement == 1 ?  'checked' : '' %>><span class="switch-state bg-success"></span>
+                                      </label>
+                                    </div>
+                                    <label class="col-form-label m-l-10"><%=language.Currency_Symbol_Placement_Right_side%></label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label for="Thousands_Separator" class="form-label"><%=language.Thousands_Separator%></label>
+                              <select class="form-control wide" name="thousands_separator"> 
+                                <option value="1" <%= settings_data[0].thousands_separator == 1 ? 'selected' : '' %> >, (<%=language.Comma%>)</option>
+                                <option value="2" <%= settings_data[0].thousands_separator == 2 ? 'selected' : '' %> >. (<%=language.Full_Stop%>)</option>
+                                <option value="3" <%= settings_data[0].thousands_separator == 3 ? 'selected' : '' %> >` (<%=language.Apostrophe%>)</option>
+                                <option value="4" <%= settings_data[0].thousands_separator == 4 ? 'selected' : '' %> ><%=language.None%></option>
+                                <option value="5" <%= settings_data[0].thousands_separator == 5 ? 'selected' : '' %> ><%=language.Space%></option>
+                              </select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Google_map_Key%></label>
+                              <input class="form-control" type="text" name="google_map_key" value="<%= settings_data[0].google_map_key %>" placeholder="<%=language.Enter%> <%=language.Site_Title%>">
+                          </div>
+
+                            <hr>
+                            <h5><%=language.Carrier_Details%></h5>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Carrier_Commission%> (%)</label>
+                              <input class="form-control" type="number" name="default_carrier_commission" value="<%= settings_data[0].default_carrier_commission %>" placeholder="<%=language.Enter%> <%=language.Carrier_Commission%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Wallet_Min_Balance_For_Withdraw%> (<%= settings_data[0].site_currency %>)</label>
+                              <input class="form-control" type="number" name="default_wallet_min_balance" value="<%= settings_data[0].default_wallet_min_balance %>" placeholder="<%=language.Enter%> <%=language.Wallet_Min_Balance_For_Withdraw%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <div class="d-flex mb-2 mt-4">
+                                  <div class="icon-state switch-outline">
+                                    <label class="switch">
+                                      <input type="checkbox" name="driver_autoapproved" <%= settings_data[0].driver_autoapproved == 1 ?  'checked' : '' %>><span class="switch-state bg-success"></span>
+                                    </label>
+                                  </div>
+                                  <label class="col-form-label m-l-10"><%=language.Carrier_Auto_Approved%> </label>
+                              </div>
+                            </div>
+
+                            <hr>
+                            <h5><%=language.Notification_Verification%></h5>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.OneSignal_App_ID%></label>
+                              <input class="form-control" type="text" name="onesignal_app_id" value="<%= settings_data[0].onesignal_app_id %>" placeholder="<%=language.Enter%> <%=language.OneSignal_App_ID%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.OneSignal_API_Key%></label>
+                              <input class="form-control" type="text" name="onesignal_api_key" value="<%= settings_data[0].onesignal_api_key %>" placeholder="<%=language.Enter%> <%=language.OneSignal_API_Key%>">
+                            </div>
+
+                            <hr>
+
+                            <h5><%=language.SMS_Verification%></h5>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.MSG91_Auth_Key%></label>
+                              <input class="form-control" type="text" name="auth_key" value="<%= settings_data[0].auth_key %>" placeholder="<%=language.MSG91_Auth_Key%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.MSG91_OTP_Template_Id%></label>
+                              <input class="form-control" type="text" name="otp_template_id" value="<%= settings_data[0].otp_template_id %>" placeholder="<%=language.MSG91_OTP_Template_Id%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.MSG91_SMS_Template_Id%></label>
+                              <input class="form-control" type="text" name="sms_template_id" value="<%= settings_data[0].sms_template_id %>" placeholder="<%=language.MSG91_SMS_Template_Id%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <div class="d-flex mb-2 mt-4">
+                                  <div class="icon-state switch-outline">
+                                    <label class="switch">
+                                      <input type="checkbox" name="sms_status" <%= settings_data[0].sms_status == 1 ?  'checked' : '' %>><span class="switch-state bg-success"></span>
+                                    </label>
+                                  </div>
+                                  <label class="col-form-label m-l-10"><%=language.Status%>  </label>
+                              </div>
+                            </div>
+
+                            <hr>
+                            <h5><%=language.Email_Verification%></h5>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Host%></label>
+                              <input class="form-control" type="text" name="email_host" value="<%= settings_data[0].email_host %>" placeholder="<%=language.Enter%> <%=language.Host%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Port%></label>
+                              <input class="form-control" type="text" name="email_port" value="<%= settings_data[0].email_port %>" placeholder="<%=language.Enter%> <%=language.Port%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Email%></label>
+                              <input class="form-control" type="text" name="email_id" value="<%= settings_data[0].email_id %>" placeholder="<%=language.Enter%> <%=language.Email%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Password%></label>
+                              <input class="form-control" type="text" name="email_password" value="<%= settings_data[0].email_password %>" placeholder="<%=language.Enter%> <%=language.Password%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <div class="d-flex mb-2 mt-4">
+                                  <div class="icon-state switch-outline">
+                                    <label class="switch">
+                                      <input type="checkbox" name="email_status" <%= settings_data[0].email_status == 1 ?  'checked' : '' %>><span class="switch-state bg-success"></span>
+                                    </label>
+                                  </div>
+                                  <label class="col-form-label m-l-10"><%=language.Status%> </label>
+                              </div>
+                            </div>
+
+                            <hr>
+                            <h5><%=language.Units%></h5>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Length_Units%></label>
+                              <input class="form-control" type="text" name="length_units" value="<%= settings_data[0].length_units %>" placeholder="<%=language.Enter%> <%=language.Length_Units%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <label class="form-label"><%=language.Weight_Units%></label>
+                              <input class="form-control" type="text" name="weight_units" value="<%= settings_data[0].weight_units %>" placeholder="<%=language.Enter%> <%=language.Weight_Units%>">
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                              <div class="d-flex mb-2 mt-4">
+                                  <div class="icon-state switch-outline">
+                                    <label class="switch">
+                                      <input type="checkbox" name="order_auto_approved" <%= settings_data[0].order_auto_approved == 1 ?  'checked' : '' %>><span class="switch-state bg-success"></span>
+                                    </label>
+                                  </div>
+                                  <label class="col-form-label m-l-10"><%=language.Assigning_Orders_to_Carriers_Automatically%></label>
+                              </div>
+                            </div>
+
+                            <% let permissions = permission != "1" ? permission.General.split(",")[1] : "1" %>
+                            <% if(permissions == "1"){ %>
+                            <button class="btn btn-pill btn-primary btn-air-primary mt-5" type="submit"><%=language.Submit%></button>
+                            <% } %>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+              </div>
+              <!-- Scroll - vertical dynamic Ends-->
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+        
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+  </body>
+
+</html>

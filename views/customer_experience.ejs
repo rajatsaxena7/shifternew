@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Customer%> <%=language.Experience%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Customer%> <%=language.Experience%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = permission != "1" ? permission.cus_exp.split(",")[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header text-end pb-0">
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_shiftermodal"><%=language.Add%> <%=language.Experience%></button>
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Image%></th>
+                                            <th><%=language.Title%></th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Email%></th>
+                                            <% let permissions = permission != "1" ? permission.cus_exp.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% cus_experience.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.email %></td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_shiftermodal" id="edit_cus_experience" data-id="<%= data.id %>" data-image="<%= data.image %>" 
+                                                            data-title="<%= data.title %>" data-description="<%= data.description %>" data-name="<%= data.name %>" data-email="<%= data.email %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_cus_experi/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_shiftermodal -->
+
+    <div class="modal fade" id="add_shiftermodal" tabindex="-1" role="dialog" aria-labelledby="add_shiftermodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add%> <%=language.Experience%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/settings/add_cus_exprience" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="custome_img" onchange="showPreview(event)" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input class="form-control" type="text" name="title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Description%></label>
+                                <textarea class="form-control" type="text" name="description" placeholder="<%=language.Enter%> <%=language.Description%>"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Name%></label>
+                                <input class="form-control" type="text" name="name" placeholder="<%=language.Enter%> <%=language.Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" type="text" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_shiftermodal -->
+
+    <div class="modal fade" id="edit_shiftermodal" tabindex="-1" role="dialog" aria-labelledby="edit_shiftermodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit%> <%=language.Experience%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" id="cus_edit_form" novalidate="" method="post"  enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img class="img" id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="cus_edit_img" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input class="form-control" type="text" id="cus_title" name="title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Description%></label>
+                                <textarea class="form-control" type="text" id="cus_desc"  name="description" placeholder="<%=language.Enter%> <%=language.Description%>"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Name%></label>
+                                <input class="form-control" type="text" id="cus_name" name="name" placeholder="<%=language.Enter%> <%=language.Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Email%></label>
+                                <input class="form-control" type="text" id="cus_email" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

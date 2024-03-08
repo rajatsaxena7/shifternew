@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.edit_zone%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Zone_Name%></li>
+                        <li class="breadcrumb-item"><%=language.edit_zone%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="/settings/edit_zone_poly" method="post">
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><%=language.Zone_Name%></label>
+                                        <input class="form-control" type="text" name="zone_name" value="<%=zone_data[0].zone_name%>" placeholder="<%=language.Enter%> <%=language.Zone_Name%>" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><%=language.Is_Active%></label>
+                                        <select class="js-example-basic-single" name="status" required>
+                                            <option <%= zone_data[0].status == "1" ? "selected" : "" %> value="1"><%=language.Active%></option>
+                                            <option <%= zone_data[0].status == "0" ? "selected" : "" %> value="0"><%=language.Inactive%></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div id="map-canvas-edit" style="height: 75vh; width: 100%"></div>
+                                        <textarea class="d-none" name="zone_lat_lon" id="info" cols="30" rows="10" style="width: 950px;"></textarea>
+                                    </div>
+                                    <input type="hidden" name="zone_id" value="<%=zone_data[0].id%>">
+                                    <input type="hidden" name="module_list_id" value="<%=zone_data[0].zone_type%>">
+                                    <input type="hidden" name="aod_lat_lng" value="<%=old%>">
+                                    <input type="hidden" id="edit_zone_all_data" value="<%=edit_zone%>">
+
+                                    <div class="text-end">
+                                        <button class="btn btn-primary btn-square w-25 b-r-7"><%=language.Save%></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('./partials/footer'); -%>
+    <%- include('./partials/script'); -%>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= general_data.google_map_key %>&libraries=drawing&callback=initMap"></script>
+    <script src="../../js/map1.js"></script>
+</body>
+
+</html>

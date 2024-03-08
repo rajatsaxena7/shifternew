@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/frontend_head'); -%>
+    <%- include('./partials/head'); -%>
+  </head>
+  <body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="page-body">
+        <!-- Container-fluid starts-->
+        <div class="container-fluid height-200px">
+                <!-- Scroll - vertical dynamic Starts-->
+                <div class="login-card pb-3" style="background-image: none;">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center">
+                        <div class="card customer_print_card">
+                            <div class="card-body ">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <h3 class="text-center"><%=general_data.site_title%></h3>
+                                        <h4 class="f-20 text-center"><%=language.Order%> <%=language.Tracking%></h4>
+                                    </div>
+                                    <hr class="mt-3 mb-1">
+                                    <div class="mt-4 middle_faq_content">
+                                        <% if(carrier_detail != ""){ %>
+                                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6" >
+                                                <h5 class="f-18 "><%=language.Assigned%> <%=language.Carrier%> <%=language.Details%></h5>
+                                                <h5 class="my-1"><%= carrier_detail[0].first_name %> <%= carrier_detail[0].last_name %></h5>
+                                                <h5 class="my-1"><%= carrier_detail[0].country_code %> <%= carrier_detail[0].phone_no %></h5>
+                                                <h5 class="my-1"><%= carrier_detail[0].email %></h5>
+                                            </div>
+                                        <% }; %>
+
+                                        <% if(order_detail[0].module == "1"){ %>
+                                            <% if(driver_detail != ""){ %>
+                                                <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 ul_padding">
+                                                    <h5 class="f-18 "><%=language.Assigned%> <%=language.Driver%> <%=language.Details%></h5>
+                                                    <h5 class="my-1"><%= driver_detail[0].first_name %> <%= driver_detail[0].last_name %></h5>
+                                                    <h5 class="my-1"><%= driver_detail[0].country_code %> <%= driver_detail[0].phone_no %></h5>
+                                                    <h5 class="my-1"><%= driver_detail[0].email %></h5>
+                                                </div>
+                                            <% }; %>
+                                        <% }; %>
+
+                                    </div>
+    
+                                    <% if(tracking_list != ""){ %>
+                                    <div class="col-12 mt-4">
+                                        <div class="table-responsive theme-scrollbar">
+                                            <table class="table" aria-label="table">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th scope="col"> <%=language.Date_updated%> </th>
+                                                        <th scope="col"> <%=language.Time_update%> </th>
+                                                        <th scope="col"> <%=language.New_location%> </th>
+                                                        <th scope="col"> <%=language.Package_Status%> </th>
+                                                        <th scope="col"> <%=language.Remarks%> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% tracking_list.forEach((data) => { %>
+                                                        <tr>
+                                                            <% let date = new Date(data.date_time) %>
+                                                            <% let day = (date.getDate() < 10 ? '0' : '') + date.getDate() %>
+                                                            <% let month = ((date.getMonth()+1) < 10 ? '0' : '') + (date.getMonth()+1) %>
+                                                            <% let year = date.getFullYear() %>
+                                                            <% let hours = date.getHours() %>
+                                                            <% let minutes = date.getMinutes() %>
+    
+                                                            <td><%= `${year}-${month}-${day}` %></td>
+                                                            <td><%= `${hours}:${minutes}` %> <%= (hours < '12' ? 'AM' : 'PM' ) %></td>
+                                                            <td><%= data.address %> <%= data.city %> <%= data.state %> <%= data.country %></td>
+                                                            <td><%= data.shipping_status_name %></td>
+                                                            <td><%= data.message %></td>
+                                                        </tr>
+                                                    <% }) %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <% }; %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                <% if(tracking_list != ""){ %>
+                    <% tracking_list.forEach((data) => { %>
+                        <% if(data.type == "2"){ %>
+                            <div class="login-card pt-0" style="background-image: none;">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center">
+                                    <div class="card customer_print_card">
+                                        <div class="card-body ">
+                                            <div class="row g-4">
+                                                <div class="col-12 text-start mt-2">
+                                                    <h5 class="f-20"><%=language.Proof_of_Delivery_POD%></h5>
+                                                </div>
+                                                <hr class="mt-2 mb-1">
+                                                <div class="mt-4 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <div class="" >
+                                                        <h5 class="f-18 "><%=language.Employee%> <%=language.Name%></h5>
+                                                        <h5 class="my-1"><%=data.driver_id%></h5>
+                                                    </div>
+                                                    <div class="pt-3" >
+                                                        <h5 class="f-18 "><%=language.Received%> <%=language.Person%> <%=language.Name%></h5>
+                                                        <h5 class="my-1"><%=data.person_receives%></h5>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <div>
+                                                        <a href="../../uploads/<%= data.image %>"><img src="../../uploads/<%= data.image %>" class="logo-abbr mx-2 b-r-10 p-1" width="130.5px" height="130.5px" alt="image"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }; %>
+                    <% }) %>
+                <% }; %>
+            
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

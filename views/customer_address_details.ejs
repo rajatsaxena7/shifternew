@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+     <div class="ppc-hero-section2 pb-5 ppc-hero-section-custome">
+    <div class="container">
+      <div class="ppc-hero-content ">
+        <h1 class="wow fadeInUpX text-center" data-wow-delay="0s" ><%=language.My_Addresses%></h1>
+        <p class="wow fadeInUpX text-center" data-wow-delay="0.25s"><%=language.Multiple_Shipping_Addresses%></p>
+
+      </div>
+    </div>
+   
+    <!-- End collection section -->
+  </div>
+    <div class="scetion ppc-section-padding pt-5">
+    <div class="container height-65px">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="">
+            <div class="text-left">
+                <div class="ppc-default-content large pb-3">
+                    <h4 class="font-weight-bold"><%=language.Recent_Added_Address%></h4>
+                </div>
+            </div>
+
+            <div class="tab-content" id="danger-tabContent">
+                <div class="table-order">
+                    <div class="table-responsive">
+                         <table>
+                            <thead>
+                                <tr>
+                                    <th><p><%=language.Customer_Name%></p></th>
+                                    <th><p><%=language.Phone_Number%></p></th>
+                                    <th><p><%=language.Email%></p></th>
+                                    <th><p><%=language.Address%></p></th>
+                                    <th><p><%=language.City%><%=language.State%></p></th>
+                                    <th><p><%=language.Country%></p></th>
+                                    <th><p><%=language.Action%></p></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% customer_address_details.forEach((data) => { %>
+                                    <tr>
+                                        <td>
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <p><%= data.first_name %> <%= data.last_name %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.country_code %><%= data.phone_no %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.email %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.address %></p>
+                                        </td>
+                                        <td>
+                                            <p><%= data.city %>, <%= data.state %></p>
+                                        </td>
+                                        <td>
+                                            <span><%= data.country %></span>
+                                        </td>
+                                        <td>
+                                            <a type="button" data-bs-toggle="modal" data-bs-target="#add_address" class="edit_c_address" href="#"
+
+                                            data-id="<%= data.id %>" data-cusID="<%= data.customer_id %>" data-Fname="<%= data.first_name %>" data-Lname="<%= data.last_name %>" data-countryC="<%= data.country_code %>"
+                                            data-phone="<%= data.phone_no %>" data-email="<%= data.email %>" data-go-add="<%= data.google_address %>" data-latitude="<%= data.latitude %>" data-longitude="<%= data.longitude %>"
+                                            data-address="<%= data.address %>" data-city="<%= data.city %>" data-state="<%= data.state %>" data-country="<%= data.country %>" data-pincode="<%= data.pincode %>">
+                                            
+                                            Edit</a>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="add_address" role="dialog" aria-labelledby="add_address" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><%=language.Edit_Customer_Details%></h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form  class="needs-validation" id="edit_eddress" novalidate="" method="post">
+                    <div class="row g-3">
+                        <h5><%=language.Customer_Details%></h5>
+                        <input id="c_id" class="hidden" type="text" name="customer_id" placeholder="Enter Pincode" required>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.First_Name%></label>
+                            <input id="c_fname" class="form-control" type="text" name="first_name" placeholder="<%=language.Enter%> <%=language.First_Name%>" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.Last_Name%></label>
+                            <input id="c_lname" class="form-control" type="text" name="last_name" placeholder="<%=language.Enter%> <%=language.Last_Name%>" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.Phone_Number%></label>
+                            <div class="row">
+                                <div class="col-4">
+                                    <select class="js-example-basic-single" name="country_code" id="c_code" required>
+                                        <option value selected disabled><%=language.Country%></option>
+                                        <% CountryCode.forEach((data, x) => { %>
+                                            <option value="<%= data %>"> <%= nameCode[x] %> <%= data %> </option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                <div class="col-8">
+                                    <input id="c_phone" class="form-control" type="number" name="phone_no" placeholder="<%=language.Enter%> <%=language.Phone_Number%>" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.Email%></label>
+                            <input id="c_email" class="form-control" type="email" name="email" placeholder="<%=language.Enter%> <%=language.Email%>" required>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-3 address_details" id="address_details">
+                        <h5><%=language.Address_Details%></h5>
+
+                        <div class="col-12">
+                            <label class="form-label"><%=language.Address%></label>
+                            <input class="form-control search_input " type="text" name="google_address" id="search_input" placeholder="Enter Address" required>
+                              <input type="hidden" name="latitude" id="latitude">
+                              <input type="hidden" name="longitude" id="longitude">
+                              <input type="hidden" class="hidden_page" id="hidden_pickup" data-id="1" value="0">
+                            <P class="d-none text-danger" id="search_input_error"><%=language.Sorry_we_do_not_allowed_pickup_in_the_area_you_have_selected%></P>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label"><%=language.Flat_Housing_No_Apartment_Area%></label>
+                            <input id="c_address" class="form-control" type="text" name="address" placeholder="<%=language.Enter%> <%=language.Flat_Housing_No_Apartment_Area%>" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.City%></label>
+                            <input id="c_city" class="form-control" type="text" name="city" placeholder="<%=language.Enter%> <%=language.City%>v" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.State%></label>
+                            <input id="c_state" class="form-control" type="text" name="state" placeholder="<%=language.Enter%> <%=language.State%>" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.Country%></label>
+                            <input id="c_country" class="form-control" type="text" name="country" placeholder="<%=language.Enter%> <%=language.Country%>" required>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label"><%=language.Pincode%></label>
+                            <input id="c_pincode" class="form-control" type="text" name="pincode" placeholder="<%=language.Enter%> <%=language.Pincode%>" required>
+                          </div>
+
+                        <button class="btn btn-square b-r-7 btn-primary" id="add_customer_btn"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  
+
+   
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

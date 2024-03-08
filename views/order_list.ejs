@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Order_List%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Order_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= ModuleList %>">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none"></th>
+                                            <th><%=language.Order_Id%></th>
+                                            <th><%=language.Date%></th>
+                                            <th><%=language.Transaction_ID%></th>
+                                            <th><%=language.Customer%></th>
+                                            <th><%=language.Total_Price%></th>
+                                            <th><%=language.Payment_Status%></th>
+                                            <th><%=language.Shipping_Status%></th>
+                                            <th><%=language.Is_Approved%></th>
+                                            <% let permiss = permission != "1" ? permission.order_per.split(",")[1] : "1" %>
+                                            <% if(permiss == "1"){ %>
+                                                <th><%=language.Action%></th>
+                                            <% }; %>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="domestic_table">
+                                        <% order_list1.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td>#<%= data.order_id %></td>
+                                                <td><%= data.date %></td>
+                                                <td>#<%= data.tracking_id %></td>
+                                                <td><%= data.customer_fname %> <%= data.customer_lname %></td>
+                                                <td class="invosymbol"><%= data.total_price %></td>
+                                                <td>
+                                                    <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+                                                        <div class="d-flex">
+                                                            <span class="badge badge-danger"><%=language.Unpaid%></span>
+                                                            <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                                data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            </div> 
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="d-flex">
+                                                            <span class="badge badge-success"><%=language.Paid%></span>
+                                                            <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                                data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            </div> 
+                                                        </div>
+                                                    <% } %>
+                                                </td>   
+                                                <td>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <span class="badge badge-warning"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <span class="badge badge-danger"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <span class="badge badge-success"><%= data.status_name %></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-primary"><%= data.status_name %></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (data.carrier_id == '0') { %>
+                                                        <span class="badge badge-primary"><%=language.Pending%></span>
+                                                    <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                        <span class="badge badge-danger"><%=language.Unapproved%> </span> 
+
+                                                        <i class="fa fa-info-circle f-16" data-bs-toggle="tooltip" data-bs-placement="Top" title="<%= data.unapproved_reason %>"></i>
+                                                    <% } else { %>
+                                                        <span class="badge badge-success"><%=language.Approved%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% let permiss = permission != "1" ? permission.order_per.split(",")[1] : "1" %>
+                                                <% if(permiss == "1"){ %>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn btn-pill btn-primary px-4 py-2" type="button"><%=language.Action%></button>
+                                                        <div class="dropdown-content myDropdown">
+
+                                                                
+                                                        <% if (data.carrier_id == "0" || data.carrier_id == "Unapproved") { %>
+                                                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#approved_order" id="order_approved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-check f-16"></i> <%=language.Approved_Order%></a>
+                                                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unapproved_order" id="order_unapproved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-times f-16"></i> <%=language.Unapproved_Order%></a>
+
+                                                        <% } else { %>
+
+                                                            <% if(data.assigned_driver == null){ %>
+                                                        
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#assigned_driver" id="add_driver_click" data-id="<%= data.id %>" data-carrier="<%=data.carrier_id%>" data-invoice="<%= data.order_id %>"><i class="fa fa-drivers-license f-16"></i>&nbsp; <%=language.Assigned_Driver%></a>
+        
+                                                            <% } else { %>
+
+                                                                <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add_paymentmodal" id="order_add_payment" data-id="<%= data.id %>" data-order="<%= data.order_id %>" data-total="<%= data.total_price %>" data-paid="<%= data.paid_amount %>" data-differ="<%= data.differences_amount %>" data-module="<%= data.module %>"><i class="fa fa-credit-card-alt f-16"></i> <%=language.Add_Payment%></a>
+
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+
+                                                                <% } else { %>
+                                                                    
+                                                                    <% if (data.shipping_status != '3') { %>
+                                                                        <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                        <a class="dropdown-item" href="/order/deliver_shipment/<%= data.id %>"><i class="fa fa-cube f-14"></i> <%=language.Deliver_The_Shipment%></a>
+                                                                    <% } %>
+                                                                        
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+
+                                                                    <% }; %>
+                                                                    
+                                                            <% } %>
+                                                        <% } %>
+                                                        <a class="dropdown-item" href="/order/view_tracking/<%= data.id %>"><i class="fa fa-file-text-o f-14"></i> <%=language.Shipment_Info%></a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="packersandmovers_table d-none">
+                                        <% order_list2.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td>#<%= data.order_id %></td>
+                                                <td><%= data.date %></td>
+                                                <td>#<%= data.tracking_id %></td>
+                                                <td><%= data.customer_fname %> <%= data.customer_lname %></td>
+                                                <td class="invosymbol"><%= data.total_price %></td>
+                                                <td>
+                                                    <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+                                                        <div class="d-flex">
+                                                            <span class="badge badge-danger"><%=language.Unpaid%></span>
+                                                            <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                                data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            </div> 
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="d-flex">
+                                                        <span class="badge badge-success"><%=language.Paid%></span>
+                                                        <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                            data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            
+                                                        </div> 
+                                                    </div>
+                                                    <% } %>
+                                                </td>   
+                                                <td>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <span class="badge badge-warning"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <span class="badge badge-danger"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <span class="badge badge-success"><%= data.status_name %></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-primary"><%= data.status_name %></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (data.carrier_id == '0') { %>
+                                                        <span class="badge badge-primary"><%=language.Pending%></span>
+                                                    <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                        <span class="badge badge-danger"><%=language.Unapproved%> </span> 
+                                                        <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                            <span class="tooltiptext">
+                                                                <span><%= data.unapproved_reason %></span><br>
+                                                            </span>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <span class="badge badge-success"><%=language.Approved%></span>
+                                                    <% } %>
+                                                </td>
+
+                                                <% let permiss = permission != "1" ? permission.order_per.split(",")[1] : "1" %>
+                                                <% if(permiss == "1"){ %>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn btn-pill btn-primary px-4 py-2" type="button"><%=language.Action%></button>
+                                                        <div class="dropdown-content myDropdown">
+                                                            
+                                                            <% if (data.carrier_id == "0" || data.carrier_id == "Unapproved") { %>
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#approved_order" id="order_approved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-check f-16"></i> <%=language.Approved_Order%></a>
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unapproved_order" id="order_unapproved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-times f-16"></i> <%=language.Unapproved_Order%></a>
+                                                            <% } else { %>
+
+                                                                <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add_paymentmodal"  id="order_add_payment" data-id="<%= data.id %>" data-order="<%= data.order_id %>" data-total="<%= data.total_price %>" data-paid="<%= data.paid_amount %>" data-differ="<%= data.differences_amount %>" data-module="<%= data.module %>"><i class="fa fa-credit-card-alt f-16"></i> <%=language.Add_Payment%></a>
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" href="/order/view_order/<%= data.id %>"><i class="fa fa-file-text-o f-14"></i> <%=language.Add_Quotation%></a>
+                                                                    <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+                                                                <% } else { %>
+                                                                
+                                                                    <% if (data.shipping_status != '3') { %>
+
+                                                                        <a class="dropdown-item" href="/order/view_order/<%= data.id %>"><i class="fa fa-file-text-o f-14"></i> <%=language.Add_Quotation%></a>
+                                                                        <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                        <a class="dropdown-item" href="/order/deliver_shipment/<%= data.id %>"><i class="fa fa-cube f-14"></i> <%=language.Deliver_The_Shipment%></a>
+                                                                    <% } %>
+                                                                
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+                                                                <% } %>
+                                                            <% } %>
+                                                            <a class="dropdown-item" href="/order/view_tracking/<%= data.id %>"><i class="fa fa-file-text-o f-14"></i> <%=language.Shipment_Info%></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="international_table d-none">
+                                        <% order_list3.forEach((data) => { %>
+                                            <tr>
+                                                <td class="d-none"></td>
+                                                <td>#<%= data.order_id %></td>
+                                                <td><%= data.date %></td>
+                                                <td>#<%= data.tracking_id %></td>
+                                                <td><%= data.customer_fname %> <%= data.customer_lname %></td>
+                                                <td class="invosymbol"><%= data.total_price %></td>
+                                                <td>
+                                                    <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+                                                        <div class="d-flex">
+                                                            <span class="badge badge-danger"><%=language.Unpaid%></span>
+                                                            <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                                data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            </div> 
+                                                        </div>
+                                                    <% } else { %>
+                                                        <div class="d-flex">
+                                                        <span class="badge badge-success"><%=language.Paid%></span>
+                                                        <div class="custom_tooltip m" style="margin-top: 3px; margin-left: 10px;"><i class="fa fa-info-circle f-16" id="show_img_model" data-bs-toggle="modal" data-bs-target="#payment_img" 
+                                                            data-title="<%= data.payment_name %>" data-payment_img="<%= data.payment_image %>" data-payment="<%= data.paid_amount %>" data-total="<%= data.total_price %>"></i>
+                                                            
+                                                        </div> 
+                                                    </div>
+                                                    <% } %>
+                                                </td>   
+                                                <td>
+                                                    <% if (data.shipping_status == '1') { %>
+                                                        <span class="badge badge-warning"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '2') { %>
+                                                        <span class="badge badge-danger"><%= data.status_name %></span>
+                                                    <% } else if (data.shipping_status == '3') { %>
+                                                        <span class="badge badge-success"><%= data.status_name %></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-primary"><%= data.status_name %></span>
+                                                    <% } %>
+                                                </td>
+                                                <td>
+                                                    <% if (data.carrier_id == '0') { %>
+                                                        <span class="badge badge-primary"><%=language.Pending%></span>
+                                                    <% } else if (data.carrier_id == 'Unapproved') { %>
+                                                        <span class="badge badge-danger"><%=language.Unapproved%> </span> 
+                                                        <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                            <span class="tooltiptext">
+                                                                <span><%= data.unapproved_reason %></span><br>
+                                                            </span>
+                                                        </div>
+                                                    <% } else { %>
+                                                        <span class="badge badge-success"><%=language.Approved%></span>
+                                                    <% } %>
+                                                </td>
+
+                                                <% let permiss = permission != "1" ? permission.order_per.split(",")[1] : "1" %>
+                                                <% if(permiss == "1"){ %>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="dropbtn btn-pill btn-primary px-4 py-2" type="button"><%=language.Action%></button>
+                                                        <div class="dropdown-content myDropdown">
+                                                            
+                                                            <% if (data.carrier_id == "0" || data.carrier_id == "Unapproved") { %>
+                                                                
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#approved_order" id="order_approved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-check f-16"></i> <%=language.Approved_Order%></a>
+                                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#unapproved_order" id="order_unapproved" data-id="<%= data.id %>" data-invoice="<%= data.order_id %>"><i class="fa fa-times f-16"></i> <%=language.Unapproved_Order%></a>
+                                                            <% } else { %>
+
+                                                                <% if (parseFloat(data.total_price) > parseFloat(data.paid_amount)) { %>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add_paymentmodal"  id="order_add_payment" data-id="<%= data.id %>" data-order="<%= data.order_id %>" data-total="<%= data.total_price %>" data-paid="<%= data.paid_amount %>" data-differ="<%= data.differences_amount %>" data-module="<%= data.module %>"><i class="fa fa-credit-card-alt f-16"></i> <%=language.Add_Payment%></a>
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+                                                                <% } else { %>
+
+                                                                    <% if (data.shipping_status != '3') { %>
+                                                                        
+                                                                    <a class="dropdown-item" href="/order/shipment_tracking/<%= data.id %>"><i class="fa fa-edit f-14"></i> <%=language.Add_New_Shipment_Status%></a>
+                                                                    <a class="dropdown-item" href="/order/deliver_shipment/<%= data.id %>"><i class="fa fa-cube f-14"></i> <%=language.Deliver_The_Shipment%></a>
+                                                                    <% } %>
+                                                                    
+                                                                    <a class="dropdown-item" href="/order/print_shipment/<%= data.id %>"><i class="fa fa-print f-14"></i> <%=language.Print_Shipment%></a>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#print_Barcoad" id="click_print_Barcoad" data-id="<%= data.id %>"><i class="fa fa-barcode f-16"></i> <%=language.Print_Barcoad%></a>
+                                                                <% } %>
+                                                            <% } %>
+                                                                <a class="dropdown-item" href="/order/view_tracking/<%= data.id %>"><i class="fa fa-file-text-o f-14"></i> <%=language.Shipment_Info%></a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    
+
+    <!-- add_paymentmodal -->
+
+    <div class="modal fade" id="add_paymentmodal" tabindex="-1" role="dialog" aria-labelledby="add_paymentmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Payment%></h5>
+                    <button class="btn-close" id="clode_payment_model" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="order_payment_form" class="needs-validation" novalidate="" method="post">
+                <div class="modal-body pt-1" style="background-color: #FAFAFA;">
+                    <div class="row">
+
+                        <div class="d-flex justify-content-between pt-1">
+                            <span><%=language.Order_Id%> :</span>
+                            <span id="order_amount_id"></span>
+                        </div>
+                        <div class="d-flex justify-content-between pt-2">
+                            <span><%=language.Total_Amount%> :</span>
+                            <span id="order_tot" class="invosymbol"></span>
+                        </div>
+                        <div class="d-flex justify-content-between pt-1">
+                            <span><%=language.Paid_Amount%> :</span>
+                            <span id="order_paid" class="invosymbol"></span>
+                        </div>
+                        <div class="d-flex justify-content-between pt-1 d-none" id="order_auotation">
+                            <span><%=language.Quotation_Amount%> :</span>
+                            <span id="order_quotation" class="invosymbol"></span>
+                        </div>
+                        <div class="d-flex justify-content-between pt-1 pb-2 border-bottom">
+                            <span><%=language.Due_Amount%> :</span>
+                            <span id="order_due" class="invosymbol"></span>
+                            <input type="text" id="order_due_input" hidden>
+                        </div>
+
+                        <div class=" pt-3">
+                            <label class="form-label"><%=language.Add_Amount%></label>
+                            <input class="form-control" id="order_enter_amount" type="number" name="order_enter_amount" step="0.01" value="" placeholder="<%=language.Enter%> <%=language.Add_Amount%>" required>
+                        </div>
+                        <p class="text-danger d-none pt-1" id="order_inpt_error"><%=language.Please%><%=language.Enter%><%=language.Amount%></p>
+                        <p class="text-danger d-none pt-1" id="order_amount_error"><%=language.Please_Enter_Exact_Order_due_Amount%></p>
+
+                    </div>
+                </div>
+                </form>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                    <button class="btn btn-primary" type="submit" id="order_payment_btn"><%=language.Save%></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- approved_order -->
+
+    <div class="modal fade" id="approved_order" role="dialog" aria-labelledby="approved_order" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Approval_Confirmation%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="add_carrier_modal" class="needs-validation" novalidate="" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <% if(general_data.order_auto_approved == "1" && auth_data.role != "1" ){ %>
+                                <div class="col-12">
+                                    <label class="col-form-label pt-0 pb-0"><%=language.Hey_did_you_approve_the_order%></label>
+                                    <input type="hidden" name="carrier" value="<%=carrier_auto_list[0].id%>">
+                                </div>
+
+                                
+                            <% } else { %>
+
+                                <div class="col-12">
+                                    <label class="col-form-label pt-0"><%=language.Carrier_List%></label>
+                                    <select class="js-example-basic-single" name="carrier" required>
+                                        <option value selected disabled><%=language.Select_Carrier%></option>
+                                        <% carrier_list.forEach((data) => { %>
+                                            <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            
+                            <% }; %>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Reject%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Accept%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- approved_driver -->
+
+    <div class="modal fade" id="assigned_driver" role="dialog" aria-labelledby="assigned_driver" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Driver%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="add_driver_modal" class="needs-validation" novalidate="" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Driver_List%></label>
+                                <% if(auth_data.role == "1"){ %>
+
+                                    <select class="js-example-basic-single d-none" id="order_assigned_driver" name="driver" required>
+                                    </select>
+
+                                <% } else { %>
+
+                                    <select class="js-example-basic-single" name="driver" required>
+                                        <option value selected disabled><%=language.Select_Driver%></option>
+                                        <% driver_list.forEach((data) => { %>
+                                            <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                        <% }) %>
+                                    </select>
+
+                                <% }; %>  
+
+                                <p class="text-danger d-none pt-1" id="order_adriver_cheack"><%=language.Driver%> <%=language.Not_Available%></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- unapproved_order -->
+
+    <div class="modal fade" id="unapproved_order" role="dialog" aria-labelledby="unapproved_order" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Unapproved_Order%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="add_unapproved_order_modal" class="needs-validation" novalidate="" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Reason%></label>
+                                <textarea class="form-control" rows="1" name="unapproved_reason" placeholder="<%=language.Enter%> <%=language.Reason%>"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Barcode -->
+
+        <div class="modal fade bd-example-modal-lg" id="print_Barcoad" tabindex="-1" role="dialog" aria-labelledby="print_Barcoad" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel"><%=language.Product_Barcode%></h4>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row g-3 ">
+                <div id="barcode_page">
+                <div class="" id="show_barcode">
+
+                </div>
+            </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" id="barcode_download"><%=language.Print_Barcoad%></button>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method Model -->
+
+        <div class="modal fade" id="payment_img" role="dialog" aria-labelledby="payment_img" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><%=language.Payment_Details%></h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pb-0">
+                        <div class="row g-3">
+                            <div class="col-6 text-center">
+                                <label class="col-form-label pt-0" ><%=language.Payment_Type%> :-</label>
+                                <p class="mb-0" id="payment_type"></p>
+                            </div>
+                            <div class="col-6 text-center">
+                                <label class="col-form-label pt-0"><%=language.Total_Payment%> :-</label>
+                                <div id="payment_amount_model"></div>
+                            </div>
+    
+                            <div class="col-12" id="show_payment_img">
+                                <a href="" id="showimg_a" class="btn text-center w-100 h-100 p-0" type="button">
+                                    <img class="img-fluid b-r-7 mb-2 showimg" id="file-preview" width="305px" height="305px" src="" alt="image">
+                                    <br>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

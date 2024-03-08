@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+
+  <%- include('./partials/head'); -%>
+  <%- include('./partials/frontend_head'); -%>
+</head>
+
+<body class="light">
+
+  <%- include('./partials/frontend_header'); -%>
+  
+  <div class="ppc-hero-section2 pb-0">
+    <div class="container">
+      <div class="ppc-hero-content ppc-hero-content2">
+        <h3 class="wow fadeInUpX" data-wow-delay="0s"><%=language.Streamlined_Shipping_Solutions%> </h3>
+        <p class="wow fadeInUpX" data-wow-delay="0.25s"><%=language.Effortless_Planning_with_Our_Handy_Postage_Calculator%></p>
+
+        
+        <div class="ppc-hero-btn-wrap justify-content-center wow fadeInUpX" data-wow-delay="0.40s">
+          <ul class="nav nav-tabs border-tab nav-secondary nav-left  d-flex justify-content-around" id="danger-tab" role="tablist">
+            <% if (module_list[0].isactive == '1') { %>
+              <% var Domestic = 'active' %>
+              <% var ModuleList = '1' %>
+              <% var Moduleid = module_list[0].id %>
+              <li class="nav-item"><a class="nav-link dynamic_module <%= Domestic %>" id="danger-home-tab" data-module="1" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+
+            <% } %>
+            <% if (module_list[1].isactive == '1') { %>
+              <% if (module_list[0].isactive != '1') { %>
+                <% var PackersAndMovers = 'active' %>
+                <% var ModuleList = '2' %>
+              <% } %>
+              <% var Moduleid = module_list[0].id %>
+              <li class="nav-item"><a class="nav-link dynamic_module <%= PackersAndMovers %>" id="profile-danger-tab" data-module="2" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+
+            <% } %>
+            <% if (module_list[2].isactive == '1') { %>
+              <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                <% var International = 'active' %>
+                <% var ModuleList = '3' %>
+              <% } %>
+              <% var Moduleid = module_list[0].id %>
+              <li class="nav-item"><a class="nav-link dynamic_module <%= International %>" id="inter-danger-tab" data-module="3" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+
+            <% } %>
+          </ul>
+          <input type="hidden" id="dynamic_table" value="">
+
+          <div class="tab-content" id="danger-tabContent">
+            <!-- Domestic -->
+            <div class="tab-pane fade show <%= Domestic %>" id="danger-home" role="tabpanel" aria-labelledby="danger-home-tab">
+              <div class="searchBox">
+                <div class="searchBoxInnerWrap">
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                        <input class="inputField search_input shipping_carrier_one" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Origin_Pickup_Address%>" required>
+                        <input class="shipp_cou_lat" type="hidden" name="latitude" id="latitude">
+                        <input class="shipp_cou_lon" type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_pickup_currior" data-id="1" value="0">
+                        <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                        <% } %>
+                    </div>
+                    <div class="locationBox address_details">
+                        <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                        <input class="inputField search_input1 shipping_carrier_two" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Destination_Drop_Address%>" required>
+                        <input class="shipp_cou_lat2" type="hidden" name="latitude" id="latitude">
+                        <input class="shipp_cou_lon2" type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_delivered_currior" data-id="2" value="0">
+                        <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text" name="profix_id" >
+                        <% } %>
+                  </div>
+                  </div>
+                <button type="submit" id="shipping_domestic_btn" class="btn submitBtn disabled domestic_btn_error0"><%=language.Check_price%></button>
+              </div>
+                
+                <% if (module_list[1].isactive == '1') { %>
+                  <input class="inputField search_input d-none" value="<%=module_list[0].prefix%>" type="text" name="profix" >
+                  <input id="zone_id_addresh" class="inputField search_input d-none" value="<%=module_list[0].id%>" type="text">
+                  <% } %>
+
+                
+          </div>
+
+            <!-- Packers And Movers -->
+            <div class="tab-pane fade show <%= PackersAndMovers %>" id="danger-profile" role="tabpanel" aria-labelledby="profile-danger-tab">
+              <div class="searchBox">
+              <div class="searchBoxInnerWrap">
+                      <div class="locationBox address_details">
+                          <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                          <input class="inputField search_input shipping_pam_one" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Shifting_to_Drop_Location%>" required>
+                          <input class="shipp_pam_lat" type="hidden" name="latitude" id="latitude">
+                          <input class="shipp_pam_lon" type="hidden" name="longitude" id="longitude">
+                          <input type="hidden" class="hidden_page" id="hidden_pickup_Packers" data-id="1" value="0">
+                          <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                            <% } %>
+                      </div>
+                      <div class="locationBox address_details">
+                          <span class="custom_icon"><i class="fas fa-map-marker"></i></span>
+                          <input class="inputField search_input1 shipping_pam_two" type="text" name="delivery_pincode" id="search_input" placeholder="<%=language.Shifting_from_Pickup_Location%>" required>
+                          <input class="shipp_pam_lat2" type="hidden" name="latitude" id="latitude">
+                          <input class="shipp_pam_lon2" type="hidden" name="longitude" id="longitude">
+                          <input type="hidden" class="hidden_page" id="hidden_delivered_Packers" data-id="2" value="0">
+                          <% if (module_list[1].isactive == '1') { %>
+                            <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[1].id%>" type="text" name="profix_id" >
+                            <% } %>
+                      </div>
+                    </div>
+                    <button type="submit" id="shipping_pam_btn" class="btn submitBtn disabled domestic_btn_error1"><%=language.Check_price%></button>
+                  </div>
+                
+                <% if (module_list[1].isactive == '1') { %>
+                  <input class="inputField search_input d-none" value="<%=module_list[1].prefix%>" type="text" name="profix" >
+                  <% } %>
+
+              
+          </div>
+
+            <!-- International -->
+            <div class="tab-pane fade show <%= International %>" id="danger-inter" role="tabpanel" aria-labelledby="inter-danger-tab">
+                <div class="searchBox">
+                <div class="searchBoxInnerWrap">
+                    <div class="locationBox address_details">
+
+                        <span class="custom_icon"><i class="far fa-dot-circle"></i></span>
+                        <input class="inputField search_input shipping_inter_one" type="text" name="pickup_pincode" id="search_input" placeholder="<%=language.Origin_Pickup_Address%>" required>
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <input type="hidden" class="hidden_page" id="hidden_pickup_international" data-id="1" value="0">
+                        <% if (module_list[2].isactive == '1') { %>
+                          <input id="show_zone_id" class="inputField search_input d-none" value="<%=module_list[2].id%>" type="text" name="profix_id" >
+                          <% } %>
+                    </div>
+                    <div class="locationbox-select address_details">
+                    <select class="js-example-basic-single custome_select " id="hidden_delivered_international" data-width="100%" name="delivery_pincode" required>
+                        <option value="0" selected disabled><%=language.Select_delivery_country%></option>
+                        <% zone_data.forEach(function(country){ %>
+                        <option value="<%=country.zone_name%>"><%=country.zone_name%></option>
+                        <% }); %>
+                    </select>
+                    </div>
+
+                    <% if (module_list[2].isactive == '1') { %>
+                        <input class="inputField search_input d-none" value="<%=module_list[2].prefix%>" type="text" name="profix" >
+                    <% } %>
+
+                  </div>
+                <button type="submit" id="shipping_domestic_btn" class="btn submitBtn disabled international_btn_error1"><%=language.Ship_Now%></button>
+                </div>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="pickupsearch_input_error"><%=language.Sorry_we_do_not_allowed_pickup_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="deliversearch_input_error"><%=language.Sorry_we_do_not_allowed_delivered_in_the_area_you_have_selected%></span>
+            </div>
+            <div class="col-12">
+                <span class="d-none text-danger" id="country_select_error"><%=language.Please_Select_delivered_Country%></span>
+            </div>
+
+          </div>
+
+
+
+          <div class="col-xl-12 p-0 pt-5 d-none"  id="shipping_main">
+            <div class="login-card p-0 " style="background-image: none;">
+              <div class="login-main px-4 w-100" > 
+                <div class="calcu_margin" >
+                  <form class="needs-validation">
+
+                  <div class="row form-group shipping_cal p-l-10">
+
+
+                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 p-0">
+                      <label class="col-form-label shipping_address"><%=language.Dimensions%></label>
+                      <input class="form-control m-r-10" id="calcu_length" type="number" placeholder="<%=language.Length%> (<%=general_data.length_units%>)" required>
+                    </div>
+
+                    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center shipping_symbol p-0 calculation_div">
+                      <label class="p-0 m-0">x</label>
+                    </div>
+                      
+                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 p-0 shipping_symbol">
+                      <input class="form-control" id="calcu_Width" type="number" placeholder="<%=language.Breadth%> (<%=general_data.length_units%>)" required>
+                    </div>
+
+                    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center shipping_symbol p-0 calculation_div">
+                      <label class="p-0 m-0">x</label>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-2 col-xl-2 p-0 shipping_symbol">
+                      <input class="form-control" id="calcu_Height" type="number" placeholder="<%=language.Height%> (<%=general_data.length_units%>)" required>
+                    </div>
+
+                    <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 text-center shipping_symbol p-0 calculation_div">
+                      <label class="p-0 m-0">=</label>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 p-0">
+                      <label class="col-form-label shipping_address d-none" id="shipping_lwh_amount1"><%=language.Weight_Vol%> <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=floor_data[0].curiour_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label> </label>
+                      <label class="col-form-label shipping_address d-none" id="shipping_lwh_amount2"><%=language.Weight_Vol%> <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=floor_data[0].international_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label> </label>
+                      <div class="d-flex">
+                        <input class="form-control" id="calcu_Weight_Vol" type="text" placeholder="0 (<%=general_data.weight_units%>)" readonly>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-12 d-flex">
+                      <div class="form-group mb-1 shipping_cal">
+                        <div class="d-flex justify-content-between">
+                          <label class="col-form-label shipping_address"><%=language.Dimensions%></label>
+                          <label class="col-form-label shipping_address d-none" style="padding-right: 85px;" id="shipping_lwh_amount1"><%=language.Weight_Vol%> <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=floor_data[0].curiour_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label> </label>
+                          <label class="col-form-label shipping_address d-none" style="padding-right: 85px;" id="shipping_lwh_amount2"><%=language.Weight_Vol%> <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Product_calculation_i_detail1%><%=floor_data[0].international_amount%> <%=language.Product_calculation_i_detail2%>"><i class="fa fa-info-circle f-16"></i></button></label> </label>
+                        </div>
+                        
+                        <div class="d-flex justify-content-around">
+                          <input class="form-control m-r-10" id="calcu_length" type="number" placeholder="<%=language.Length%> (<%=general_data.length_units%>)" required><label class="p-0 m-0">x</label>
+                          <input class="form-control m-r-10 m-l-10" id="calcu_Width" type="number" placeholder="<%=language.Breadth%> (<%=general_data.length_units%>)" required><label class="p-0 m-0">x</label>
+                          <input class="form-control m-r-10 m-l-10" id="calcu_Height" type="number" placeholder="<%=language.Height%> (<%=general_data.length_units%>)" required><label class="p-0 m-0">=</label>
+                          <input class="form-control m-r-10 m-l-10" id="calcu_Weight_Vol" type="text" placeholder="0 (<%=general_data.weight_units%>)" readonly>
+                        </div>
+                      </div>
+                    </div> -->
+                    <input type="hidden" id="volu_tot_weight" value="0">
+                    <input type="hidden" id="shipping_rate_cur" value="<%=floor_data[0].curiour_amount%>">
+                    <input type="hidden" id="shipping_rate_int" value="<%=floor_data[2].international_amount%>">
+                  </div>
+
+                  <div class="mb-2 pb-4 row form-group border-bottom shipping_cal">
+
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 ">
+                      <label class="col-form-label shipping_address"><%=language.Dead_Weight%></label> <button  data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Dead_Weight_is_the_physical_weight%>"><i class="fa fa-info-circle f-16"></i></button>
+                      <input class="form-control m-r-20" id="calcu_weight" type="number" placeholder="<%=language.Dead_Weight%> (<%=general_data.weight_units%>)" required>
+                    </div>
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                      <label class="col-form-label shipping_address" ><%=language.Unit_Price%></label>
+                      <input class="form-control" id="calcu_unit_price" type="number" placeholder="<%=language.Unit_Price%>" required>
+                    </div>
+                      
+
+                      <!-- <div class="text-start">
+                        <label class="col-form-label shipping_address"><%=language.Dead_Weight%></label> <button data-bs-toggle="tooltip" data-bs-placement="Top" title="<%=language.Dead_Weight_is_the_physical_weight%>"><i class="fa fa-info-circle f-16"></i></button>
+                        <label class="col-form-label shipping_address" style="padding-left: 93px;"><%=language.Unit_Price%></label>
+                      </div>
+                      <div class="d-flex">
+                        <input class="form-control m-r-20" id="calcu_weight" type="number" placeholder="<%=language.Dead_Weight%> (<%=general_data.weight_units%>)" required>
+                        <input class="form-control" id="calcu_unit_price" type="number" placeholder="<%=language.Unit_Price%>" required>
+                      </div> -->
+
+                    <span class="shipping_flor text-danger d-none" style="margin-right: 15px;" id="shipp_weight_error"></span>
+                    <span class="shipping_flor text-danger d-none" style="margin-right: 15px;" id="shipping_lwh_error"><%=language.Please_Enter_All_Details%></span>
+                    <span class="shipping_flor text-danger" id="shipping_rate_error"></span>
+                  </div>
+
+                  <div class=" border-bottom shipping_cal">
+                    <div class="form-group d-flex shi_ckeck_cli col-12 mb-2 mt-2">
+                      <input class="shipping_insurance" id="inline-sqr-1" name="customer_view" type="checkbox">
+                      <div class="shipp_checkbox_click">
+                        <label class="f-14 col-12 col-form-label shipping_address p-l-10"><%=language.Add_Package_Insurance%></label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class=" mt-3 border-bottom pb-3">
+                    <div class="col-12 text-start pb-1">
+                      <strong class="p-0 shipping_address"><%=language.Select%> <%=language.Delivery_Type%></strong>
+                    </div>
+                      <div class="">
+                        <div class="text-start ">
+                          <div id="shipping_delivert_type">
+
+                          </div>
+                         </div>
+                      </div>
+                  </div>
+
+
+
+                  <div class=" mt-3  pb-3">
+
+                    <div class="row shipping_add">
+
+                      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="text-start">
+                          <strong class="shipping_address"><i class="far fa-dot-circle"></i> <%=language.Pickup_Address%></strong>
+                        </div>
+                        
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_pickup_ele_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+
+                        <div class="col-12 d-flex form-group ">
+                          <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                          <div style="width: 80px; padding-left: 10px;">
+                            <select class="form-select py-1" name="pickup_floor" id="shi_pick_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="text-start">
+                        <strong class="shipping_address"><i class="fas fa-map-marker-alt"></i> <%=language.Delivery_Address%></strong>
+                      </div>
+
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_deliver_ele_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+
+                        <div class="col-12 d-flex form-group">
+                          <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                          <div style="width: 80px; padding-left: 10px;">
+                              <select class="form-select py-1" id="shi_deli_floor" name="pickup_floor" required>
+                                <% floor_no.forEach((data) => { %>
+                                  <option value="<%= data %>"><%= data %></option>
+                                  <% }) %>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+                    <!-- <div class="row shipping_add pb-1">
+                      <div class="col-sm-6" style="text-align: left;">
+                        <strong class="shipping_address"><i class="far fa-dot-circle"></i> <%=language.Pickup_Address%></strong>
+                      </div>
+                      <div class="col-sm-6 p-0" style="text-align: left;">
+                        <strong class="shipping_address"><i class="fas fa-map-marker-alt"></i> <%=language.Delivery_Address%></strong>
+                      </div>
+                    </div>
+
+                    <div class="d-flex">
+                      <div class="col-6 form-group mb-1">
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_pickup_ele_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="col-6 form-group mb-1">
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_deliver_ele_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex">
+                      <div class="col-6 d-flex form-group p-0 ">
+                        <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                        <div class="" style="width: 80px; padding-left: 10px;" >
+                            <select class="form-select py-1" name="pickup_floor" id="shi_pick_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-6 d-flex form-group">
+                        <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                        <div style="width: 80px; padding-left: 10px;">
+                            <select class="form-select py-1" id="shi_deli_floor" name="pickup_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                </form>
+                 
+                  <div class="col-12">
+                    <span class="shipping_flor text-danger d-none" id="shi_pic_city_error"><%=language.Pickup_City_currently_Unavailable%></span>
+                  </div>
+                    <span class="shipping_flor text-danger d-none" id="shi_deliv_city_error"><%=language.Delivered_City_currently_Unavailable%></span>
+                    
+                <div class=" mt-3">
+                  <div class="">
+                    <button class="btn btn-primary w-50 btn-square m-l-15 mt-3" id="shipping_calcualte_btn" type="button"><%=language.Calculate%></button>
+                    <button class="btn btn-primary w-50 btn-square m-l-15 mt-3 hidden" id="shipping_cal_btn_two" data-bs-toggle="modal" data-bs-target="#shipping_model" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+
+          <div class="col-xl-12 p-0 pt-5 d-none"  id="shipping_pam_card">
+            <div class="login-card p-0 " style="background-image: none;">
+              <div class="login-main px-4 w-100"> 
+                <div class="calcu_margin">
+                  <form class="needs-validation">
+
+                    <div class="d-none" id="shipp_product">
+                      <div class="">
+                        <button class="btn btn-light w-100 d-flex justify-content-between" data-bs-toggle="collapse" data-bs-target="#collapseicon" aria-expanded="true" aria-controls="collapse" type="button">
+                          <label class="f-size-16 col-form-label"><%=language.Select%> <%=language.Product%></label>
+                          <i data-feather="chevron-down"></i>
+                        </button>
+                      </div>
+
+                      <div class=" mt-3">
+                        <div class="collapse" id="collapseicon" aria-labelledby="collapseicon" data-bs-parent="#accordionoc">
+                          <div class="d-flex justify-content-between">
+                            <label class="f-20 col-form-label p-l-20"><%=language.Product%> <%=language.Name%></label>
+                            <label class="f-20 col-form-label p-r-45">Qty</label>
+                          </div>
+                          <div class="">
+                              <% var i = 0 %>
+                              <% product_data.forEach((product_data) => { %>
+                                <div class="row px-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mt-1 mb-1 shipping_flor"><%= product_data.name %></h5>
+                                        <div class="d-flex align-items-center plus_minus">
+                                            <a type="button" class="minus text-dark d-flex align-items-center"><i class="fa fa-minus-circle f-18"></i></a>
+                                            <h5 class="f-20 mb-0 mx-3 value shipping_pro_qty">0</h5>
+                                            <a type="button" class="plus text-dark d-flex align-items-center"><i class="fa fa-plus-circle f-18"></i></a>
+                                            <input type="hidden" id="shipp_prod_id" name="product_name" value="<%= product_data.id %>">
+                                            <input type="hidden" id="shipp_prod_qty" class="product_qty" name="product_qty" value="0">
+                                            <input type="hidden" class="hidden_product_price" name="" value="<%= product_data.price %>">
+                                            <input type="hidden" id="shipp_prod_price" class="product_price" name="product_price" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <% i++ %>
+                              <% }) %>
+                              <% if (i == '0') { %>
+                                  <h5 class="mx-3 text-danger"><%=language.Product_Details_Not_Available%></h5>
+                              <% } %>
+                              <input type="hidden" id="subcategory_price" value="0">
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <span class="f-16 text-danger d-none" id="shipp_category_error"><%=language.Please_Add_Product%></span>
+                        </div>
+                        <button class="btn btn-primary w-25 btn-square m-l-15 mt-4" id="shipping_pam_detail_btn" type="button"><%=language.Next%></button>
+                      </div>
+                      <input type="hidden" id="shipping_product_price" value="0">
+                    </div>
+
+
+
+                  <div class="d-none" id="shipp_pam_detail">
+                  <div class=" border-bottom">
+                    <div class="col-12 text-start pb-1">
+                      <strong class="p-0 shipping_address"><%=language.Select%> <%=language.Shift_Express%></strong>
+                    </div>
+                    <div class="col-12 text-start pb-1">
+                      <% shifter_list.forEach((data) => { %>
+                        <div class="shipp_radio_click">
+                          <input class="shiftr_pam_radio" id="inline-sqr-1" value="<%= data.price %>" data-price="<%= data.price %>" name="shiftr_pam_shipp" type="radio">
+                            <label class="col-form-label shipping_flor p-l-10"><%= data.title %>&nbsp;</label>
+                            <label class="col-form-label shipping_flor mb-0 invosymbol"><%= data.price %> &nbsp;</label>
+                          <br>
+                        </div>
+                      <% }) %>
+                    </div>
+                  </div>
+
+                  <div class=" border-bottom">
+                    <div class="col-12 mt-3 mb-2 text-start pb-1">
+                      <strong class="p-0 shipping_address"><%=language.Select_shifting_date%></strong>
+                    </div>
+                    <input class="form-control shipp_pam_date" id="select_date" type="date" name="" value="<%= fullDate %>" min="<%= fullDate %>" placeholder="dd/mm/yyyy">
+                    <div class="row " id="all_time">
+                      <% let count = 0; %>
+                      <% time_list.forEach((data, index) => { %>
+                          <% var start_time = data.start_time.split(':') %>
+                          <% var end_time = data.end_time.split(':') %>
+                          <% var start_time_val = (parseInt(start_time[0]) < 13 ? "AM" : "PM") %>
+                          <% var end_time_val = (parseInt(end_time[0]) < 13 ? "AM" : "PM") %>
+                          <% if (hour < end_time[0]){ %>
+                            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-23 mt-2 mb-2 time_div">
+                              <a class="btn time" data-id="<%= data.id %>" style="background-color: #F2F2F2;">
+                                <strong class="p-0 shipping_flor"><%= convert_time[index] %></strong>
+                              </a>
+                            </div>
+                              <% count++ %>
+                          <% }; %>
+                      <% }) %>
+                      <% if(count == "0"){ %>
+                        <label class="col-form-label shipping_flor"><%=language.Today%> <%=language.Time%> <%=language.slot%> <%=language.Not_Available%></label>
+                      <% }; %>
+                    </div>
+                    <input type="hidden" name="time" id="shipp_time_mang" value="1">
+                    <input type="hidden" id="hidden_time">
+                  </div>
+
+                  <div class=" mt-3 border-bottom pb-3">
+                    <div class="col-12 text-start pb-1">
+                      <strong class="p-0 shipping_address"><%=language.Select%> <%=language.Delivery_Type%></strong>
+                    </div>
+                      <div class="">
+                        <div class="text-start ">
+                          <% delivery_type_list.forEach((data) => { %>
+                            <div class="shipp_radio_click">
+                            <input class="delivery_radio_pam" id="inline-sqr-1" value="<%=data.price%>" data-price="<%=data.price%>" name="shipping_type_pam" type="radio">
+                            <label class="col-form-label shipping_flor p-l-10"><%=data.type%>&nbsp;</label>
+                            <label class="col-form-label shipping_flor mb-0 invosymbol"><%=data.price%>&nbsp;</label>
+                            <label class="col-form-label shipping_flor mb-0"><%=data.sub_type%></label>
+                            <br>
+                          </div>
+                          <% }) %>
+                         </div>
+                      </div>
+                  </div>
+
+                  <div class=" border-bottom">
+                    <div class="form-group shi_ckeck_cli d-flex col-12 mb-2 mt-2">
+                      <input class="shipping_insurance_pam" id="inline-sqr-1" name="customer_view" type="checkbox">
+                      <div class="shipp_checkbox_click">
+                        <label class="shipping_address col-form-label p-l-10"><%=language.Add_Package_Insurance%></label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-none mt-3  pb-3">
+
+                    <div class="row shipping_add">
+
+                      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="text-start">
+                          <strong class="shipping_address"><i class="far fa-dot-circle"></i> <%=language.Pickup_Address%></strong>
+                        </div>
+
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_pickup_pam_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+
+                        <div class="col-12 d-flex form-group p-0 ">
+                          <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                          <div class="" style="width: 80px; padding-left: 10px;" >
+                            <select class="form-select py-1" name="pickup_floor_pam" id="shi_pick_pam_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                        <div class="text-start">
+                          <strong class="shipping_address"><i class="fas fa-map-marker-alt"></i> <%=language.Delivery_Address%></strong>
+                        </div>
+
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_deliver_pam_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+
+                        <div class="col-12 d-flex form-group">
+                          <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                          <div style="width: 80px; padding-left: 10px;">
+                              <select class="form-select py-1" id="shi_deli_floor_pam" name="pickup_pam_floor" required>
+                                <% floor_no.forEach((data) => { %>
+                                  <option value="<%= data %>"><%= data %></option>
+                                  <% }) %>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                    <!-- <div class="row shipping_add pb-1">
+                      <div class="col-sm-6" style="text-align: left;">
+                        <strong class="shipping_address"><i class="far fa-dot-circle"></i> <%=language.Pickup_Address%></strong>
+                      </div>
+                      <div class="col-sm-6 p-0" style="text-align: left;">
+                        <strong class="shipping_address"><i class="fas fa-map-marker-alt"></i> <%=language.Delivery_Address%></strong>
+                    </div>
+                    </div>
+
+                    <div class="d-flex">
+                      <div class="col-6 form-group mb-1">
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_pickup_pam_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-6 form-group mb-1">
+                        <div class="shi_ckeck_cli d-flex">
+                          <input class="shi_deliver_pam_ckeck" id="inline-sqr-1" name="customer_view" type="checkbox">
+                          <div class="shipp_checkbox_click">
+                            <label class="col-form-label shipping_flor p-l-10"><%=language.Loading%> / <%=language.Unloading_with_elevator%></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex">
+                      <div class="col-6 d-flex form-group p-0 ">
+                        <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                        <div class="" style="width: 80px; padding-left: 10px;" >
+                            <select class="form-select py-1" name="pickup_floor_pam" id="shi_pick_pam_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-6 d-flex form-group">
+                        <span class="shipping_flor"><%=language.What_floor_are_you_on%></span>
+                        <div style="width: 80px; padding-left: 10px;">
+                            <select class="form-select py-1" id="shi_deli_floor_pam" name="pickup_pam_floor" required>
+                              <% floor_no.forEach((data) => { %>
+                                <option value="<%= data %>"><%= data %></option>
+                                <% }) %>
+                            </select>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                  
+                </form>
+                <div class="row mt-3">
+                  <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+                    <button class="btn btn-primary btn-square  mt-3" id="shipping_pam_back_btn" type="button"><%=language.Back%></button>
+                  </div>
+                  <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
+                    <button class="btn btn-primary btn-square w-75 mt-3" id="shipping_calcualte_pam_btn" type="button"><%=language.Calculate%></button>
+                  </div>
+
+                  <button class="btn btn-primary btn-square m-l-15 mt-3 hidden" id="shipping_cal_btn_pam_two" data-bs-toggle="modal" data-bs-target="#shipping_model" type="button"></button>
+                </div>
+              </div>
+  
+              </div>
+              </div>
+            </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+   
+    <!-- End collection section -->
+  </div>
+  <!-- End hero section -->
+
+  <%- include('./partials/middle_content'); -%>
+
+  <div class="modal fade" id="shipping_model" tabindex="-1" role="dialog" aria-labelledby="shipping_model" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                      <div class="d-flex justify-content-between d-none" id="shipp_amount_quoted">
+                        <span class="f-w-700"><%=language.Amount_Quoted%></span>
+                        <span class="f-w-700 invosymbol" id="ship_weight_tot">00</span>
+                      </div>
+                      <div class="d-flex justify-content-between d-none" id="shipp_pro_weight_price">
+                        <span class="f-w-700"><%=language.Product%> <%=language.Weight%> <%=language.Price%>
+                        </span>
+                        <span class="f-w-700 invosymbol" id="shipp_show_weight">
+                        </span>
+                      </div>
+
+                      <div class="d-flex justify-content-between d-none" id="shippi_toolti_one">
+                        <span class="f-w-700"><%=language.Other_Total%>
+                            <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                <span class="tooltiptext" style="width: 310px;">
+                                  <span><%=language.Distance%>-<%=language.Based%> <%=language.Weight%> <%=language.Range%> <%=language.Pricing%> :&nbsp; <span class="invosymbol" id="ship_delivery_charge">00</span> </span><br>
+                                    <span id="shipp_dist_price"></span><br id="shipp_dis">
+                                    <span id="ship_floor">00 </span><br>
+                                    <span id="ship_drop_floor">00 </span><br>
+                                    <span><%=language.Elevator_Pickup_Charge%> :&nbsp; <span class="invosymbol" id="ship_pickup_charge">00</span> </span><br>
+                                    <span><%=language.Elevator_Drop_Charge%> :&nbsp; <span class="invosymbol" id="ship_drop_charge">00</span> </span>
+                                </span>
+                            </div> 
+                        </span>
+                        <span class="f-w-700 invosymbol" id="ship_other_tot">00</span>
+                      </div>
+
+                      <div class="d-flex justify-content-between d-none" id="shippi_toolti_two">
+                        <span class="f-w-700"><%=language.Other_Total%>
+                            <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                <span class="tooltiptext">
+
+                                    <span id="shi_shiftr_op"><%=language.Delivery_Operator%> :&nbsp; <span class="invosymbol" id="shi_shiftr_price">00</span> </span><br>
+                                    <span id="shipp_time_base"><%=language.Time_based_Pricing%> :&nbsp; <span class="invosymbol" id="shi_date_price">00</span> </span><br>
+                                    <span id="shipp_add_dis">00 </span><br>
+                                    <span id="ship_floor_two">00 </span><br>
+                                    <span id="ship_drop_floor_two">00 </span><br>
+                                    <span><%=language.Elevator_Pickup_Charge%> :&nbsp; <span class="invosymbol" id="ship_pickup_charge_two">00</span> </span><br>
+                                    <span><%=language.Elevator_Drop_Charge%> :&nbsp; <span class="invosymbol" id="ship_drop_charge_two">00</span> </span>
+                                </span>
+                            </div> 
+                        </span>
+                        <span class="f-w-700 invosymbol" id="ship_other_two">00</span>
+                      </div>
+
+                      <div class="d-flex justify-content-between " id="shi_insurance_data">
+                        <span class="f-w-700"><%=language.Insurance_Price%></span>
+                        <span class="f-w-700 invosymbol" id="ship_insurance_price">00</span>
+                      </div>
+                      <span class="f-w-700 f-12 mt-0" id="ship_insurance_all_type">00</span>
+
+                      <div class="d-flex justify-content-between " id="shi_delivery_type_data">
+                        <span class="f-w-700"><%=language.Delivery_Type%></span>
+                        <span class="f-w-700 invosymbol" id="ship_delivery">00</span>
+                      </div>
+
+                      <div class="border-bottom"></div>
+
+                      <div class="d-flex justify-content-between">
+                        <span class="f-w-700"><%=language.Booking_Amount%></span>
+                        <span class="f-w-700 invosymbol payment_amount" id="ship_total">123</span>
+                      </div>
+
+                    </div>
+                </div>
+                <input type="text" id="delivety_zone" name="delivery_module" hidden>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+  <!-- Footer  -->
+
+  <%- include('./partials/frontend_footer'); -%>
+  <%- include('./partials/frontend_script'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

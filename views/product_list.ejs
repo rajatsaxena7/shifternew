@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Product%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Product_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-end pb-0">
+                            
+                           
+                            <% let permiss = permission != "1" ? permission.product.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                            <button class="btn btn-square btn-primary b-r-10" type="button" data-bs-toggle="modal" data-bs-target="#add_product"><%=language.Add_Product%></button>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Category_Name%></th>
+                                            <th><%=language.Sub_Category_Name%></th>
+                                            <th><%=language.Price%></th>
+                                            <th><%=language.Product_Id%></th>
+                                            <th><%=language.Status%></th>
+                                            <% let permissions = permission != "1" ? permission.product.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% product_list.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.c_name %></td>
+                                                <td><%= data.sc_name %></td>
+                                                <td class="invosymbol"><%= data.price %></td>
+                                                <td><%= data.id %></td>
+                                                <td>
+                                                    <% if (data.status == 'on') { %>
+                                                        <span class="badge badge-success"><%=language.Publish%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Unpublish%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                    <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_productmodal" id="edit_product" data-id="<%= data.id %>" data-name="<%= data.name %>"
+                                                        data-category_name="<%= data.category_name %>" data-subcategory_name="<%= data.subcategory_name %>" data-price="<%= data.price %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li>
+                                                    <li class="delete"><a href="#"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_product -->
+
+    <div class="modal fade" id="add_product" tabindex="-1" role="dialog" aria-labelledby="add_product" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Product%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/product/add_product" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Category%></label>
+                                <select class="js-example-basic-single product_category" name="category_name" id="product_category" required>
+                                    <option value selected disabled><%=language.Select_Category%></option>
+                                    <% category_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>"><%= data.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category%></label>
+                                <select class="js-example-basic-single product_subcategory" name="subcategory_name" id="product_subcategory" required>
+                                    <option value selected disabled><%=language.Select_Sub_Category%></option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Product_Name%></label>
+                                <input class="form-control" type="text" name="name" placeholder="<%=language.Enter%> <%=language.Product_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Product_Price%></label>
+                                <input class="form-control" type="number" name="price" min="0" step="0.01" value="0.00" placeholder="<%=language.Enter%> <%=language.Product_Price%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex mt-2">
+                                    <div class="icon-state">
+                                      <label class="switch">
+                                        <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                      </label>
+                                    </div>
+                                    <label class="col-form-label text-start m-l-10"><%=language.Product_Status%></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" value="2" name="pricing_module_id" hidden>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_product -->
+
+    <div class="modal fade" id="edit_productmodal" tabindex="-1" role="dialog" aria-labelledby="edit_productmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Product%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/product/add_product" method="post" id="edit_product_id">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Category%></label>
+                                <select class="js-example-basic-single product_category" name="category_name" id="edit_product_category" required>
+                                    <option value selected disabled><%=language.Select_Category%></option>
+                                    <% category_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>"><%= data.name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category%></label>
+                                <select class="js-example-basic-single product_subcategory" name="subcategory_name" id="edit_product_subcategory" required>
+                                    <option value selected disabled><%=language.Select_Sub_Category%></option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Product_Name%></label>
+                                <input class="form-control" type="text" name="name" id="edit_product_name" placeholder="<%=language.Enter%> <%=language.Product_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Product_Price%></label>
+                                <input class="form-control" type="number" name="price" min="0" step="0.01" value="0.00" id="edit_product_price" placeholder="<%=language.Enter%> <%=language.Product_Price%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex mt-2">
+                                    <div class="icon-state">
+                                      <label class="switch" id="edit_product_switch">
+                                      </label>
+                                    </div>
+                                    <label class="col-form-label text-start m-l-10"><%=language.Product_Status%></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

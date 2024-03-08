@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=language.Choose_service%></h4>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= cart_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active"> <%= cart_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid height-65px">
+        <div class="row">
+            <div class="login-card py-5">
+                <div class="col-xl-12 d-flex justify-content-center p-0">    
+                    <div class="card w-50">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.Please_choose_a_specific_date_and_time_range_for_your_relocation%></h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="/packers_and_movers/add_date_time" method="post" id="time_form">
+                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-3 row">
+                                    <label class="form-label"><%=language.Select_shifting_date%></label>
+                                    <input class="form-control " id="select_date" type="date" name="date" value="<%= fullDate %>" min="<%= fullDate %>" placeholder="dd/mm/yyyy">
+                                </div>
+                                <hr>
+                                <div class="row g-3">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label><%=language.Select_pick_up_time_slot%></label>
+                                    </div>
+                                    <div class="row g-3 mt-0" id="all_time">
+                                        <% let count = 0; %>
+                                        <% time_list.forEach((data, index) => { %>
+                                            <% var start_time = data.start_time.split(':') %>
+                                            <% var end_time = data.end_time.split(':') %>
+                                            <% var start_time_val = (parseInt(start_time[0]) < 13 ? "AM" : "PM") %>
+                                            <% var end_time_val = (parseInt(end_time[0]) < 13 ? "AM" : "PM") %>
+                                            <% if (hour < end_time[0]){ %>
+                                                <div class="col-3 time_div">
+                                                    <a class="btn time" data-id="<%= data.id %>" style="background-color: #F2F2F2;">
+                                                        <span>
+                                                            <h5 class="mb-0"><%= convert_time[index] %></h5>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                                <% count++ %>
+                                            <% }; %>
+                                        <% }) %>
+                                        <% if(count == "0"){ %>
+                                            <span><%=language.Today%> <%=language.Time%> <%=language.slot%> <%=language.Not_Available%></span>
+                                        <% }; %>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="shipp_time_mang" value="0">
+                                <input type="hidden" name="time" id="hidden_time">
+                                <p class="text-danger d-none" id="time_error"><%=language.Please_Select_Time%></p>
+                                <button class="btn btn-primary btn-square b-r-5 w-100 mt-4" id="time_btn" type="button"><%=language.Next%></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

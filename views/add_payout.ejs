@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Wallet%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Wallet%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid dashboard-2">
+            <div class="row">
+                <div class="col-12">
+                    
+                    <div class="card">
+                        <div class="card-header footer_row pb-0">
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card profit-card">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex justify-content-between">
+                                      <div class="flex-grow-1">
+                                        <p class="square-after f-w-600 header-text-primary"><%=language.Wallet_Balance%><i class="fa fa-circle"> </i></p>
+                                        <% if(driver_data[0].tot_balance == null){ %>
+                                          <h4><span class="invosymbol"> 0</span></h4>
+                                        <% } else { %>
+                                          <h4><span class="invosymbol"><%=driver_data[0].tot_balance%></span></h4>
+                                        <% }; %>
+
+                                        <% if(driver_data[0].tot_balance == null){ %>
+                                          <input type="hidden"  id="total_driver_amount" value="0">
+                                          <% } else { %>
+                                            <input type="hidden"  id="total_driver_amount" value="<%=driver_data[0].tot_balance%>">
+                                        <% }; %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body p-3">
+                                    <div class="right-side icon-right-primary"><i class="fa fa-credit-card"></i>
+                                      <div class="shap-block">
+                                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="card profit-card">
+                                  <div class="card-header pb-0">
+                                    <div class="d-flex justify-content-between">
+                                      <div class="flex-grow-1">
+                                        <p class="square-after f-w-600 header-text-primary"><%=language.Wallet_Min_Balance_For_Withdraw%><i class="fa fa-circle"> </i></p>
+                                        <% if(driver_data[0].carrier_min_balance_for_withdraw == null){ %>
+                                            <h4 class="invosymbol"><%=general_dataa[0].default_wallet_min_balance%></h4>
+                                        <% } else { %>
+                                            <h4 class="invosymbol"><%=driver_data[0].carrier_min_balance_for_withdraw%></h4>
+                                        <% }; %>
+
+                                        
+                                        <% if(driver_data[0].carrier_min_balance_for_withdraw == null){ %>
+                                          <input type="hidden"  id="amount" value="<%=general_dataa[0].default_wallet_min_balance%>">
+                                        <% } else { %>
+                                          <input type="hidden"  id="amount" value="<%=driver_data[0].carrier_min_balance_for_withdraw%>">
+                                        <% }; %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="card-body p-3">
+                                    <div class="right-side icon-right-primary"><i class="fa fa-usd"></i>
+                                      <div class="shap-block">
+                                        <div class="rounded-shap animate-bg-primary"><i></i><i></i></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                        </div>
+                        <div class="card-body pt-1">
+                            <div class="table-responsive theme-scrollbar">
+                                <form  class="needs-validation" novalidate="" action="/order/edit_payment/<%=driver_data[0].id%>" method="post">
+                                
+                                    <div class="card g-3">
+                                            <div class="card col-12">
+                                                <label class="card-title"><%=language.Enter_Amount%></label>
+                                                <input  class="form-control" type="text" name="wallet_amout" id="driver_amount" placeholder="Enter Amount" required>
+                                                <p class="text-danger d-none pt-3" id="driver_bal_error"><%=language.Your_Wallet_Balance_is_Low%></p>
+                                            </div>
+
+                                            <div class="col-12 d-none" id="payout_select_form">
+                                                <label class="col-form-label pt-0"><%=language.Select_Payout_Type%></label>
+                                                <select class="js-example-basic-single driver_pay_type" id="check_driver_amount" name="wallet_type" required>
+                                                    <option  value selected disabled><%=language.Select_Option%></option>
+                                                        <option value="1" class="payment_val"><%=language.UPI%></option>
+                                                        <option value="2" class="payment_Bank"><%=language.Bank_Transfer%></option>
+                                                        <option value="3" class="payment_Paypal"><%=language.Paypal%></option>
+                                                </select>
+                                            </div>
+                                            <p class="text-danger d-none pt-3" id="driver_error"><%=language.Please_Enter_min_Balance_For_Withdraw%></p>
+
+                                            <div class="show_payment"></div>
+
+                                            <!-- <button class="btn btn-primary mt-3 disabled" id="driver_payment_btn"><%=language.Add_Payment_Details%></button> -->
+                                            <button class="btn btn-primary mt-3 disabled" id="driver_payment_btn" type="submit"><%=language.Submit%></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+    <%- include('./partials/head'); -%>
+    <script src="../../css/summernote/summernote_jquery.js"></script>
+    <script src="../../css/summernote/summernote_boot.js"></script>
+    <link rel="stylesheet" href="../../css/summernote/summernote.css">
+    <script src="../../css/summernote/summernote.js"></script>
+    <link rel="stylesheet" href="../../css/summernote/summernote_boot.css">
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Policy_List%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Policy_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid" id="policy_list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <% let permiss = permission != "1" ? permission.policy.split(",")[1] : "1" %>
+                        <% if(permiss == "1"){ %>
+                        <div class="card-header text-end pb-0">
+                          <button class="btn btn-square btn-primary b-r-10" type="button" id="policy_show" ><%=language.Add_Policy%></button>
+                          
+                        </div>
+                        <% } %>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th><%=language.Title%></th>
+                                    <% let permissions = permission != "1" ? permission.policy.split(",")[2] : "1" %>
+                                    <% if(permissions == "1"){ %>
+                                    <th><%=language.Action%></th>
+                                    <% } %>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <% var i = 1 %>
+                                    <% policy_list.forEach(function(policy){ %>
+                                        <tr>
+                                            <td><%= i %></td>
+                                            <td><%=policy.policy_title%></td>
+                                            <% if(permissions == "1"){ %>
+                                            <td> 
+                                                <ul class="action"> 
+                                                    <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_unitmodal" id="edit_policy" data-id="<%=policy.id%>" data-title="<%=policy.policy_title%>" data-det="<%=policy.policy_det%>"><i class="icon-pencil-alt"></i></a></li>
+
+                                                    <li class="delete"><a href="/settings/delete_policy/<%=policy.id%>"><i class="icon-trash"></i></a></li>
+                                                </ul>
+                                            </td>
+                                            <% } %>
+                                        </tr>
+                                        <% i++ %>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+
+
+        <!-- add policy-->
+        <div class="container-fluid d-none" id="add_policy">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                          <button class="btn btn-square btn-primary b-r-10" type="button" id="show_policy_list" ><%=language.Policy_List%></button>
+                          
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <form  class="needs-validation" novalidate="" action="/settings/policy_pages" method="post">
+                                
+                                    <div class="card g-3">
+                                            <div class="card col-12">
+                                                <label class="card-title"><%=language.Title%></label>
+                                                <input class="form-control" type="text" name="policy_title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="card-title "><%=language.Details%></label>
+                                                <textarea class="form-control summernote" name="policy_det"></textarea>
+                                            </div>
+
+                                            <button class="btn btn-primary mt-5" type="submit"><%=language.Save%></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end policy list -->
+
+
+        <!-- edit policy -->
+        <div class="container-fluid d-none" id="edit_p_detail">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                          <button class="btn btn-square btn-primary b-r-10" type="button" id="show_p_list" ><%=language.Policy_List%></button>
+                          
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <form  class="needs-validation" id="show_p_detail" novalidate="" action="/settings/edit_policy" method="post">
+                                
+                                    <div class="card g-3">
+                                            <div class="card col-12">
+                                                <label class="card-title"><%=language.Title%></label>
+                                                <input id="p_title" class="form-control" type="text" name="policy_title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                                            </div>
+                                            <div class="col-12" >
+                                                <label class="card-title "><%=language.Details%></label>
+                                                <textarea  class="form-control summernote"  name="policy_det"><div id="p_detail"></div></textarea>
+                                            </div>
+                                            
+                                            <button class="btn btn-primary mt-5" type="submit"><%=language.Save%></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end edit policy-->
+    </div>
+
+    
+
+  <%- include('./partials/footer'); -%>
+  <script src="../../js/editor/summernote/summernote.custom.js"></script>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

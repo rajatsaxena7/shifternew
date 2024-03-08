@@ -1,0 +1,477 @@
+<!-- tap on top starts-->
+<div class="tap-top"><i data-feather="chevrons-up"></i></div>
+<!-- tap on tap ends-->
+<!-- Loader starts-->
+<div class="loader-wrapper">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"> </div>
+  <div class="dot"></div>
+</div>
+<!-- Loader ends-->
+<!-- page-wrapper Start-->
+<div class="page-wrapper compact-wrapper" id="pageWrapper">
+  <!-- Page Header Start-->
+  
+  <div class="page-header mt-0">
+    <div class="header-wrapper row m-0">
+      <div class="header-logo-wrapper col-auto p-0">
+        <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+        <div class="logo-header-main"><a href="index.html"><img class="img-fluid for-light img-50" src="../../uploads/<%= general_data.site_logo %>" alt=""><img class="img-fluid for-dark" src="../../uploads/<%= general_data.site_logo %>" alt=""></a></div>
+      </div>
+      <div class="left-header col horizontal-wrapper ps-0">
+      </div>
+      <div class="nav-right col-6 pull-right right-header p-0">
+        <ul class="nav-menus">
+          <li></li>
+          <li>
+            <div class="mode" id="dark_mode"><i class="fa fa-moon-o"></i></div>
+          </li>
+          <li class="onhover-dropdown">
+            <div class="message"><i class="fa fa-bell-o"></i></div>
+            <% if(notification_data != ""){ %>
+            <ul class="message-dropdown onhover-show-div">
+              <li>
+                <h6 class="f-18 mb-0"><%=language.Notification%></h6>
+              </li>
+
+              <% if(auth_data.role == "1"){ %>
+
+                <% let admin = "1" %>
+                <% notification_data.forEach((data) => { %>
+                  <% if(data.fix == auth_data.role && admin <= "6"){ %>
+                  <li>
+                    <div class="d-flex align-items-start">
+                      <div class="message-img bg-light-primary"><i class="fa fa-bell-o font-dark"></i></div>
+                      <div class="flex-grow-1">
+                        <h5 class="mb-1"><%= data.notification %></h5>
+                        <% let date = new Date(data.date) %>
+                        <% let day = date.getDate() %>
+                        <% let month = date.getMonth()+1 %>
+                        <% let year = date.getFullYear() %>
+                        <% let fullDate = `${year}-${month}-${day}` %>
+                        <p><%= fullDate %> <%= data.time %></p>
+                      </div>
+                    </div>
+                  </li>
+                  <% admin++ %>
+                  <% } %>
+                <% }) %>
+
+              <% } else if (auth_data.role == "3") { %>
+
+                <% let carrier = "1" %>
+                <% notification_data.forEach((data) => { %>
+                  <% if(data.received == auth_data.tbl_admin_id &&  carrier <= "6"){ %>
+                  <li>
+                    <div class="d-flex align-items-start">
+                      <div class="message-img bg-light-primary"><i class="fa fa-bell-o font-dark"></i></div>
+                      <div class="flex-grow-1">
+                        <h5 class="mb-1"><%= data.notification %></h5>
+                        <% let date = new Date(data.date) %>
+                        <% let day = date.getDate() %>
+                        <% let month = date.getMonth()+1 %>
+                        <% let year = date.getFullYear() %>
+                        <% let fullDate = `${year}-${month}-${day}` %>
+                        <p><%= fullDate %> <%= data.time %></p>
+                      </div>
+                    </div>
+                  </li>
+                  <% carrier++ %>
+                  <% } %>
+                <% }) %>
+
+              <% } else if (auth_data.role == "5") { %>
+
+                <% let driver = "1" %>
+                <% notification_data.forEach((data) => { %>
+                  <% if(data.driver_id == auth_data.tbl_admin_id &&  driver <= "6"){ %>
+                  <li>
+                    <div class="d-flex align-items-start">
+                      <div class="message-img bg-light-primary"><i class="fa fa-bell-o font-dark"></i></div>
+                      <div class="flex-grow-1">
+                        <h5 class="mb-1"><%= data.notification %></h5>
+                        <% let date = new Date(data.date) %>
+                        <% let day = date.getDate() %>
+                        <% let month = date.getMonth()+1 %>
+                        <% let year = date.getFullYear() %>
+                        <% let fullDate = `${year}-${month}-${day}` %>
+                        <p><%= fullDate %> <%= data.time %></p>
+                      </div>
+                    </div>
+                  </li>
+                  <% driver++ %>
+                  <% } %>
+                <% }) %>
+
+              <% }; %>
+              <li><a class="btn btn-primary" href="/notification"><%=language.check_all_notification%></a></li>
+            </ul>
+            <% }; %>
+          </li>
+          <li class="maximize"><a href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>
+
+          <li class="language-nav">
+            <div class="translate_wrapper">
+              <div class="current_lang">
+                <div class="lang"><i data-feather="globe"></i></div>
+              </div>
+              <div class="more_lang">
+                <div class="lang" id="en" data-value="en"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">English<span> (US)</span></span></div>
+                <div class="lang" id="in" data-value="in"><i class="flag-icon flag-icon-in"></i><span class="lang-txt">Hindi</span></div>
+                <div class="lang" id="de" data-value="de"><i class="flag-icon flag-icon-de"></i><span class="lang-txt">Deutsch</span></div>
+                <div class="lang" id="pt" data-value="pt"><i class="flag-icon flag-icon-pt"></i><span class="lang-txt">Portugu&ecirc;s<span> (BR)</span></span></div>
+                <div class="lang" id="es" data-value="es"><i class="flag-icon flag-icon-es"></i><span class="lang-txt">Espa&ntilde;ol</span></div>
+                <div class="lang" id="fr" data-value="fr"><i class="flag-icon flag-icon-fr"></i><span class="lang-txt">Fran&ccedil;ais</span></div>
+                <div class="lang" id="cn" data-value="cn"><i class="flag-icon flag-icon-cn"></i><span class="lang-txt">&#x7B80;&#x4F53;&#x4E2D;&#x6587;</span></div>
+                <div class="lang" id="ae" data-value="ae"><i class="flag-icon flag-icon-ae"></i><span class="lang-txt">&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629; <span> (ae)</span></span></div>
+              </div>
+            </div>
+          </li>
+          <input type="hidden" id="hidden_lang" value="<%=lang.lang%>">
+
+          <li class="profile-nav onhover-dropdown">
+            <div class="account-user"><i data-feather="user"></i></div>
+            <ul class="profile-dropdown onhover-show-div">
+              <li><a href="/order/carrier_profile"><i data-feather="user"></i><span><%=language.Account%></span></a></li>
+              <li><a href="/logout"><i data-feather="log-in"> </i><span><%=language.Log_Out%></span></a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <script class="result-template" type="text/x-handlebars-template">
+        <div class="ProfileCard u-cf">                        
+        <div class="ProfileCard-avatar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay m-0"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg></div>
+        <div class="ProfileCard-details">
+        <div class="ProfileCard-realName">{{name}}</div>
+        </div>
+        </div>
+      </script>
+      <script class="empty-template" type="text/x-handlebars-template"><div class="EmptyMessage"><%=language.Your_search_turned_up_0_results_This_most_likely_means_the_backend_is_down_yikes%>!</div></script>
+    </div>
+  </div>
+  <!-- Page Header Ends-->
+  <!-- Page Body Start-->
+  <div class="page-body-wrapper">
+    <!-- Page Sidebar Start-->
+    <div class="sidebar-wrapper">
+      <div>
+        <div class="logo-wrapper">
+          <% if (auth_data.role == '1') { %>
+          <a href="/index">
+            <img class="img-fluid for-light img-50" src="../../uploads/<%= general_data.site_logo %>" alt="">
+             <span class="f-20 f-w-700 text-white pt-5"><%= general_data.site_title %></span>
+          </a>
+          <% } else { %>
+            <a href="/order/carrier_dashboard">
+              <img class="img-fluid for-light img-50" src="../../uploads/<%= general_data.site_logo %>" alt="">
+               <span class="f-20 f-w-700 text-white pt-5"><%= general_data.site_title %></span>
+            </a>
+          <% }; %>
+          <div class="back-btn"><i data-feather="grid"></i></div>
+          <div class="toggle-sidebar icon-box-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+        </div>
+        <div class="logo-icon-wrapper"><a href="index.html">
+            <div class="icon-box-sidebar"><i data-feather="grid"></i></div></a></div>
+        <nav class="sidebar-main">
+          <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+          <div id="sidebar-menu">
+            <ul class="sidebar-links" id="simple-bar">
+              <li class="back-btn">
+                <div class="mobile-back text-end"><span><%=language.Back%></span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+              </li>
+              <li class="menu-box"> 
+                <ul>
+                  
+
+                  <% if (auth_data.role == '1') { %>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/index"><i data-feather="home"> </i><span><%=language.Dashboard%></span></a></li>
+                    
+                    <% if(permission == "1"){ %>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/order_list"><i data-feather="box"> </i><span><%=language.Order%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.order_per.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/order_list"><i data-feather="box"> </i><span><%=language.Order%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+                    
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="user"></i><span class="lan-7"><%=language.User%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a class="lan-4" href="/user/customer"><%=language.Customers%></a></li>
+                          <li><a class="lan-4" href="/user/driver"><%=language.Become_a_Carrier%></a></li>
+                      </ul>
+                    </li>
+                    <% } else { %>
+                      <% if(permission.customer.split(",")[0] == "1" || permission.carrier.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="user"></i><span class="lan-7"><%=language.User%></span></a>
+                          <ul class="sidebar-submenu">
+                          <% if(permission.customer.split(",")[0] == "1"){ %>
+                            <li><a class="lan-4" href="/user/customer"><%=language.Customers%></a></li>
+                          <% }; %>
+                          <% if(permission.carrier.split(",")[0] == "1"){ %>
+                            <li><a class="lan-4" href="/user/driver"><%=language.Become_a_Carrier%></a></li>
+                          <% }; %>
+                        </ul>
+                      </li>
+                      <% } %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="archive"></i><span class="lan-6"><%=language.All_Category%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/allcategory/category"><%=language.Category%></a></li>
+                          <li><a href="/allcategory/sub_category"><%=language.Sub_Category%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.category.split(",")[0] == "1" || permission.subcategory.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="archive"></i><span class="lan-6"><%=language.All_Category%></span></a>
+                          <ul class="sidebar-submenu">
+                          <% if(permission.category.split(",")[0] == "1"){ %>
+                            <li><a href="/allcategory/category"><%=language.Category%></a></li>
+                          <% }; %>
+                          <% if(permission.subcategory.split(",")[0] == "1"){ %>
+                            <li><a href="/allcategory/sub_category"><%=language.Sub_Category%></a></li>
+                          <% }; %>
+                        </ul>
+                      </li>
+                      <% } %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg><span class="lan-7"><%=language.Additional_Settings%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/settings/delivery_type"><%=language.Delivery_Type%></a></li>
+                            <li><a href="/settings/pricing"><%=language.Pricing%></a></li>
+                            <li><a href="/settings/distance_rate"><%=language.Distance_Rate%></a></li>
+                            <li><a href="/settings/insurance"><%=language.Package_Insurance%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.delivery.split(",")[0] == "1" || permission.Pricing.split(",")[0] == "1" || permission.Distance.split(",")[0] == "1" || permission.Insurance.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg><span class="lan-7"><%=language.Additional_Settings%></span></a>
+                          <ul class="sidebar-submenu">
+                          <% if(permission.delivery.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/delivery_type"><%=language.Delivery_Type%></a></li>
+                          <% }; %>
+                          <% if(permission.Pricing.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/pricing"><%=language.Pricing%></a></li>
+                          <% }; %>
+                          <% if(permission.Distance.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/distance_rate"><%=language.Distance_Rate%></a></li>
+                          <% }; %>
+                          <% if(permission.Insurance.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/insurance"><%=language.Package_Insurance%></a></li>
+                          <% }; %>
+                        </ul>
+                      </li>
+                      <% } %>
+                    <% }; %>
+
+                    <% if(module_list[1].isactive == "1"){ %>
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="truck"></i><span class="lan-7"><%=module_list[1].name%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/product/product_list"><%=language.Product%></a></li>
+                          <li><a href="/settings/shift"><%=language.Manpower_Selection%></a></li>
+                            <li><a href="/settings/time"><%=language.Time_Management%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.product.split(",")[0] == "1" || permission.Shift.split(",")[0] == "1" || permission.Time.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="truck"></i><span class="lan-7"><%=module_list[1].name%></span></a>
+                          <ul class="sidebar-submenu">
+                          <% if(permission.product.split(",")[0] == "1"){ %>
+                            <li><a href="/product/product_list"><%=language.Product%></a></li>
+                          <% }; %>
+                          <% if(permission.Shift.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/shift"><%=language.Shift_Express%></a></li>
+                          <% }; %>
+                          <% if(permission.Time.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/time"><%=language.Time_Management%></a></li>
+                          <% }; %>
+                        </ul>
+                      </li>
+                      <% } %>
+                    <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/shipping_status"><i data-feather="list"> </i><span><%=language.Shipping_Status%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.Shipping.split(",")[0] == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/shipping_status"><i data-feather="list"> </i><span><%=language.Shipping_Status%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/coupon/coupon_list"><i data-feather="gift"> </i><span><%=language.Coupon%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.coupon.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/coupon/coupon_list"><i data-feather="gift"> </i><span><%=language.Coupon%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/zone"><i data-feather="map-pin"> </i><span><%=language.Zone%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.Zone.split(",")[0] == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/zone"><i data-feather="map-pin"> </i><span><%=language.Zone%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="map"></i><span class="lan-7"><%=language.Location%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/location/country"><%=language.Country%></a></li>
+                          <li><a href="/location/state"><%=language.State%></a></li>
+                          <li><a href="/location/city"><%=language.City%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.location.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="map"></i><span class="lan-7"><%=language.Location%></span></a>
+                          <ul class="sidebar-submenu">
+                            <li><a href="/location/country"><%=language.Country%></a></li>
+                            <li><a href="/location/state"><%=language.State%></a></li>
+                            <li><a href="/location/city"><%=language.City%></a></li>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/module"><i data-feather="layers"> </i><span><%=language.Module%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.module_per.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/module"><i data-feather="layers"> </i><span><%=language.Module%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/transaction/transaction_method"><i data-feather="credit-card"> </i><span><%=language.Payment%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.payment.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/transaction/transaction_method"><i data-feather="credit-card"> </i><span><%=language.Payment%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/payout/payout_management"><i data-feather="dollar-sign"> </i><span><%=language.Payout_List%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.payout.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/payout/payout_management"><i data-feather="dollar-sign"> </i><span><%=language.Payout_List%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="file"></i><span class="lan-7"><%=language.Report%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/report/daily_report"><%=language.Daily_Report%></a></li>
+                          <li><a href="/report/order_report"><%=language.Order_Report%></a></li>
+                          <li><a href="/report/sales_report"><%=language.Sales_Report%></a></li>
+                          <li><a href="/report/payment_report"><%=language.Payment_Report%></a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.report.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="file"></i><span class="lan-7"><%=language.Report%></span></a>
+                          <ul class="sidebar-submenu">
+                            <li><a href="/report/daily_report"><%=language.Daily_Report%></a></li>
+                            <li><a href="/report/order_report"><%=language.Order_Report%></a></li>
+                            <li><a href="/report/sales_report"><%=language.Sales_Report%></a></li>
+                            <li><a href="/report/payment_report"><%=language.Payment_Report%></a></li>
+                          </ul>
+                        </li>
+                      <% }; %>
+                    <% }; %>
+                        
+                    
+                    
+                   
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/role/role_permission"><i data-feather="user-plus"> </i><span><%=language.Role_Permission%></span></a></li>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="square"></i><span class="lan-7"><%=language.CMS%></span></a>
+                        <ul class="sidebar-submenu">
+                          <li><a href="/settings/customer_experience"><%=language.Customer%> <%=language.Experience%></a></li>
+                          <li><a href="/settings/faq"><%=language.FAQ%></a></li>
+                          <li><a href="/settings/policy_pages"><%=language.policy_pages%></a></li>
+                          <li><a href="/settings/social_containt">Social Containt</a></li>
+                        </ul>
+                      </li>
+                    <% } else { %>
+                      <% if(permission.cus_exp.split(",")[0] == "1" || permission.FAQ.split(",")[0] == "1" || permission.policy.split(",")[0] == "1"){ %>
+                        <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="square"></i><span class="lan-7"><%=language.CMS%></span></a>
+                          <ul class="sidebar-submenu">
+                          <% if(permission.cus_exp.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/customer_experience"><%=language.Customer%> <%=language.Experience%></a></li>
+                          <% }; %>
+                          <% if(permission.FAQ.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/faq"><%=language.FAQ%></a></li>
+                          <% }; %>
+                          <% if(permission.policy.split(",")[0] == "1"){ %>
+                            <li><a href="/settings/policy_pages"><%=language.policy_pages%></a></li>
+                          <% }; %>
+                        </ul>
+                      </li>
+                      <% } %>
+                    <% }; %>
+
+                    <% if(permission == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/general_settings"><i data-feather="settings"> </i><span><%=language.Settings%></span></a></li>
+                    <% } else { %>
+                      <% if(permission.General.split(",")[0] == "1"){ %>
+                      <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/settings/general_settings"><i data-feather="settings"> </i><span><%=language.Settings%></span></a></li>
+                      <% }; %>
+                    <% }; %>
+
+                  <% } else if (auth_data.role == '5') { %>
+                  
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/carrier_dashboard"><i data-feather="home"> </i><span><%=language.Dashboard%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/driver_order_list"><i data-feather="box"> </i><span><%=language.Order%></span></a></li>
+                  <% } else { %>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/carrier_dashboard"><i data-feather="home"> </i><span><%=language.Dashboard%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/order/order_list"><i data-feather="box"> </i><span><%=language.Order%></span></a></li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="dollar-sign"></i><span class="lan-7"><%=language.Payout%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="/order/add_payout"><%=language.Add_Payout%></a></li>
+                        <li><a href="/order/add_payout_list"><%=language.List_Payout%></a></li>
+                      </ul>
+                    </li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="javascript:void(0)"><i data-feather="file"></i><span class="lan-7"><%=language.Report%></span></a>
+                      <ul class="sidebar-submenu">
+                        <li><a href="/report/daily_report"><%=language.Daily_Report%></a></li>
+                        <li><a href="/report/order_report"><%=language.Order_Report%></a></li>
+                        <li><a href="/report/sales_report"><%=language.Sales_Report%></a></li>
+                        <li><a href="/report/payment_report"><%=language.Payment_Report%></a></li>
+                      </ul>
+                    </li>
+
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/driver_signup"><i data-feather="users"> </i><span><%=language.Driver%></span></a></li>
+                  <% } %>
+
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+        </nav>
+      </div>
+    </div>
+    <!-- Page Sidebar Ends-->
+
+                
+    <input type="hidden" id="rates_sym" value="<%= general_data.site_currency %>">
+    <input type="hidden" id="rates_pla" value="<%= general_data.currency_placement %>">
+    <input type="hidden" id="thousands_replace" value="<%= general_data.thousands_separator %>">
+    <input type="hidden" id="weight_units" value="<%=general_data.weight_units %>">
+    <input type="hidden" id="length_units" value="<%=general_data.length_units %>">

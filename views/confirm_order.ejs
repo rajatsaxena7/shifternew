@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <% module_list.forEach(function(list){ %>
+          <% if(list.id == cart_data[0].module){ %>
+              <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=list.name%></h4>
+          <% }; %>
+          <% }); %>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><%= cart_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+            <li class="breadcrumb-item active"> <%= cart_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid bg-white">
+      <div class="row">
+          <div class="col-xl-12 p-0">    
+              <div class="py-5">
+                <div class="">
+                  <div class="text-center mb-4">
+                    <img class="confirm_order my-4" id="file-preview" width="250" height="250" src="../../images/KE0vap05Qv.gif" alt="image">
+                    <h4>🎉🛍️ <%=language.Hooray_Your_order_has_been_placed_successfully%> 🎉🛍️</h4>
+                    <h4><%=language.Your_Tracking_ID%> #<%=order[0].order_id%></h4>
+                    <p><%=language.Please_check_the_delivery_status_at_Tracking_Page%><br>
+                      <%=language.Thank_you_for_choosing_our_logistic_company_for_your_shipping_needs%> <br> <%=language.We_look_forward_to_serving_you_and_delivering_your_goods_efficiently_and_reliably%>
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <a href="/packers_and_movers/pam" class="btn btn-primary my-2 mx-2" type="button"><%=language.Back_To_Home%></a>
+                    <a href="/packers_and_movers/pam" class="btn btn-secondary my-2 mx-2" type="button"><%=language.Back_To_Order%></a>
+                    <a href="/order/print_shipment/<%=order[0].id%>" class="btn btn-success my-2 mx-2" type="button"><%=language.Print_invoice%></a>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

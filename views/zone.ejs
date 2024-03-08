@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body >
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Zone%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Zone_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+
+                    <div class="card" id="main_zone_page">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            </div>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= Moduleid %>">
+
+                            <% let permiss = permission != "1" ? permission.Zone.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-end">
+                                    <a class="btn btn-square btn-primary b-r-10" id="click_add_zone" ><%=language.Add_Zone%></a>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Zone_Name%></th>
+                                            <th><%=language.Status%></th>
+                                            <% let permissions = permission != "1" ? permission.Zone.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <!-- domestic_table -->
+                                    <tbody class="domestic_table">
+                                        <% var i = 1 %>
+                                        <% zone_data1.forEach((data) => { %>
+                                        <% if(data.zone_type == "1"){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.zone_name %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a href="/settings/edit_zone/<%= data.id %>,<%= data.zone_type %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_zone/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }; %>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <!-- packersandmovers_table -->
+                                    <tbody class="packersandmovers_table d-none">
+                                        <% var i = 1 %>
+                                        <% zone_data2.forEach((data) => { %>
+                                        <% if(data.zone_type == "2"){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.zone_name %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a href="/settings/edit_zone/<%= data.id %>,<%= data.zone_type %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_zone/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }; %>
+                                        <% }) %>
+                                    </tbody>
+                                    
+                                    <!-- international_table -->
+                                    <tbody class="international_table d-none">
+                                        <% var i = 1 %>
+                                        <% zone_data3.forEach((data) => { %>
+                                        <% if(data.zone_type == "3"){ %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.zone_name %></td>
+                                                <td>
+                                                    <% if (data.status == '1') { %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Inactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td> 
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a href="/settings/edit_zone/<%= data.id %>,<%= data.zone_type %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/settings/delete_zone/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }; %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card d-none" id="show_zone_card">
+                        <div class="card-body">
+                            <form action="/settings/add_zone" method="post">
+                                <div class="text-end">
+                                <a class="btn btn-square btn-primary b-r-10" id="click_open_module_list" ><%=language.Zone_List%></a>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label"><%=language.Zone_Name%></label>
+                                        <input class="form-control" type="text" name="zone_name" placeholder="<%=language.Enter%> <%=language.Zone_Name%>" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label"><%=language.Is_Active%></label>
+                                        <select class="js-example-basic-single" name="status" required>
+                                            <option value="1"><%=language.Active%></option>
+                                            <option value="0"><%=language.Inactive%></option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div id="map-canvas" style="height: 75vh; width: 100%"></div>
+                                        <textarea class="d-none" name="zone_lat_lon" id="info" cols="30" rows="10" ></textarea>
+                                    </div>
+                                    
+                                    <input id="module_id" name="module_list_id" type="text" hidden>
+
+                                    <div class="text-end">
+                                        <button class="btn btn-primary btn-square w-25 b-r-7"><%=language.Save%></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= general_data.google_map_key %>&libraries=drawing&callback=initMap"></script>
+  <script src="../../js/map.js"></script>
+  
+</body>
+
+</html>

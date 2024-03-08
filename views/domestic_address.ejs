@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <h4 class="wow fadeInUpX" data-wow-delay="0s">Packers and Movers</h4>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">Surat <i class="fas fa-angle-right px-2"></i></li>
+            <li class="breadcrumb-item active">Ahmedabad</li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-xl-12 p-0">    
+              <div class="login-card py-5">
+                  <div class="card w-50">
+                      <div class="card-header text-start p-0 pt-4 px-3">
+                          <h5 class="f-20 f-w-700">Address Details</h5>
+                      </div>
+                      <hr>
+                      <form action="/packers_and_movers/pam_add_address" method="post" id="address_form">
+                          <div class="card-body pt-1">
+                              <div class="row g-3">
+                                  <div>
+                                      <label class="form-label"><i class="far fa-dot-circle"></i> Pickup Address</label>
+                                      <div class="b-light p-2 shadow-sm shadow-showcase b-r-7">
+                                          <a class="d-flex justify-content-between text-dark px-2" type="button" data-bs-toggle="modal" data-bs-target="#pickup_address">
+                                              <span id="address_name">Select Pickup Address</span>
+                                              <i class="fa fa-angle-right f-18"></i>
+                                          </a>
+                                      </div>
+                                  </div>
+                                  <div class="d-none" id="show_pickup_address">
+                                      <div class="b-light b-r-7 p-3 shadow-sm shadow-showcase">
+                                          <span id="show_address">  </span>
+                                          <div class="d-flex justify-content-between mt-2">
+                                              <span><i class="icofont icofont-user-alt-2"></i> <span id="show_name"> </span></span>
+                                              <span><i class="icofont icofont-social-whatsapp"></i> <span id="show_phone"> </span></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div>
+                                      <label class="form-label"><i class="fas fa-map-marker-alt"></i> Delivery Address</label>
+                                      <div class="b-light p-2 shadow-sm shadow-showcase b-r-7">
+                                          <a class="d-flex justify-content-between text-dark px-2" type="button" id="dummy_delivery_address">
+                                              <span id="address_name">Select Delivery Address</span>
+                                              <i class="fa fa-angle-right f-18"></i>
+                                          </a>
+                                          <a class="d-flex justify-content-between text-dark px-2 d-none" type="button" id="delivery_address" data-bs-toggle="modal" data-bs-target="#delivery_addressmodal">
+                                              <span id="address_name">Select Delivery Address</span>
+                                              <i class="fa fa-angle-right f-18"></i>
+                                          </a>
+                                      </div>
+                                      <p class="text-danger p-2 d-none" id="delivery_address_error"> <i class="icofont icofont-warning-alt"></i> Please choose the pickup address initially</p>
+                                  </div>
+                                  <div class="d-none" id="show_delivery_address">
+                                      <div class="b-light b-r-7 p-3 shadow-sm shadow-showcase">
+                                          <span id="show_d_address"> </span>
+                                          <div class="d-flex justify-content-between mt-2">
+                                              <span><i class="icofont icofont-user-alt-2"></i> <span id="show_d_name"> </span></span>
+                                              <span><i class="icofont icofont-social-whatsapp"></i> <span id="show_d_phone"> </span></span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <input type="hidden" value="0" name="pickup_address" id="hidden_input">
+                              <input type="hidden" value="0" name="delivery_address" id="hidden_delivery_address_input">
+  
+                              <a href="/courier_delivery/domestic_describe_package" class="btn btn-primary btn-square b-r-5 w-100 mt-4">Next</a>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <!-- pickup_address -->
+
+    <div class="modal fade" id="pickup_address" role="dialog" aria-labelledby="pickup_address" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Select Pickup Address</h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row g-3">
+                      <div class="col-12">
+                          <a type="button" data-bs-toggle="modal" data-bs-target="#add_address" class="customer_address_btn">
+                              <h5 class="text-primary"><i class="fa fa-map-marker mx-2"></i> Add New Address</h5>
+                          </a>
+                      </div>
+                      <hr class="m-0">
+                      
+                      <h5>Address Details</h5>
+                      <a class="col-12 text-dark d-flex justify-content-between align-items-center select_address" type="button" data-bs-dismiss="modal">
+                          <div class="p-1 d-flex align-items-center">
+                              <div>
+                                  <i class="icofont icofont-map-pins f-20"></i>
+                              </div>
+                              <div class="mx-3">
+                                  <h5 class="mb-0">first_name last_name </h5>
+                                  <span>address city state country </span>
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- delivery_addressmodal -->
+
+  <div class="modal fade" id="delivery_addressmodal" role="dialog" aria-labelledby="delivery_addressmodal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Select Pickup Address</h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row g-3">
+                      <div class="col-12">
+                          <a type="button" data-bs-toggle="modal" data-bs-target="#add_address" class="customer_address_btn">
+                              <h5 class="text-primary"><i class="fa fa-map-marker mx-2"></i> Add New Address</h5>
+                          </a>
+                      </div>
+                      <hr class="m-0">
+                      
+                      <div id="all_address">
+                          
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- add_address -->
+
+  <div class="modal fade" id="add_address" role="dialog" aria-labelledby="add_address" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Select Pickup Address</h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form  class="needs-validation" novalidate="" action="/packers_and_movers/add_address" method="post">
+                      <div class="row g-3">
+                          <h5>Customer Details</h5>
+
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">First Name</label>
+                              <input class="form-control" type="text" name="first_name" placeholder="Enter First Name" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">Last Name</label>
+                              <input class="form-control" type="text" name="last_name" placeholder="Enter Last Name" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">Phone Number</label>
+                              <div class="row">
+                                  <div class="col-4">
+                                      <select class="js-example-basic-single" name="country_code" id="abc" required>
+                                          <option value selected disabled>Country</option>
+                                          
+                                      </select>
+                                  </div>
+                                  <div class="col-8">
+                                      <input class="form-control" type="number" name="phone_no" placeholder="Enter Phone Number" required>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">Email</label>
+                              <input class="form-control" type="email" name="email" placeholder="Enter Email" required>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="row g-3 address_details" id="address_details">
+                          <h5>Address Details</h5>
+
+                          <div class="col-12">
+                              <label class="form-label">Address</label>
+                              <input class="form-control search_input" type="text" name="google_address" id="search_input" placeholder="Enter Address" required>
+                              <input type="hidden" name="latitude" id="latitude">
+                              <input type="hidden" name="longitude" id="longitude">
+                              <P class="d-none text-danger" id="search_input_error">Sorry we do not allowed pickup in the area you have selected</P>
+                          </div>
+                          <div class="col-12">
+                              <label class="form-label">Flat, Housing No., Apartment, Area</label>
+                              <input class="form-control" type="text" name="address" placeholder="Enter Flat, Housing No., Apartment, Area" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">City</label>
+                              <input class="form-control" type="text" name="city" placeholder="Enter City" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">State</label>
+                              <input class="form-control" type="text" name="state" placeholder="Enter State" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">Country</label>
+                              <input class="form-control" type="text" name="country" placeholder="Enter Country" required>
+                          </div>
+                          <div class="col-md-6 col-sm-12">
+                              <label class="form-label">Pincode</label>
+                              <input class="form-control" type="text" name="pincode" placeholder="Enter Pincode" required>
+                          </div>
+                          <button class="btn btn-square b-r-7 btn-primary" id="add_customer_btn">Save</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Sub_Category%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Sub_Category_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                            </div>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= Moduleid %>">
+
+                            <% let permiss = permission != "1" ? permission.subcategory.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 text-end">
+                                <button class="btn btn-square btn-primary b-r-10" type="button" id="sub_category_click" data-bs-toggle="modal" data-bs-target="#add_sub_category"><%=language.Add_Sub_Category%></button>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Image%></th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Category_Name%></th>
+                                            <th><%=language.Status%></th>
+                                            <% let permissions = permission != "1" ? permission.subcategory.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="domestic_table">
+                                        <% var i = 1 %>
+                                        <% sub_category_list1.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.c_name %></td>
+                                                <td>
+                                                    <% if (data.status == 'on') { %>
+                                                        <span class="badge badge-success"><%=language.Publish%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Unpublish%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_sub_categorymodal" id="edit_sub_category" data-id="<%= data.id %>" data-image="<%= data.image %>" data-name="<%= data.name %>" data-category_name="<%= data.category_name %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/allcategory/delete_subcategory/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="packersandmovers_table d-none">
+                                        <% var i = 1 %>
+                                        <% sub_category_list2.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.c_name %></td>
+                                                <td>
+                                                    <% if (data.status == 'on') { %>
+                                                        <span class="badge badge-success"><%=language.Publish%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Unpublish%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_sub_categorymodal" id="edit_sub_category" data-id="<%= data.id %>" data-image="<%= data.image %>" data-name="<%= data.name %>" data-category_name="<%= data.category_name %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/allcategory/delete_subcategory/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="international_table d-none">
+                                        <% var i = 1 %>
+                                        <% sub_category_list3.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.name %></td>
+                                                <td><%= data.c_name %></td>
+                                                <td>
+                                                    <% if (data.status == 'on') { %>
+                                                        <span class="badge badge-success"><%=language.Publish%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Unpublish%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action"> 
+                                                        <li class="edit"> <a data-bs-toggle="modal" data-bs-target="#edit_sub_categorymodal" id="edit_sub_category" data-id="<%= data.id %>" data-image="<%= data.image %>" data-name="<%= data.name %>" data-category_name="<%= data.category_name %>" data-status="<%= data.status %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/allcategory/delete_subcategory/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_sub_category -->
+
+    <div class="modal fade" id="add_sub_category" tabindex="-1" role="dialog" aria-labelledby="add_sub_category" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Category%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/allcategory/add_subcategory" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Category%></label>
+                                <select class="js-example-basic-single category_ajex"  name="category_name" required>
+
+                                </select>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category_Name%></label>
+                                <input class="form-control" type="text" name="name" placeholder="<%=language.Enter%> <%=language.Sub_Category_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex mt-2">
+                                    <div class="icon-state">
+                                      <label class="switch">
+                                        <input type="checkbox" name="status"><span class="switch-state bg-success"></span>
+                                      </label>
+                                    </div>
+                                    <label class="col-form-label text-start m-l-10"><%=language.Sub_Category_Status%></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="sub_category_mid" type="text" name="sub_category_nodule_id" hidden>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_sub_category -->
+
+    <div class="modal fade" id="edit_sub_categorymodal" tabindex="-1" role="dialog" aria-labelledby="edit_sub_categorymodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Category%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" method="post" id="subcategory_id" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" class="img" width="120" height="120" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category_Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image" name="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <label class="col-form-label pt-0"><%=language.Category%></label>
+                                <select class="js-example-basic-single" name="category_name" id="sub_category_name" required>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Sub_Category_Name%></label>
+                                <input class="form-control" type="text" name="name" id="subcategory_name" placeholder="<%=language.Enter%> <%=language.Sub_Category_Name%>" required>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex mt-2">
+                                    <div class="icon-state">
+                                      <label class="switch" id="subcategory_switch">
+                                        
+                                      </label>
+                                    </div>
+                                    <label class="col-form-label text-start m-l-10"><%=language.Sub_Category_Status%></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

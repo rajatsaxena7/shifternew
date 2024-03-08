@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+    <%- include('./partials/frontend_head'); -%>
+    <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <ul class="nav nav-tabs border-tab nav-secondary nav-left  d-flex justify-content-around" id="danger-tab" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="icofont icofont-fast-delivery"></i><%=language.Domestic%></a></li>
+                                <li class="nav-item"><a class="nav-link" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="icofont icofont-airplane"></i><%=language.International%></a></li>
+                            </ul>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div class="tab-content" id="danger-tabContent">
+                                <div class="text-center mb-3">
+                                    <h5 class="f-20 f-w-700"><%=language.Enter_Location_Details%></h5>
+                                </div>
+        
+                                <div class="tab-pane fade show active" id="danger-home" role="tabpanel" aria-labelledby="danger-home-tab">
+                                    <form action="/packers_and_movers/pam" method="post">
+                                        <div class="mb-4">
+                                            <select class="js-example-basic-single" name="domestic_customer" id="domestic_customer" required>
+                                                <option value selected disabled><%=language.Select_Customer%></option>
+                                                <% customer_list.forEach((data) => { %>
+                                                <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                                <% }) %>
+                                            </select>
+                                            <p class="text-danger m-1 d-none" id="domestic_customer_error"><%=language.Please_Select_Customer%></p>
+                                        </div>
+                                        <div class="mb-4">
+                                            <input class="form-control" type="number" name="pickup_pincode" value="395005" id="domestic_pickup_pincode" placeholder="Pickup Pincode<%=language.Tracking_ID%>" required>
+                                            <p class="text-danger m-1 d-none" id="domestic_pickup_pincode_error"><%=language.Enter_valid_pickup_pincode%></p>
+                                        </div>
+                                        <div class="mb-4">
+                                            <input class="form-control" type="number" name="delivery_pincode" value="395008" id="domestic_delivery_pincode" placeholder="Delivery Pincode<%=language.Tracking_ID%>" required>
+                                            <p class="text-danger m-1 d-none" id="domestic_delivery_pincode_error"><%=language.Enter_valid_delivery_pincode%></p>
+                                        </div>
+                                        <button class="btn btn-primary btn-square b-r-5 w-100" type="submit" id="domestic_data"><%=language.Save%></button>
+                                    </form>
+                                </div>
+        
+                                <div class="tab-pane fade" id="danger-profile" role="tabpanel" aria-labelledby="profile-danger-tab">
+                                    <div class="mb-4">
+                                        <input class="form-control" type="number" name="pickup_pincode" placeholder="Pickup Pincode<%=language.Tracking_ID%>" required>
+                                    </div>
+                                    <div class="mb-4">
+                                        <select class="js-example-basic-single" name="delivery_country" required>
+                                            <option value selected disabled><%=language.Select_Delivery_Country%></option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary btn-square b-r-5 w-100" type="button" id="international_data"><%=language.Save%></button>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/frontend_footer'); -%>
+
+
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+
+</html>

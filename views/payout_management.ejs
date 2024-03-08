@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Payout_List_Management%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Payout_List_Management%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                              <table class="display" id="basic-1">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th><%=language.Transfer_Photo%></th>
+                                    <th><%=language.Amount%></th>
+                                    <th><%=language.Oragnizer_Name%></th>
+                                    <th><%=language.Transfer_Details%></th>
+                                    <th><%=language.Transfer_Type%></th>
+                                    <th><%=language.Status%></th>
+                                    <% let permissions = permission != "1" ? permission.payout.split(",")[1] : "1" %>
+                                    <% if(permissions == "1"){ %>
+                                    <th><%=language.Action%></th>
+                                    <% } %>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <% var i = 1 %>
+                                    <% driver_payment_list.forEach(function(payment){ %>
+                                        <tr>
+                                            <td><%= i %></td>
+
+                                            <% if(payment.payment_photo == "1"){ %>
+                                                <td></td>
+                                            <% } else { %>
+                                                <td><img src="../../uploads/<%=payment.payment_photo%>" class="logo-abbr mx-2 b-r-10" width="60px" height="60px" alt="image"></td>
+                                            <% }; %>
+
+                                            <td><%=general_data_list[0].site_currency%> <%=payment.wallet_amout%></td>
+                                            <td><%=payment.driver_name%> <%=payment.driver_lname%></td>
+                                            <td><%=payment.driver_email%></td>
+                                            
+                                            <td><%=payment.wallet_type%>
+
+                                            <% if(payment.wallet_type == "UPI"){ %>
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext">
+                                                        <span class="pt-3"><%=language.UPI_Id%> :- &nbsp;<span><%=payment.driver_upi_id%></span> </span><br>
+                                                    </span>
+                                                </div> 
+
+                                            <% } else if (payment.wallet_type == "Bank Transfer") { %>
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext">
+                                                        <span class="pt-3"><%=language.Account_No%> :- &nbsp;<span><%=payment.driver_ac_no%></span> </span><br>
+                                                        <span><%=language.IFAC_Code%> :- &nbsp;<span><%=payment.driver_ifc%></span></span><br>
+                                                        <span><%=language.Account_Type%> :- &nbsp;<span><%=payment.driver_ac_type%></span></span><br>
+                                                    </span>
+                                                </div> 
+
+                                            <% } else { %>
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext">
+                                                        <span class="pt-3"><%=language.Paypal_Email%> :- &nbsp;<span><%=payment.driver_paypal_email%></span></span><br>
+                                                    </span>
+                                                </div> 
+                                                
+                                            <% }; %>
+
+                                            </td>
+
+                                            <% if(payment.payment_status == "2"){ %>
+                                            <td><span class="badge badge-warning"><%=language.Pending%></span></td>
+                                            <% } else { %>
+                                            <td><span class="badge badge-success"><%=language.Completed%></span></td>
+                                            <% }; %>
+
+                                            <% if(permissions == "1"){ %>
+                                                <% if(payment.payment_status == "2"){ %>
+                                                <td><span class="badge badge-danger payoutmodel" data-bs-toggle="modal" data-bs-target="#add_unitmodal" data-id="<%=payment.id%>"><%=language.Pending%></span></td>
+                                                <% } else { %>
+                                                <td><%=language.Completed%></td>
+                                                <% }; %>
+                                            <% } %>
+                                        </tr>
+                                        <% i++ %>
+                                    <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_unitmodal -->
+    
+    <div class="modal fade" id="add_unitmodal" tabindex="-1" role="dialog" aria-labelledby="add_unitmodal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title"><%=language.Payout_List_Management%></h5>
+                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form  class="needs-validation" id="payout_model" novalidate="" method="post" enctype="multipart/form-data">
+                  <div class="modal-body">
+                      <div class="row g-3">
+                          <div class="col-12">
+                              <label class="form-label"><%=language.Payout_Image%></label>
+                              <input class="form-control " type="file" name="payment_photo" required>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                      <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

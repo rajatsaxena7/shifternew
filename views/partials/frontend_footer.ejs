@@ -1,0 +1,71 @@
+
+<footer class="ppc-footer-section ppc-footer-light">
+  <div class="container">
+    <div class="ppc-footer-bottom pt-4 pb-4 footer_row">
+      <div class="row mb-4">
+        <div class="col-12">
+          <% if(auth_data == "1"){ %>
+            <a href="/">
+              <div class="ppc-footer-logo d-flex  pt-3 foother_img" >
+                  <img src="../../uploads/<%=general_data.site_logo %>" alt="" class="light-version-logo" height="80w" width="80w">
+                  <h5 class="text-white" style="padding: 20px 10px; font-size: 30px; line-height: 38px; margin-bottom: 0;"><%=general_data.site_title %></h5>
+                </div>
+            </a>
+          <% } else { %>
+            <a href="/packers_and_movers/pam">
+              <div class="ppc-footer-logo d-flex  pt-3 foother_img" >
+                <img src="../../uploads/<%=general_data.site_logo %>" alt="" class="light-version-logo" height="80w" width="80w">
+                <h5 class="text-white" style="padding: 20px 10px; font-size: 30px; line-height: 38px; margin-bottom: 0;"><%=general_data.site_title %></h5>
+              </div>
+            </a>
+          <% } %>
+          <div class="foother_content">
+            <p>&copy; <%=language.Copyright_2024_All_Rights_Reserved_by%> <%=general_data.site_title %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="footer_page" >
+            <div class="ppc-footer-menu ">
+              <ul class="footer_page_icon">
+                <div class="footer_middel_mar">
+                  <li class="m-r-20"><a href="/Shipping_calculator"><%=language.How_it_works%></a></li>
+                  <li class=""><a href="/tracking_details"><%=language.Tracking%></a></li>
+                </div>
+                <div class="ul_padding">
+                  <li class="m-r-20"><a href="/faqs"><%=language.FAQ_s%></a></li>
+                  <li class=""><a href="/driver_singup"><%=language.Become_a_Carrier%></a></li>
+                </div>
+              </ul>
+            </div>
+          </div>
+          <div class="footer_social" >
+            <div class="ppc-footer-menu footer_page_icon">
+              <ul class="footer_middel_mar">
+                <li><a href="/terms"><%=language.Terms%></a></li>
+                <li><a href="/policy"> <%=language.Privacy_Policy%></a></li>
+              </ul>
+              <ul class="ul_padding">
+                <% social.forEach(function(data){ %>
+                  <li><a href="<%=data.link%>"><i class="<%=data.symbol%> f-16"> </i></a></li>
+                <% }); %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+<div class="ppc-preloader">
+  <div class="preloader-square-swapping">
+    <div class="cssload-square-part cssload-square-green"></div>
+    <div class="cssload-square-part cssload-square-pink"></div>
+    <div class="cssload-square-blend"></div>
+  </div>
+</div>

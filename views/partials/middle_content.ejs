@@ -1,0 +1,183 @@
+<div class="section  ppc-section-padding2">
+    <div class="container">
+      <div class="ppc-section-title">
+        <div class="ppc-default-content large">
+          <h2><%=language.Shiftr_users_share_their_experiences%></h2>
+          
+        </div>
+      </div>
+    </div>
+    <div class="ppc-testimonial-slider">
+
+      <% cus_experience.forEach((data)=>{ %>
+        <div class="ppc-testimonial-card">
+          <h4><%=data.title%></h4>
+          <p><%=data.description%></p>
+          <div class="ppc-testimonial-author">
+            <div class="ppc-testimonial-author-wrap">
+              <div class="ppc-testimonial-author-thumb">
+                <img src="../../uploads/<%=data.image%>" alt="">
+              </div>
+              <div class="ppc-testimonial-author-data">
+                <h5><%=data.name%></h5>
+                <span><%=data.email%></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <div class="bg-gray-500 position-relative section  ppc-section-padding2">
+    <div class="container">
+      <div class="ppc-section-title">
+        <div class="ppc-default-content sm">
+          <h2><%=language.From_anywhere_to_everywhere%></h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="ppc-map-thumb text-center">
+            <img src="../../frontend/images/all-img/v3/map.png" class="img-fluid" alt="">
+            <div class="ppc-t-user t-user1">
+              <img src="../../frontend/images/all-img/v3/t_1.png" alt="">
+            </div>
+            <div class="ppc-t-user t-user2">
+              <img src="../../frontend/images/all-img/v3/t_2.png" alt="">
+            </div>
+            <div class="ppc-t-user t-user3">
+              <img src="../../frontend/images/all-img/v3/t_3.png" alt="">
+            </div>
+            <div class="ppc-t-user t-user4">
+              <img src="../../frontend/images/all-img/v3/t_4.png" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ppc-hero-box box3">
+      <img src="../../frontend/images/all-img/v3/box.png" alt="">
+    </div>
+    <div class="ppc-hero-box box4">
+      <img src="../../frontend/images/all-img/v3/box.png" alt="">
+    </div>
+  </div>
+  <!-- End section -->
+<div class="ppc-text-slider-section bg-gray-800">
+    <div class="ppc-text-slider">
+      <div class="ppc-text-slider-data dark">
+        <div class="ppc-text-slider-icon icon-rotate">
+          <img src="../../frontend/images/all-img/v2/star.png" alt="">
+        </div>
+        <h3><%=language.Manage_multiple_channels_in_one_place%></h3>
+      </div>
+      <div class="ppc-text-slider-data dark">
+        <div class="ppc-text-slider-icon icon-rotate">
+          <img src="../../frontend/images/all-img/v2/star.png" alt="">
+        </div>
+        <h3><%=language.Online_courier_solution_for_your_shipping_needs%></h3>
+      </div>
+      <div class="ppc-text-slider-data dark">
+        <div class="ppc-text-slider-icon icon-rotate">
+          <img src="../../frontend/images/all-img/v2/star.png" alt="">
+        </div>
+        <h3><%=language.Services_that_power_our_solutions_ecosystem%></h3>
+      </div>
+      <div class="ppc-text-slider-data dark">
+        <div class="ppc-text-slider-icon icon-rotate">
+          <img src="../../frontend/images/all-img/v2/star.png" alt="">
+        </div>
+        <h3><%=language.Enhance_your_customer_experience_at_every_point%></h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="section ppc-section-padding2">
+    <div class="container">
+      <div class="ppc-section-title">
+        <div class="ppc-default-content large">
+          <h2><%=language.Frequently_asked_questions%></h2>
+        </div>
+      </div>
+      <div class="ppc--accordion-one accordion-three ppc-faq-light" id="accordionExample3">
+        <div class="row">
+          <div class="col-12">
+            <div class="middle_faq_content ">
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+
+                <% let Experience = faq_list.length %>
+                <% let faq_lebgth = Experience / 2 %>
+                <% let faq_first_num = Math.ceil(faq_lebgth) %>
+                <% let faq_sec_num = parseInt(faq_lebgth) %>
+                <% let secount = parseFloat(Experience) - parseFloat(faq_sec_num) %>
+
+                <% let num = 1 %>
+                  <% faq_list.forEach(function(faq_list){ %>
+                    <% if(num == 1){ %>
+                      <div class="">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive<%=faq_list.id%>" aria-expanded="true" aria-controls="collapseFive<%=faq_list.id%>">
+                                <%=faq_list.faq_title%>
+                            </button>
+                          </h2>
+                          <div id="collapseFive<%=faq_list.id%>" class="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body">
+                                <%=faq_list.faq_des%>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% } else { %>
+                      <% if(num <= faq_first_num){ %>
+                      <div class="">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive<%=faq_list.id%>" aria-expanded="false" aria-controls="collapseFive<%=faq_list.id%>">
+                              <%=faq_list.faq_title%>
+                            </button>
+                          </h2>
+                          <div id="collapseFive<%=faq_list.id%>" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body">
+                              <%=faq_list.faq_des%>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% }; %>
+                    <% }; %>
+                  <% num++ %>
+                <% }); %>
+              </div>
+
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-6 middle_padding p-l-20">
+                <% let num1 = 1 %>
+                  <% faq_list.forEach(function(faq_list){ %>
+                    <% if(num1 > secount){ %>
+                      <div class="">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive<%=faq_list.id%>" aria-expanded="false" aria-controls="collapseFive<%=faq_list.id%>">
+                              <%=faq_list.faq_title%>
+                            </button>
+                          </h2>
+                          <div id="collapseFive<%=faq_list.id%>" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample3">
+                            <div class="accordion-body">
+                              <%=faq_list.faq_des%>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% }; %>
+                  <% num1++ %>
+                <% }); %>
+              </div>
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

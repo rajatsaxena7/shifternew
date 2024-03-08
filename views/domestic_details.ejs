@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <h4 class="wow fadeInUpX" data-wow-delay="0s">Choose service</h4>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Surat<i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active">Ahmedabad</li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 p-0">    
+                <div class="login-card py-5">
+                    <div class="row w-100 px-5 mx-5">
+                        <div class="col-xl-7 col-md-12">
+                            <div class="card b-r-6">
+                                <div class="card-header py-3">
+                                    <h4><i class="fa fa-paper-plane-o"></i> Summary Details</h4>
+                                </div>
+                                <hr class="m-0">
+                                <div class="card-body py-3">
+                                    <h5>Address Details</h5>
+                                    <div class="row">
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0">Pickup Address</h6>
+                                                <span>L. Q. Savani road, Ahmedabad, gujarat, india</span>
+                                                <br>
+                                                <span>virat kohli | +916352217701</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 d-flex mt-3">
+                                            <div>
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <div class="mx-3">
+                                                <h6 class="mb-0">Delivery Address</h6>
+                                                <span>jetpur, Rajkot, gujarat, india</span>
+                                                <br>
+                                                <span>ms dhoni | +916547142489</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6">
+                                <div class="card-header pt-3 pb-0">
+                                  <h4>Package Details</h4>
+                                </div>
+                                <hr>
+                                <div class="card-body pt-0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5 class="m-r-50">Package Content :-</h5>
+                                            <ol>
+                                                <li>Rakhi & Gifts</li>
+                                                <li>Other</li>
+                                            </ol>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="m-r-50">Package :-</h5>
+                                            <ol>
+                                                <li>Carton</li>
+                                                <li>Shoe Box</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card b-r-6 mb-2">
+                                <div class="card-body py-3">
+                                    <h5 class="mb-3 f-w-700">Pickup Schedule</h5>
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Date</h5>
+                                        <h5>2023-08-06</h5>
+                                    </div>
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between">
+                                        <h5>Time Slot</h5>
+                                        <h5>10:00 - 11:00</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-md-12">
+                            <div class="card b-r-6" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class="f-w-700">Select Delivery Type</h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <a class="w-100 text-dark" type="button" data-bs-toggle="modal" data-bs-target="#add_coupon">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex">
+                                                <i class="fa fa-ticket f-20"></i>
+                                                <p class="mx-3">Apply Coupon</p>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-chevron-right"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="mt-1">
+                                    <h5>Delivery Type</h5>
+                                    <div class="row g-3 mx-0">
+                                        <div class="col-xl-3 col-sm-3 b-r-10 mx-2 p-2 all_delivery_type" style="background-color: #eef2ff;">
+                                            <a type="button" class="select_delivery_type text-dark w-100">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa fa-truck"></i>
+                                                    <span class="mx-2 f-w-600">Surface</span>
+                                                </div>
+                                                <h5 class="mb-0 invosymbol">500</h5>
+                                                <p class="mb-0">delivery in 7 days</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card b-r-6 mb-2" id="enter_package_details">
+                                <div class="card-header text-start py-3 px-4 pb-0">
+                                    <h5 class="">All Details</h5>
+                                    <hr class="mb-2">
+                                </div>
+                                <div class="card-body pt-2" id="add_package_details">
+                                    <div class="row g-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700">Amount Quoted</span>
+                                            <span class="f-w-700 invosymbol" id="show_product_total_sum">100</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700">Other Total
+                                                <div class="custom_tooltip mx-1"><i class="fa fa-info-circle f-16"></i>
+                                                    <span class="tooltiptext">
+                                                        <span>Time-based Pricing : <span class="invosymbol">50</span> </span><br>
+                                                        <span>Distance (10 KM) : <span class="invosymbol">100</span> </span><br>
+                                                    </span>
+                                                </div> 
+                                            </span>
+                                            <span class="f-w-700 invosymbol" id="show_other_price">150</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between d-none" id="coupon_data">
+                                            <span class="f-w-700">Coupon</span>
+                                            <span class="f-w-700 invosymbol" id="show_coupon_price">00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between d-none" id="delivery_type_data">
+                                            <span class="f-w-700">Delivery Type</span>
+                                            <span class="f-w-700 invosymbol" id="show_delivery_type_price">00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between d-none" id="insurance_data">
+                                            <span class="f-w-700">Insurance Price</span>
+                                            <span class="f-w-700 invosymbol" id="show_insurance_price">00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span class="f-w-700">Booking Amount</span>
+                                            <span class="f-w-700 invosymbol" id="show_Total_Price">1000</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-square b-r-5 w-100 mt-4 proceed_to_pay" type="button">Proceed To Pay</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

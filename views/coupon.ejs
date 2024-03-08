@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Coupon%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Coupon_List%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between pb-0">
+                            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <% if (module_list[0].isactive == '1') { %>
+                                    <% var Domestic = 'active' %>
+                                    <% var ModuleList = '1' %>
+                                    <% var Moduleid = module_list[0].id %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= Domestic %>" data-module="1" id="danger-home-tab" data-bs-toggle="tab" href="#danger-home" role="tab" aria-controls="danger-home" aria-selected="true"><i class="<%= module_list[0].icon %>"></i><%= module_list[0].name %></a></li>
+                                <% } %>
+                                <% if (module_list[1].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1') { %>
+                                        <% var PackersAndMovers = 'active' %>
+                                        <% var ModuleList = '2' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= PackersAndMovers %>" data-module="2" id="profile-danger-tab" data-bs-toggle="tab" href="#danger-profile" role="tab" aria-controls="danger-profile" aria-selected="false"><i class="<%= module_list[1].icon %>"></i><%= module_list[1].name %></a></li>
+                                <% } %>
+                                <% if (module_list[2].isactive == '1') { %>
+                                    <% if (module_list[0].isactive != '1' && module_list[1].isactive != '1') { %>
+                                        <% var International = 'active' %>
+                                        <% var ModuleList = '3' %>
+                                        <% var Moduleid = module_list[0].id %>
+                                    <% } %>
+                                    <li class="nav-item"><a class="dynamic_module nav-link <%= International %>" data-module="3" id="inter-danger-tab" data-bs-toggle="tab" href="#danger-inter" role="tab" aria-controls="danger-inter" aria-selected="false"><i class="<%= module_list[2].icon %>"></i><%= module_list[2].name %></a></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                            <input type="hidden" name="header_ModuleList" id="dynamic_table" value="<%= Moduleid %>">
+
+                            <% let permiss = permission != "1" ? permission.coupon.split(",")[1] : "1" %>
+                            <% if(permiss == "1"){ %>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 text-end">
+                                <button class="btn btn-square btn-primary b-r-10" id="coupon_module_click" type="button" data-bs-toggle="modal" data-bs-target="#add_coupon"><%=language.Add_Coupon%></button>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Name%></th>
+                                            <th><%=language.Coupon_Code%></th>
+                                            <th><%=language.Minmum_Purchase%></th>
+                                            <th><%=language.Discount%></th>
+                                            <th><%=language.Start_Date%></th>
+                                            <th><%=language.End_Date%></th>
+                                            <% let permissions = permission != "1" ? permission.coupon.split(",")[2] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="domestic_table">
+                                        <% var i = 1 %>
+                                        <% coupon_list1.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.code %></td>
+                                                <td class="invosymbol"><%= data.min_amount %></td>
+                                                <td class="invosymbol"><%= data.discount_amount %></td>
+                                                <td>
+                                                    <% let start_date_date = new Date(data.start_date) %>
+                                                    <% let start_date_day = (start_date_date.getDate() < 10 ? '0' + parseInt(start_date_date.getDate()) : start_date_date.getDate()) %>
+                                                    <% let start_date_month = (start_date_date.getMonth()+1 < 10 ? '0' + parseInt(start_date_date.getMonth()+1) : start_date_date.getMonth()+1) %>
+                                                    <% let start_date_year = start_date_date.getFullYear() %>
+                                                    <% let start_date = `${start_date_month}-${start_date_day}-${start_date_year}` %>
+                                                    <%= start_date %>
+                                                </td>
+                                                <td>
+                                                    <% let end_date_date = new Date(data.end_date) %>
+                                                    <% let end_date_day = (end_date_date.getDate() < 10 ? '0' + parseInt(end_date_date.getDate()) : end_date_date.getDate()) %>
+                                                    <% let end_date_month = (end_date_date.getMonth()+1 < 10 ? '0' + parseInt(end_date_date.getMonth()+1) : end_date_date.getMonth()+1) %>
+                                                    <% let end_date_year = end_date_date.getFullYear() %>
+                                                    <% let end_date = `${end_date_month}-${end_date_day}-${end_date_year}` %>
+                                                    <%= end_date %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action">
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_couponmodal" id="edit_coupon" data-id="<%= data.id %>"
+                                                            data-title="<%= data.title %>" data-code="<%= data.code %>" data-min_amount="<%= data.min_amount %>" data-discount_amount="<%= data.discount_amount %>"
+                                                            data-start_date="<%= data.start_date %>" data-end_date="<%= data.end_date %>" data-customer="<%= data.customer %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/coupon/delete_coupon/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="packersandmovers_table d-none">
+                                        <% var i = 1 %>
+                                        <% coupon_list2.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.code %></td>
+                                                <td class="invosymbol"><%= data.min_amount %></td>
+                                                <td class="invosymbol"><%= data.discount_amount %></td>
+                                                <td>
+                                                    <% let start_date_date = new Date(data.start_date) %>
+                                                    <% let start_date_day = (start_date_date.getDate() < 10 ? '0' + parseInt(start_date_date.getDate()) : start_date_date.getDate()) %>
+                                                    <% let start_date_month = (start_date_date.getMonth()+1 < 10 ? '0' + parseInt(start_date_date.getMonth()+1) : start_date_date.getMonth()+1) %>
+                                                    <% let start_date_year = start_date_date.getFullYear() %>
+                                                    <% let start_date = `${start_date_month}-${start_date_day}-${start_date_year}` %>
+                                                    <%= start_date %>
+                                                </td>
+                                                <td>
+                                                    <% let end_date_date = new Date(data.end_date) %>
+                                                    <% let end_date_day = (end_date_date.getDate() < 10 ? '0' + parseInt(end_date_date.getDate()) : end_date_date.getDate()) %>
+                                                    <% let end_date_month = (end_date_date.getMonth()+1 < 10 ? '0' + parseInt(end_date_date.getMonth()+1) : end_date_date.getMonth()+1) %>
+                                                    <% let end_date_year = end_date_date.getFullYear() %>
+                                                    <% let end_date = `${end_date_month}-${end_date_day}-${end_date_year}` %>
+                                                    <%= end_date %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action">
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_couponmodal" id="edit_coupon" data-id="<%= data.id %>"
+                                                            data-title="<%= data.title %>" data-code="<%= data.code %>" data-min_amount="<%= data.min_amount %>" data-discount_amount="<%= data.discount_amount %>"
+                                                            data-start_date="<%= data.start_date %>" data-end_date="<%= data.end_date %>" data-customer="<%= data.customer %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/coupon/delete_coupon/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                    <tbody class="international_table d-none">
+                                        <% var i = 1 %>
+                                        <% coupon_list3.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.code %></td>
+                                                <td class="invosymbol"><%= data.min_amount %></td>
+                                                <td class="invosymbol"><%= data.discount_amount %></td>
+                                                <td>
+                                                    <% let start_date_date = new Date(data.start_date) %>
+                                                    <% let start_date_day = (start_date_date.getDate() < 10 ? '0' + parseInt(start_date_date.getDate()) : start_date_date.getDate()) %>
+                                                    <% let start_date_month = (start_date_date.getMonth()+1 < 10 ? '0' + parseInt(start_date_date.getMonth()+1) : start_date_date.getMonth()+1) %>
+                                                    <% let start_date_year = start_date_date.getFullYear() %>
+                                                    <% let start_date = `${start_date_month}-${start_date_day}-${start_date_year}` %>
+                                                    <%= start_date %>
+                                                </td>
+                                                <td>
+                                                    <% let end_date_date = new Date(data.end_date) %>
+                                                    <% let end_date_day = (end_date_date.getDate() < 10 ? '0' + parseInt(end_date_date.getDate()) : end_date_date.getDate()) %>
+                                                    <% let end_date_month = (end_date_date.getMonth()+1 < 10 ? '0' + parseInt(end_date_date.getMonth()+1) : end_date_date.getMonth()+1) %>
+                                                    <% let end_date_year = end_date_date.getFullYear() %>
+                                                    <% let end_date = `${end_date_month}-${end_date_day}-${end_date_year}` %>
+                                                    <%= end_date %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <ul class="action">
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_couponmodal" id="edit_coupon" data-id="<%= data.id %>"
+                                                            data-title="<%= data.title %>" data-code="<%= data.code %>" data-min_amount="<%= data.min_amount %>" data-discount_amount="<%= data.discount_amount %>"
+                                                            data-start_date="<%= data.start_date %>" data-end_date="<%= data.end_date %>" data-customer="<%= data.customer %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        <li class="delete"><a href="/coupon/delete_coupon/<%= data.id %>"><i class="icon-trash"></i></a></li>
+                                                    </ul>
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_coupon -->
+
+    <div class="modal fade" id="add_coupon" tabindex="-1" role="dialog" aria-labelledby="add_coupon" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Coupon%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/coupon/add_coupon" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                <label class="form-label"><%=language.Coupon_Title%></label>
+                                <input class="form-control" type="text" name="title" placeholder="<%=language.Enter%> <%=language.Coupon_Title%>" required>
+                            </div>
+                            <div class="col-sm-5 col-md-3 col-lg-3 col-xl-4">
+                                <label class="form-label"><%=language.Coupon_Code%></label>
+                                <input class="form-control" type="text" name="code" id="coupon_code" placeholder="<%=language.Enter%> Coupon Code" required>
+                            </div>
+                            <div class="col-sm-6 col-md-3 col-lg-3 col-xl-4 pt-1">
+                                <button class="btn btn-square b-r-5 btn-primary mt-4" type="button" id="gen_code"><%=language.Generated_Code%></button>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Start_Date%></label>
+                                <input class="form-control" type="date" name="start_date" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Expire_date%></label>
+                                <input class="form-control" type="date" name="end_date" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Minmum_Purchase_Amount%></label>
+                                <input class="form-control" type="number" name="min_amount" placeholder="<%=language.Enter%> <%=language.Minmum_Purchase_Amount%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Discount_Amount%></label>
+                                <input class="form-control" type="number" name="discount_amount" placeholder="<%=language.Enter%> <%=language.Discount_Amount%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label d-flex justify-content-between">
+                                    <%=language.Customer_List%>
+                                    <div class="checkbox p-0 checkbox-primary">
+                                        <input class="form-check-input select_all_check" id="invalidCheck" type="checkbox" name="delivery_checkbox">
+                                        <label class="form-check-label m-0" for="invalidCheck"><%=language.select_all%></label>
+                                    </div>
+                                </label>
+                                <select class="js-example-placeholder-multiple" multiple="multiple" name="customer" required>
+                                    <% customer_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="add_coupon_module" name="coupon_module" hidden>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- edit_couponmodal -->
+
+    <div class="modal fade" id="edit_couponmodal" role="dialog" aria-labelledby="edit_couponmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Coupon%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_id" method="post">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Coupon_Title%></label>
+                                <input class="form-control" type="text" name="title" id="title" placeholder="<%=language.Enter%> <%=language.Coupon_Title%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label d-flex justify-content-between">
+                                    <%=language.Customer_List%>
+                                    <div class="checkbox p-0 checkbox-primary">
+                                        <input class="form-check-input select_all_check" id="invalidCheck1" type="checkbox" name="delivery_checkbox">
+                                        <label class="form-check-label m-0" for="invalidCheck1"><%=language.select_all%></label>
+                                    </div>
+                                </label>
+                                <select class="js-example-placeholder-multiple" multiple="multiple" name="customer" id="customer" required>
+                                    <% customer_list.forEach((data) => { %>
+                                        <option value="<%= data.id %>"><%= data.first_name %> <%= data.last_name %></option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Start_Date%></label>
+                                <input class="form-control" type="date" name="start_date" id="start_date" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Expire_date%></label>
+                                <input class="form-control" type="date" name="end_date" id="end_date" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Minmum_Purchase_Amount%></label>
+                                <input class="form-control" type="number" name="min_amount" id="min_amount" placeholder="<%=language.Enter%> <%=language.Minmum_Purchase_Amount%>" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <label class="form-label"><%=language.Discount_Amount%></label>
+                                <input class="form-control" type="number" name="discount_amount" id="discount_amount" placeholder="<%=language.Enter%> <%=language.Discount_Amount%>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="edit_coupon_module" name="coupon_module" hidden>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

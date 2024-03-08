@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+
+  <%- include('./partials/head'); -%>
+</head>
+<body onload="startTime()">
+  <%- include('./partials/header_sidebar'); -%>
+    
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3><%=language.Transaction_Method%></h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item"><%=language.Transaction_Method%></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header text-end pb-0">
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                                <table class="display" id="basic-1">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th><%=language.Image%></th>
+                                            <th><%=language.Title%></th>
+                                            <th><%=language.Slug%></th>
+                                            <th><%=language.Status%></th>
+                                            <% let permissions = permission != "1" ? permission.payment.split(",")[1] : "1" %>
+                                            <% if(permissions == "1"){ %>
+                                            <th><%=language.Action%></th>
+                                            <% } %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% var i = 1 %>
+                                        <% method_data.forEach((data) => { %>
+                                            <tr>
+                                                <td><%= i %></td>
+                                                <td><img id="file-preview" width="50px" height="50px" src="../uploads/<%= data.image %>" alt="image"></td>
+                                                <td><%= data.title %></td>
+                                                <td><%= data.slug %></td>
+                                                <td><% if(data.status == '1'){ %>
+                                                        <span class="badge badge-success"><%=language.Active%></span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-danger"><%=language.Deactive%></span>
+                                                    <% } %>
+                                                </td>
+                                                <% if(permissions == "1"){ %>
+                                                <td>
+                                                    <% if(data.id == "7"){ %>
+                                                    <ul class="action"> 
+                                                        <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_bankaccount" id="edit_bank" data-id="<%= data.id %>"
+                                                            data-image="<%= data.image %>" data-title="<%= data.title %>" data-slug="<%= data.slug %>" data-status="<%= data.status %>"
+                                                            data-secret_id="<%= data.secret_id %>" data-secret_key="<%= data.secret_key %>" data-bankname="<%= data.bank_name %>" data-holdername="<%= data.bank_holder_name %>"
+                                                            data-account="<%= data.bank_account_No %>" data-ifsc="<%= data.bank_ifsc_code %>" data-swift="<%= data.swift_code %>"><i class="icon-pencil-alt"></i></a></li>
+                                                        
+                                                    </ul>
+                                                    <% } else { %>
+                                                        <ul class="action"> 
+                                                            <li class="edit"><a data-bs-toggle="modal" data-bs-target="#edit_methodmodal" id="edit_method" data-id="<%= data.id %>"
+                                                                data-image="<%= data.image %>" data-title="<%= data.title %>" data-slug="<%= data.slug %>" data-status="<%= data.status %>"
+                                                                data-secret_id="<%= data.secret_id %>" data-secret_key="<%= data.secret_key %>" data-bankname="<%= data.bank_name %>" data-holdername="<%= data.bank_holder_name %>"
+                                                                data-account="<%= data.bank_account_No %>" data-ifsc="<%= data.bank_ifsc_code %>" data-swift="<%= data.swift_code %>" data-payment_type="<%= data.payment_type %>"><i class="icon-pencil-alt"></i></a></li>
+                                                            
+                                                        </ul>
+                                                    <% }; %>    
+                                                </td>
+                                                <% } %>
+                                            </tr>
+                                        <% i++ %>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+    </div>
+
+    <!-- add_methodmodal -->
+    
+    <div class="modal fade" id="add_methodmodal" tabindex="-1" role="dialog" aria-labelledby="add_methodmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Add_Method%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" action="/transaction/add_transaction_method" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input class="form-control" type="text" name="title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Slug%></label>
+                                <input class="form-control" type="text" name="slug" placeholder="<%=language.Enter%> <%=language.Slug%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.bank_name%></label>
+                                <input class="form-control" type="password" name="secret_id" placeholder="<%=language.Enter%> <%=language.bank_name%>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.bank_holder_name%></label>
+                                <input class="form-control" type="password" name="secret_key" placeholder="<%=language.Enter%> <%=language.bank_holder_name%>">
+                            </div>
+                            <div class="col-12 d-flex">
+                                <div class="icon-state">
+                                    <label class="switch">
+                                      <input type="checkbox" name="status" checked><span class="switch-state"></span>
+                                    </label>
+                                </div>
+                                <label class="col-form-label m-l-10"><%=language.Status%></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_methodmodal -->
+    
+    <div class="modal fade" id="edit_methodmodal" tabindex="-1" role="dialog" aria-labelledby="edit_methodmodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Method%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_id" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img class="img" id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                                <input type="hidden" value="0" id="hidden_image" name="hidden_image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input class="form-control" type="text" name="title" id="title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Slug%></label>
+                                <input class="form-control" type="text" name="slug" id="slug" placeholder="<%=language.Enter%> <%=language.Slug%>" required>
+                            </div>
+
+                            <div class="col-12" id="show_secret_id">
+                                <label class="form-label"><%=language.Method_Secret_Id%></label>
+                                <input class="form-control payment_secret_id" type="text" name="secret_id" id="secret_id" placeholder="<%=language.Enter%> <%=language.Method_Secret_Id%>">
+                            </div>
+                            <div class="col-12" id="show_secret_Key">
+                                <label class="form-label"><%=language.Method_Secret_Key%></label>
+                                <input class="form-control payment_secret_key" type="text" name="secret_key" id="secret_key" placeholder="<%=language.Enter%> <%=language.Method_Secret_Key%>">
+                            </div>
+                       
+                    
+                            <div class="col-12 d-flex">
+                                <div class="icon-state">
+                                    <label class="switch" id="edit_status_switch">
+                                    </label>
+                                </div>
+                                <label class="col-form-label m-l-10"><%=language.Status%></label>
+                                
+                                <div class=" m-checkbox-inline custom-radio-ml mt-1 d-flex justify-content-center" id="show_checkbox" style="margin-left: 65px; margin-top: 0px; padding-top: 5px;">
+                                    <div class="form-check form-check-inline radio radio-success">
+                                        <div id="show_sandbox">
+                                        </div>
+                                        <input class="form-check-input Sandbox_check" id="radioinline1" type="radio" name="radio1" value="1">
+                                        <label class="form-check-label mb-0" for="radioinline1"><%=language.Sandbox%></label>
+                                    </div>
+                                    <div class="form-check form-check-inline radio radio-success">
+                                        <div id="show_live">
+                                        </div>
+                                        <input class="form-check-input Live_check" id="radioinline2" type="radio" name="radio1" value="2">
+                                        <label class="form-check-label mb-0" for="radioinline2"><%=language.Live%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit_bank_account -->
+
+    <div class="modal fade" id="edit_bankaccount" tabindex="-1" role="dialog" aria-labelledby="edit_bankaccount" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><%=language.Edit_Method%></h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form  class="needs-validation" novalidate="" id="edit_bank_account" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12 text-center">
+                                <img class="payment_img" id="file-preview" width="120" height="120" src="../images/dashboard/default/profile.png" alt="image">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Image%></label>
+                                <input class="form-control" type="file" id="file-1" name="image" onchange="showPreview(event)">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Title%></label>
+                                <input class="form-control" type="text" name="title" id="payment_title" placeholder="<%=language.Enter%> <%=language.Title%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Slug%></label>
+                                <input class="form-control" type="text" name="slug" id="payment_slug" placeholder="<%=language.Enter%> <%=language.Slug%>" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.bank_name%></label>
+                                <input class="form-control" type="text" name="bank_name" id="bank_name" placeholder="<%=language.Enter%> <%=language.bank_name%>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.bank_holder_name%></label>
+                                <input class="form-control" type="text" name="bank_holder_name" id="bank_holder_name" placeholder="<%=language.Enter%> <%=language.bank_holder_name%>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Account_No%></label>
+                                <input class="form-control" type="text" name="bank_account_No" id="bank_account_No" placeholder="<%=language.Enter%> <%=language.Account_No%>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.IFSC_Code%></label>
+                                <input class="form-control" type="text" name="bank_ifsc_code" id="bank_ifsc_code" placeholder="<%=language.Enter%> <%=language.IFSC_Code%>">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label"><%=language.Swift_Code%></label>
+                                <input class="form-control" type="text" name="swift_code" id="swift_code" placeholder="<%=language.Enter%> <%=language.Swift_Code%>">
+                            </div>
+                            <div class="col-12 d-flex">
+                                <div class="icon-state">
+                                    <label class="switch" id="status_switch">
+                                    </label>
+                                </div>
+                                <label class="col-form-label m-l-10"><%=language.Status%></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal"><%=language.Close%></button>
+                        <button class="btn btn-primary" type="submit"><%=language.Save%></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+  <%- include('./partials/footer'); -%>
+  <%- include('./partials/script'); -%>
+</body>
+
+</html>

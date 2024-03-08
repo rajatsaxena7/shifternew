@@ -1,0 +1,16 @@
+zone.ejs link
+
+<!-- https://developers.google.com/maps/documentation/javascript/examples/polyline-complex#maps_polyline_complex-javascript -->
+
+<!-- header -->
+<!-- <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=<%= general_data.google_map_key %>'></script> -->
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=<%= general_data.google_map_key %>&libraries=drawing&callback=initMap"></script> -->
+
+
+
+
+add_zone.ejs link
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=<%= general_data.google_map_key %>&callback=initMap&libraries=drawing&v=weekly" defer></script> -->
+<!-- <script src="../public/js/google_edit_map.js"></script> -->

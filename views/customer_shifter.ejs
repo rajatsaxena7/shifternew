@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <h4 class="wow fadeInUpX" data-wow-delay="0s"><%=language.Choose_service%></h4>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><%= cart_data[0].pickup_pincode %> <i class="fas fa-angle-right px-2"></i></li>
+                <li class="breadcrumb-item active"> <%= cart_data[0].delivery_pincode %></li> 
+            </ol>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="login-card py-5">
+                <div class="col-xl-12 d-flex justify-content-center p-0">    
+                    <div class="card" style="width: 100vh;">
+                        <div class="card-header p-3 mx-3">
+                            <h5><%=language.Customize_your_experience%></h5>
+                        </div>
+                        <div class="card-body" style="background-color: #FAFAFA;">
+                            <% shifter_list.forEach((data) => { %>
+                                <div>
+                                    <a type="button" class="w-100 select_shifter" data-id="<%= data.id %>">
+                                        <div class="card">
+                                            <div class="card-body pb-0 pt-4 row">
+                                                <div class="col-md-2 col-3 text-center">
+                                                    <img class="img-fluid b-r-7" id="file-preview" width="200px" height="200px" src="../uploads/<%= data.image %>" alt="image">
+                                                </div>
+                                                <div class="col-md-10 col-9">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 class="f-20 f-w-700 font-dark text-capitalize"><%= data.title %></h5>
+                                                        <h5 class="text-dark invosymbol"><%= data.price %></h5>
+                                                    </div>
+                                                    <p class="mb-0 font-dark"> <%= data.description %> </p>
+                                                </div>
+                                                <span class="text-end my-3">
+                                                   <i class="fa fa-arrow-circle-o-right f-24" style="color: #000;"></i> 
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <form action="/packers_and_movers/add_shifter" method="post" id="shifter_form">
+                            <input type="hidden" name="shifter" id="hidden_shifter">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>

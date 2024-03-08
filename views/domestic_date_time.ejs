@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/frontend_head'); -%>
+  <%- include('./partials/head'); -%>
+</head>
+<body>
+    <%- include('./partials/frontend_header'); -%>
+
+    <div class="masco-breadcrumb-section">
+      <div class="container">
+        <div class="breadcrumbs ppc-inner-padding pb-2" style="background-image: url('../../frontend/images/shape/dots.png')">
+          <h4 class="wow fadeInUpX" data-wow-delay="0s">Packers and Movers</h4>
+          <nav aria-label="breadcrumb" class="wow fadeInUpX" data-wow-delay="0.15s">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">Surat <i class="fas fa-angle-right px-2"></i></li>
+            <li class="breadcrumb-item active">Ahmedabad</li> 
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-xl-12 p-0">    
+              <div class="login-card py-5">
+                  <div class="card w-50">
+                      <div class="card-header text-start p-0 pt-4 px-3">
+                        <h5 class="f-20 f-w-700">Date & Time</h5>
+                      </div>
+                      <hr>
+                      <div class="card-body pt-0">
+                        <form action="#" method="post" id="time_form">
+                            <div class="mb-3 row">
+                                <label class="form-label">Select shifting date</label>
+                                <input class="form-control" type="date" name="date" placeholder="dd/mm/yyyy">
+                            </div>
+                            <hr>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label>Select pick-up time slot</label>
+                                </div>
+                                <div class="row g-3 mt-0" id="all_time">
+                                    <div class="col-3 time_div">
+                                        <a class="btn time" style="background-color: #F2F2F2;">
+                                            <span>
+                                                <h5 class="mb-0">12 AM to 12 PM</h5>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 time_div">
+                                        <a class="btn time" style="background-color: #F2F2F2;">
+                                            <span>
+                                                <h5 class="mb-0">12 AM to 12 PM</h5>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 time_div">
+                                        <a class="btn time" style="background-color: #F2F2F2;">
+                                            <span>
+                                                <h5 class="mb-0">12 AM to 12 PM</h5>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <a href="/courier_delivery/domestic_details" class="btn btn-primary btn-square b-r-5 w-100 mt-4">Next</a>
+                        </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <%- include('./partials/frontend_footer'); -%>
+    <%- include('./partials/frontend_script'); -%>
+    <%- include('./partials/script'); -%>
+</body>
+</html>
