@@ -198,7 +198,8 @@ button {
 	font-size: 80px;
 	line-height: 88px;
 	margin-bottom: 20px;
-	letter-spacing: -1px
+	letter-spacing: -1px;
+	color: #ffffff;
 }
 @media (max-width:1400px) {
 	.h1, h1 {
@@ -3110,8 +3111,30 @@ a.ppc-card-btn {
 }
 .ppc-hero-section2 {
 	padding: 140px 0 120px;
-	background-color: var(--gray-10)
+	background-color: var(--gray-10);
+ 
 }
+.ppc-hero-section2 .carousel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 460px;
+	z-index: 1;
+	background-color: transparent; /* Ensure carousel is behind content */
+  }
+  
+  .ppc-hero-section2 .carousel-item img {
+	width: 100%;
+	height: 460px;
+	object-fit: cover; /* Cover the area without distorting the images */
+  }
+  
+
+.ppc-hero-section2 .container {
+	position: relative;
+	z-index: 1; /* Ensures content is above the carousel */
+  }
 .ppc-hero-section-custome{
 	padding: 95px 0 120px;
 	background-color: var(--gray-10)
@@ -3132,10 +3155,11 @@ a.ppc-card-btn {
 .ppc-hero-content2 {
 	max-width: 920px;
 	margin: 0 auto;
-	text-align: center
+	text-align: center;
 }
 .ppc-hero-content2 p {
-	padding: 0 70px
+	padding: 0 70px;
+	z-index: 1; 
 }
 @media (max-width:767px) {
 	.ppc-hero-content2 p {
@@ -3163,7 +3187,7 @@ a.ppc-card-btn {
 .ppc-hero-section3 {
 	position: relative;
 	padding: 180px 0 100px;
-	background-color: var(--gray-500)
+	background-color: var(--gray-100)
 }
 @media (max-width:991px) {
 	.ppc-hero-section3 {
@@ -3178,7 +3202,8 @@ a.ppc-card-btn {
 .ppc-hero-content3 {
 	text-align: center;
 	max-width: 1080px;
-	margin: 0 auto
+	margin: 0 auto;
+	z-index: 1;
 }
 .ppc-hero-box {
 	position: absolute;
