@@ -5,7 +5,10 @@
 <head>
   
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
   <%- include('./partials/head'); -%>
   <%- include('./partials/frontend_head'); -%>
 </head>
@@ -17,7 +20,18 @@
   
   <!--End landex-header-section -->
 
-  <div class="ppc-hero-section2">
+  <div class="ppc-hero-section2 position ">
+    <div id="backgroundCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="5000">
+          <img src="https://www.barclayscorporate.com/content/dam/barclayscorporate-com/images/New-VI-2023/lorry-cutout-pink-3_1.large.medium_quality.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item" data-interval="5000">
+          <img src="https://www.barclayscorporate.com/content/dam/barclayscorporate-com/images/New-VI-2023/lorry-cutout-pink-3_1.large.medium_quality.jpg" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+    
     <div class="container">
       <div class="ppc-hero-content ppc-hero-content2">
         <h1 class="wow fadeInUpX" data-wow-delay="0s"><%=language.Stress_free_moving_with_efficient_delivery%> </h1>
@@ -250,5 +264,3 @@
   <%- include('./partials/frontend_script'); -%>
   <%- include('./partials/script'); -%>
 </body>
-
-</html>
